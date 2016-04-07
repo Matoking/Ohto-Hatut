@@ -1,8 +1,5 @@
 package ohtuhatut.controller;
 
-import ohtuhatut.domain.BookReference;
-import ohtuhatut.domain.Reference;
-import ohtuhatut.domain.ReferenceList;
 import ohtuhatut.service.ReferenceListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,30 +28,6 @@ public class ReferenceListController {
     public String getReferenceList(Model model, @PathVariable Long id){
 
         model.addAttribute("referenceList", referenceListService.getReferenceList(id));
-
-        return "referenceList";
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test(Model model){
-
-        BookReference testReference = new BookReference();
-        testReference.setTitle("Testikirja");
-        testReference.setPublisher("Testikirjailijat");
-        testReference.setYear(2010);
-        BookReference testReference2 = new BookReference();
-        testReference2.setTitle("Testikirja2");
-        testReference2.setPublisher("Testikirjailijat2");
-        testReference2.setYear(2012);
-
-        List<Reference> test = new ArrayList<>();
-        test.add(testReference);
-        test.add(testReference2);
-
-        ReferenceList r = new ReferenceList();
-        r.setReferences(test);
-
-        model.addAttribute("referenceList",r.getReferences());
 
         return "referenceList";
     }
