@@ -1,4 +1,6 @@
-package model;
+package ohtuhatut.domain;
+
+import ohtuhatut.domain.Reference;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Table;

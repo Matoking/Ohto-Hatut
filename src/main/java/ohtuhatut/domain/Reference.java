@@ -1,4 +1,4 @@
-package model;
+package ohtuhatut.domain;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
