@@ -1,7 +1,13 @@
 package model;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
 import javax.persistence.Table;
+import org.hibernate.annotations.DiscriminatorOptions;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -12,15 +18,24 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  * @author matoking
  */
 @Entity
+@Inheritance
+@DiscriminatorColumn(name="category")
+@DiscriminatorValue("generic")
+@DiscriminatorOptions(force=true)
 @Table(name = "Reference")
 public class Reference extends AbstractPersistable<Long> {
-    // Category of this reference (eg. book, article...)
-    // This is set by the category (eg. BookReference) extending this base class
-    private String category;
-    
     // Author of the work
     private String author;
-
+    
+    // Title of the work
+    private String title;
+    
+    // Publisher's name
+    private String publisher;
+    
+    // The year of publication
+    private Integer year;
+    
     public String getAuthor() {
         return author;
     }
@@ -51,22 +66,5 @@ public class Reference extends AbstractPersistable<Long> {
 
     public void setYear(Integer year) {
         this.year = year;
-    }
-    
-    // Title of the work
-    private String title;
-    
-    // Publisher's name
-    private String publisher;
-    
-    // The year of publication
-    private Integer year;
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    }  
 }

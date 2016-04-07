@@ -1,6 +1,6 @@
 package model;
 
-import javax.persistence.Entity;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Table;
 
 /**
@@ -12,8 +12,6 @@ import javax.persistence.Table;
  * @author matoking
  */
 @Table(name = "Reference")
+@DiscriminatorValue("book")
 public class BookReference extends Reference {
-    public BookReference() {
-        this.setCategory("book");
-    }
 }
