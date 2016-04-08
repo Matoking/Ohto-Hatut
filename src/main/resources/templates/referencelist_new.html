@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Create a new reference list</title>
+    </head>
+    <body>
+        <h1>Create a new reference list</h1>
+        <form action="#" th:action="@{new}" th:object="${referenceList}" method="post">
+            Name:<br/>
+            <input type="text" th:field="*{name}"/><br/>
+            <input type="submit" value="Submit"/>
+        </form>
+    </body>
+</html>

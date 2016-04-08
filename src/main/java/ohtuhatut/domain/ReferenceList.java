@@ -22,10 +22,6 @@ public class ReferenceList extends AbstractPersistable<Long> {
 
     private String name;
     
-    public ReferenceList(String name) {
-        this.name = name;
-    }
-    
     public String getName() {
         return this.name;
     }
