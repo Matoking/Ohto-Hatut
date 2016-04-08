@@ -20,6 +20,20 @@ public class ReferenceList extends AbstractPersistable<Long> {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Reference> references;
 
+    private String name;
+    
+    public ReferenceList(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public List<Reference> getReferences() {
         return this.references;
     }
