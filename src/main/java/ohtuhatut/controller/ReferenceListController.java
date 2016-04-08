@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("/referenceList")
+@RequestMapping("/referencelist")
 public class ReferenceListController {
 
     @Autowired
