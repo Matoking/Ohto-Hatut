@@ -3,6 +3,7 @@ package ohtuhatut.domain;
 import ohtuhatut.domain.Reference;
 
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
@@ -15,5 +16,6 @@ import javax.persistence.Table;
  */
 @Table(name = "Reference")
 @DiscriminatorValue("book")
+@Entity
 public class BookReference extends Reference {
 }
