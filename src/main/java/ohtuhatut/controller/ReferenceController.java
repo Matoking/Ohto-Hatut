@@ -4,6 +4,7 @@ package ohtuhatut.controller;
 import ohtuhatut.domain.BookReference;
 import ohtuhatut.domain.Reference;
 import ohtuhatut.repository.BookReferenceRepository;
+import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,37 +28,25 @@ public class ReferenceController {
     private ReferenceRepository referenceRepository;
     @Autowired
     private BookReferenceRepository bookReferenceRepository;
+    @Autowired
+    private ReferenceListRepository referenceListRepository;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getReference(Model model, @PathVariable Long id){
-        
-        model.addAttribute("reference", referenceRepository.findOne(id));
-
+    public String getReference(Model model, @PathVariable Long id){     
+        model.addAttribute("reference", referenceRepository.findOne(id));      
         return "reference";
     }
     
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newReference(Model model){
-        Reference reference = new BookReference();
-        model.addAttribute("reference", reference);
-        
+    public String newReference(Model model){        
         return "reference_choose";
     }
     
     @RequestMapping(value = "/bookreferences/new", method = RequestMethod.GET)
-    public String newBookReference(Model model){
-        Reference reference = new BookReference();
-        model.addAttribute("reference", reference);
+    public String newBookReference(Model model){;
+        model.addAttribute("reference", new BookReference());
         
         return "reference_new";
-    }
-    
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String newReferenceCreate(@ModelAttribute Reference reference, RedirectAttributes attr) {
-        referenceRepository.save(reference);
-        
-        attr.addAttribute("id", reference.getId());
-        return "redirect:/references/{id}";
     }
     
     @RequestMapping(value = "/bookreferences/new", method = RequestMethod.POST)

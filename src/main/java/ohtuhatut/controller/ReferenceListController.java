@@ -8,21 +8,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
-import java.util.List;
+import ohtuhatut.domain.Reference;
 import ohtuhatut.domain.ReferenceList;
 import ohtuhatut.repository.ReferenceListRepository;
+import ohtuhatut.repository.ReferenceRepository;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Controller class for ReferenceList page.
  *
- * Created by iilumme.
+ * @author iilumme
+ * @author tuomokar
  */
 
 @Controller
-@RequestMapping("/referencelist")
+@RequestMapping("/referencelists")
 public class ReferenceListController {
 
     @Autowired
@@ -30,11 +32,14 @@ public class ReferenceListController {
     
     @Autowired
     private ReferenceListService referenceListService;
+    
+    @Autowired
+    private ReferenceRepository referenceRepository;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getReferenceList(Model model, @PathVariable Long id){
-
         model.addAttribute("referenceList", referenceListService.getReferenceList(id));
+        model.addAttribute("references", referenceRepository.findAll());
 
         return "referenceList";
     }
@@ -51,6 +56,23 @@ public class ReferenceListController {
         referenceListRepository.save(referenceList);
         
         attr.addAttribute("id", referenceList.getId().toString());
-        return "redirect:/referencelist/{id}";
+        return "redirect:/referencelists/{id}";
+    }
+    
+    @RequestMapping(value = "/{referenceListId}/references", method = RequestMethod.POST)
+    public String addReferenceToList(@PathVariable(value="referenceListId") Long id, 
+            @RequestParam(value="referenceId") Long referenceId,
+            RedirectAttributes redirectAttrs) {
+        
+        ReferenceList list = referenceListRepository.findOne(id);
+        Reference reference = referenceRepository.findOne(referenceId);
+        
+        list.getReferences().add(reference);
+        referenceListRepository.save(list);        
+        
+        redirectAttrs.addAttribute("id", id);
+        
+        return "redirect:/referencelists/{id}";
+        
     }
 }
