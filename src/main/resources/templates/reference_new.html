@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Create a new reference</title>
+        <meta charset="UTF-8"></meta>
+    </head>
+    <body>
+        <div>
+            <h1>Create a new reference</h1>
+            
+            <form action="#" th:action="@{new}" th:object="${reference}" method="post">
+                Author<br/>                
+                <input type="text" name="author"/><br/>                
+                Title<br/> 
+                <input type="text" name="title"/><br/>
+                Publisher:<br/> 
+                <input type="text" name="publisher"/><br/>
+                Year:<br/> 
+                <input type="text" name="year"/><br/>
+                <input type="submit" value="Submit"/>
+                
+            </form>
+            
+        </div>
+    </body>
+</html>
