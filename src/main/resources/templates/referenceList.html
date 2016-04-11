@@ -1,5 +1,32 @@
-<h1 th:text="${referenceList.name}"></h1>
-<!-- TODO: Fix error when the list is empty
-<ul>
-    <li th:each="reference : ${referenceList}" th:text="${reference.title}"></li>
-</ul>-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Reference lists</title>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    </head>
+    <body>
+        <div>
+            <h1 th:text="${referenceList.name}"></h1>
+
+            <ul>
+                <li th:each="reference : ${referenceList.references}">
+                    <span th:text="${reference.title}"></span>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <div>
+                <span th:if="${#lists.isEmpty(references)}">No references in the database at the moment for you to add</span>
+                <span th:if="${not #lists.isEmpty(references)}">Add a reference:</span>
+                
+                <form  th:if="${not #lists.isEmpty(references)}" th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}" method="POST">
+                    <select name="referenceId">
+                        <option th:each="reference : ${references}" th:value="${reference.id}" th:text="${reference.title}"></option>
+                    </select>
+                    <p><input type="submit" value="add reference"/></p>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
