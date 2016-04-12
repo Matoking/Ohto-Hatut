@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Create a new reference</title>
+        <meta charset="UTF-8"></meta>
+    </head>
+    <body>
+        <div>
+            <h1>Create a new reference</h1>
+
+            <form action="#" th:action="@{/references/{reference-type}/new/(reference-type=${referenceType})}" th:object="${reference}" method="post">
+                <p th:each="field : ${reference.fields}">
+                    <span th:text="${field} + ':'"></span><br/>
+                    <input type="text" th:name="${field}"/><br/>                       
+                </p>
+
+                <input type="submit" value="Submit"/>
+            </form>
+            <!-- th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})} -->
+
+        </div>
+    </body>
+</html>

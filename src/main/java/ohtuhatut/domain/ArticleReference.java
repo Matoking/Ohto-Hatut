@@ -1,31 +1,32 @@
+
 package ohtuhatut.domain;
 
 import java.util.ArrayList;
-import ohtuhatut.domain.Reference;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Book reference
+ * Article reference
  * 
- * Required fields: author, title, publisher, year
- * Optional fields: volume/number, series, address, edition, month, note ,key
+ * Required fields: author, title, journal, year, volume
+ * Optional fields: number, pages, month, note, key
  * 
- * @author matoking
+ * @author tuomokar
  */
+
 @Table(name = "Reference")
-@DiscriminatorValue("book")
+@DiscriminatorValue("article")
 @Entity
-public class BookReference extends Reference {
+public class ArticleReference extends Reference {
     
-    public BookReference() {
+    public ArticleReference() {
         fields = new ArrayList<>();
         fields.add("author");
         fields.add("title");
-        fields.add("publisher");
+        fields.add("journal");
         fields.add("year");
+        fields.add("volume");
     }
     
     public String getField(String field) {
@@ -33,8 +34,10 @@ public class BookReference extends Reference {
             return author;
         } else if (field.equals("title")) {
             return title;
-        } else if (field.equals("publisher")) {
-            return publisher;
+        } else if (field.equals("journal")) {
+            return journal;
+        } else if (field.equals("volume")) {
+            return volume;
         }
         
         return "" + year;

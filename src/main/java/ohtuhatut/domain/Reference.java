@@ -1,9 +1,11 @@
 package ohtuhatut.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
@@ -24,17 +26,41 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @DiscriminatorOptions(force=true)
 @Table(name = "Reference")
 public class Reference extends AbstractPersistable<Long> {
-    // Author of the work
-    private String author;
+
+    protected String author;
+    protected String title;
+    protected String publisher;
+    protected Integer year;  
+    protected String journal;
+    protected String volume;
+     
+    @Column
+    @ElementCollection(targetClass=String.class)
+    protected List<String> fields;
     
-    // Title of the work
-    private String title;
-    
-    // Publisher's name
-    private String publisher;
-    
-    // The year of publication
-    private Integer year;
+    public List<String> getFields() {
+        return fields;
+    }
+
+    public void setJournal(String journal) {
+        this.journal = journal;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
+
+    public void setFields(List<String> fields) {
+        this.fields = fields;
+    }
+
+    public String getJournal() {
+        return journal;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
     
     public String getAuthor() {
         return author;
@@ -48,7 +74,7 @@ public class Reference extends AbstractPersistable<Long> {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title) {;
         this.title = title;
     }
 
