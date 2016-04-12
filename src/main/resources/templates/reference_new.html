@@ -7,20 +7,17 @@
     <body>
         <div>
             <h1>Create a new reference</h1>
-            
-            <form action="#" th:action="@{new}" th:object="${reference}" method="post">
-                Author<br/>                
-                <input type="text" name="author"/><br/>                
-                Title<br/> 
-                <input type="text" name="title"/><br/>
-                Publisher:<br/> 
-                <input type="text" name="publisher"/><br/>
-                Year:<br/> 
-                <input type="text" name="year"/><br/>
+
+            <form action="#" th:action="@{/references/{reference-type}/new/(reference-type=${referenceType})}" th:object="${reference}" method="post">
+                <p th:each="field : ${reference.fields}">
+                    <span th:text="${field} + ':'"></span><br/>
+                    <input type="text" th:name="${field}"/><br/>                       
+                </p>
+
                 <input type="submit" value="Submit"/>
-                
             </form>
-            
+            <!-- th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})} -->
+
         </div>
     </body>
 </html>
