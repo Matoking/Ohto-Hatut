@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * The class for a list of references
@@ -21,6 +23,7 @@ public class ReferenceList extends AbstractPersistable<Long> {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Reference> references;
 
+    @NotEmpty
     private String name;
     
     public String getName() {

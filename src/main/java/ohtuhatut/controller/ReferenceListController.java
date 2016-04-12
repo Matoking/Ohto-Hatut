@@ -1,5 +1,6 @@
 package ohtuhatut.controller;
 
+import javax.validation.Valid;
 import ohtuhatut.service.ReferenceListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import ohtuhatut.domain.Reference;
 import ohtuhatut.domain.ReferenceList;
 import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -52,7 +54,14 @@ public class ReferenceListController {
     }
     
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String newReferenceListCreate(@ModelAttribute ReferenceList referenceList, RedirectAttributes attr){
+    public String newReferenceListCreate(@Valid @ModelAttribute ReferenceList referenceList, 
+            BindingResult bindingResult,
+            RedirectAttributes attr) {   
+        
+        if (bindingResult.hasErrors()) {
+            return "referencelist_new";
+        }
+        
         referenceListRepository.save(referenceList);
         
         attr.addAttribute("id", referenceList.getId().toString());
@@ -63,7 +72,7 @@ public class ReferenceListController {
     public String addReferenceToList(@PathVariable(value="referenceListId") Long id, 
             @RequestParam(value="referenceId") Long referenceId,
             RedirectAttributes redirectAttrs) {
-        
+                 
         ReferenceList list = referenceListRepository.findOne(id);
         Reference reference = referenceRepository.findOne(referenceId);
         

@@ -88,6 +88,7 @@ public class ReferenceListControllerTest {
         BookReference reference = new BookReference();
         reference = referenceRepository.save(reference);
         ReferenceList list = new ReferenceList();
+        list.setName("list1");
         list = referenceListRepository.save(list);
 
         mockMvc.perform(post(API_URI + "/" + list.getId() + "/references")
