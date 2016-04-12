@@ -32,18 +32,4 @@ public class ArticleReference extends Reference {
         
         populateFields();
     }
-    
-    public String getField(String field) {
-        if (field.equals("author")) {
-            return author;
-        } else if (field.equals("title")) {
-            return title;
-        } else if (field.equals("journal")) {
-            return journal;
-        } else if (field.equals("volume")) {
-            return volume;
-        }
-        
-        return "" + year;
-    }
 }

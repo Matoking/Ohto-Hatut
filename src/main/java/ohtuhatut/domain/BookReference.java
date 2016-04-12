@@ -31,16 +31,4 @@ public class BookReference extends Reference {
         
         populateFields();
     }
-    
-    public String getField(String field) {
-        if (field.equals("author")) {
-            return author;
-        } else if (field.equals("title")) {
-            return title;
-        } else if (field.equals("publisher")) {
-            return publisher;
-        }
-        
-        return "" + year;
-    }
 }
