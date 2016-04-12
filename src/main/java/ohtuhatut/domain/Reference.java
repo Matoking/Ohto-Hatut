@@ -50,6 +50,41 @@ public class Reference extends AbstractPersistable<Long> {
         fields = new ArrayList<String>(mandatoryFields);
         fields.addAll(optionalFields);
     }
+    
+    /**
+     * Get the value of the named field
+     * 
+     * @return The value of the field as String
+     *         If field doesn't belong to this reference type, null is returned
+     */
+    public String getField(String field) {
+        if (!fields.contains(field)) {
+            return null;
+        }
+        
+        switch (field) {
+            case "author":
+                return getAuthor();
+                
+            case "title":
+                return getTitle();
+                
+            case "journal":
+                return getJournal();
+                
+            case "volume":
+                return getVolume();
+                
+            case "year":
+                return "" + getYear();
+                
+            case "publisher":
+                return getPublisher();
+                
+            default:
+                return null;
+        }
+    }
 
     public List<String> getOptionalFields() {
         return optionalFields;
