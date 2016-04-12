@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 
 @Table(name = "Reference")
-@DiscriminatorValue("article")
+@DiscriminatorValue("manual")
 @Entity
 public class ManualReference extends Reference {
     
