@@ -21,12 +21,16 @@ import javax.persistence.Table;
 public class ArticleReference extends Reference {
     
     public ArticleReference() {
-        fields = new ArrayList<>();
-        fields.add("author");
-        fields.add("title");
-        fields.add("journal");
-        fields.add("year");
-        fields.add("volume");
+        mandatoryFields = new ArrayList<>();
+        mandatoryFields.add("author");
+        mandatoryFields.add("title");
+        mandatoryFields.add("journal");
+        mandatoryFields.add("year");
+        mandatoryFields.add("volume");
+        
+        optionalFields = new ArrayList<>();
+        
+        populateFields();
     }
     
     public String getField(String field) {

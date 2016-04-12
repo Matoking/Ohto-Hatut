@@ -21,11 +21,15 @@ import javax.persistence.Table;
 public class BookReference extends Reference {
     
     public BookReference() {
-        fields = new ArrayList<>();
-        fields.add("author");
-        fields.add("title");
-        fields.add("publisher");
-        fields.add("year");
+        mandatoryFields = new ArrayList<>();
+        mandatoryFields.add("author");
+        mandatoryFields.add("title");
+        mandatoryFields.add("publisher");
+        mandatoryFields.add("year");
+        
+        optionalFields = new ArrayList<>();
+        
+        populateFields();
     }
     
     public String getField(String field) {
