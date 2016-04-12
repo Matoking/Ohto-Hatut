@@ -3,9 +3,13 @@ package ohtuhatut.controller;
 
 import ohtuhatut.domain.ArticleReference;
 import ohtuhatut.domain.BookReference;
+import ohtuhatut.domain.BookletReference;
+import ohtuhatut.domain.ManualReference;
 import ohtuhatut.domain.Reference;
 import ohtuhatut.repository.ArticleReferenceRepository;
 import ohtuhatut.repository.BookReferenceRepository;
+import ohtuhatut.repository.BookletReferenceRepository;
+import ohtuhatut.repository.ManualReferenceRepository;
 import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +38,10 @@ public class ReferenceController {
     private ReferenceListRepository referenceListRepository;
     @Autowired
     private ArticleReferenceRepository articleReferenceRepository;
+    @Autowired
+    private BookletReferenceRepository bookletReferenceRepository;
+    @Autowired
+    private ManualReferenceRepository manualReferenceRepository;
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newReference(Model model){        
@@ -80,6 +88,42 @@ public class ReferenceController {
         return "redirect:/references/{id}";
     }
     // <-- article references
+    
+    // -------------- booklet references
+    @RequestMapping(value = "/bookletreferences/new", method = RequestMethod.GET)
+    public String newBookletReference(Model model){
+        model.addAttribute("reference", new BookletReference());
+        model.addAttribute("referenceType", "bookletreferences");
+        return "reference_new";
+    }
+    
+    @RequestMapping(value = "/bookletreferences/new", method = RequestMethod.POST)
+    public String newBookletReferenceCreate(@ModelAttribute BookletReference reference, RedirectAttributes attr) {
+        bookletReferenceRepository.save(reference);       
+        
+        attr.addAttribute("id", reference.getId());
+        return "redirect:/references/{id}";
+    }
+    // <-- booklet references
+    
+    // -------------- manual references
+    @RequestMapping(value = "/manualreferences/new", method = RequestMethod.GET)
+    public String newManualReference(Model model){
+        model.addAttribute("reference", new ManualReference());
+        model.addAttribute("referenceType", "manualreferences");
+        return "reference_new";
+    }
+    
+    @RequestMapping(value = "/manualreferences/new", method = RequestMethod.POST)
+    public String newManualReferenceCreate(@ModelAttribute ManualReference reference, RedirectAttributes attr) {
+        manualReferenceRepository.save(reference);       
+        
+        attr.addAttribute("id", reference.getId());
+        return "redirect:/references/{id}";
+    }
+    // <-- manual references
+    
+    
     
 }
 
