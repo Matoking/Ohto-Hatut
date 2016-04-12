@@ -1,5 +1,6 @@
 package ohtuhatut.domain;
 
+import java.util.ArrayList;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Entity;
@@ -31,6 +32,9 @@ public class ReferenceList extends AbstractPersistable<Long> {
     }
     
     public List<Reference> getReferences() {
+        if (references == null) 
+            references = new ArrayList<>();
+        
         return this.references;
     }
 
