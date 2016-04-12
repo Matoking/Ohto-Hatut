@@ -2,13 +2,12 @@ package ohtuhatut.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.hibernate.annotations.DiscriminatorOptions;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -26,20 +25,50 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @DiscriminatorOptions(force=true)
 @Table(name = "Reference")
 public class Reference extends AbstractPersistable<Long> {
-
     protected String author;
     protected String title;
     protected String publisher;
     protected Integer year;  
     protected String journal;
     protected String volume;
-     
-    @Column
-    @ElementCollection(targetClass=String.class)
-    protected List<String> fields;
     
+    @Transient
+    protected List<String> mandatoryFields;
+    
+    @Transient
+    protected List<String> optionalFields;
+    
+    // Fields = mandatory + optional fields
+    @Transient
+    protected List<String> fields;
+
+    /**
+     * Create the list 'fields' which contains both mandatory and optional
+     * fields
+     */
+    protected void populateFields() {
+        fields = new ArrayList<String>(mandatoryFields);
+        fields.addAll(optionalFields);
+    }
+
+    public List<String> getOptionalFields() {
+        return optionalFields;
+    }
+
+    public void setOptionalFields(List<String> optionalFields) {
+        this.optionalFields = optionalFields;
+    }
+
     public List<String> getFields() {
         return fields;
+    }
+
+    public void setFields(List<String> fields) {
+        this.fields = fields;
+    }
+    
+    public List<String> getMandatoryFields() {
+        return mandatoryFields;
     }
 
     public void setJournal(String journal) {
@@ -50,8 +79,8 @@ public class Reference extends AbstractPersistable<Long> {
         this.volume = volume;
     }
 
-    public void setFields(List<String> fields) {
-        this.fields = fields;
+    public void setMandatoryFields(List<String> mandatoryFields) {
+        this.mandatoryFields = mandatoryFields;
     }
 
     public String getJournal() {
