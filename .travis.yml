@@ -1,7 +1,6 @@
 language: java
 
 script:
-  - mvn -Dmaven.tomcat.port=8080 tomcat:run
   - mvn test
   - mvn integration-test
   - mvn install -DskipTests=true
