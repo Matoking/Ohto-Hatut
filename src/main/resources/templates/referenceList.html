@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
     </head>
     <body>
+    <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div>
             <h1 th:text="${referenceList.name}"></h1>
 
@@ -17,15 +18,18 @@
         </div>
         <div>
             <div>
-                <span th:if="${#lists.isEmpty(references)}">No references in the database at the moment for you to add</span>
-                <span th:if="${not #lists.isEmpty(references)}">Add a reference:</span>
-                
-                <form  th:if="${not #lists.isEmpty(references)}" th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}" method="POST">
-                    <select name="referenceId">
-                        <option th:each="reference : ${references}" th:value="${reference.id}" th:text="${reference.title}"></option>
-                    </select>
-                    <p><input type="submit" value="add reference"/></p>
-                </form>
+                <span th:if="${#lists.isEmpty(references) or #lists.containsAll(referenceList.references, references)}">No references in the database at the moment for you to add</span>
+
+                <div th:if="${not #lists.isEmpty(references)}">
+                    <span th:if="${not #lists.containsAll(referenceList.references, references)}">Add a reference:</span>
+
+                    <form  th:if="${not #lists.containsAll(referenceList.references, references)}" th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}" method="POST">
+                        <select name="referenceId" id="references">
+                            <option th:each="reference : ${references}" th:if="${not #lists.contains(referenceList.references, reference)}" th:value="${reference.id}" th:text="${reference.title}"></option>
+                        </select>
+                        <p><input type="submit" value="add reference"/></p>
+                    </form>
+                </div>
             </div>
         </div>
     </body>

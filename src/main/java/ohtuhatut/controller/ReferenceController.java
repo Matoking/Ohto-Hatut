@@ -5,13 +5,13 @@ import ohtuhatut.domain.ArticleReference;
 import ohtuhatut.domain.BookReference;
 import ohtuhatut.domain.BookletReference;
 import ohtuhatut.domain.ManualReference;
-import ohtuhatut.domain.Reference;
 import ohtuhatut.repository.ArticleReferenceRepository;
 import ohtuhatut.repository.BookReferenceRepository;
 import ohtuhatut.repository.BookletReferenceRepository;
 import ohtuhatut.repository.ManualReferenceRepository;
 import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
+import ohtuhatut.service.ReferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,19 +29,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/references")
 public class ReferenceController {
-    
+
     @Autowired
-    private ReferenceRepository referenceRepository;
-    @Autowired
-    private BookReferenceRepository bookReferenceRepository;
-    @Autowired
-    private ReferenceListRepository referenceListRepository;
-    @Autowired
-    private ArticleReferenceRepository articleReferenceRepository;
-    @Autowired
-    private BookletReferenceRepository bookletReferenceRepository;
-    @Autowired
-    private ManualReferenceRepository manualReferenceRepository;
+    private ReferenceService referenceService;
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newReference(Model model){        
@@ -51,7 +41,7 @@ public class ReferenceController {
     // works for all kind of references
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getReference(Model model, @PathVariable Long id){     
-        model.addAttribute("reference", referenceRepository.findOne(id));      
+        model.addAttribute("reference", referenceService.getReference(id));
         return "reference";
     }
     
@@ -65,7 +55,7 @@ public class ReferenceController {
     
     @RequestMapping(value = "/bookreferences/new", method = RequestMethod.POST)
     public String newBookReferenceCreate(@ModelAttribute BookReference reference, RedirectAttributes attr) {
-        bookReferenceRepository.save(reference);       
+        referenceService.saveBookReference(reference);
         
         attr.addAttribute("id", reference.getId());
         return "redirect:/references/{id}";
@@ -82,7 +72,7 @@ public class ReferenceController {
     
     @RequestMapping(value = "/articlereferences/new", method = RequestMethod.POST)
     public String newArticleReferenceCreate(@ModelAttribute ArticleReference reference, RedirectAttributes attr) {
-        articleReferenceRepository.save(reference);
+        referenceService.saveArticleReference(reference);
        
         attr.addAttribute("id", reference.getId());
         return "redirect:/references/{id}";
@@ -99,7 +89,7 @@ public class ReferenceController {
     
     @RequestMapping(value = "/bookletreferences/new", method = RequestMethod.POST)
     public String newBookletReferenceCreate(@ModelAttribute BookletReference reference, RedirectAttributes attr) {
-        bookletReferenceRepository.save(reference);       
+        referenceService.saveBookletReference(reference);
         
         attr.addAttribute("id", reference.getId());
         return "redirect:/references/{id}";
@@ -116,7 +106,7 @@ public class ReferenceController {
     
     @RequestMapping(value = "/manualreferences/new", method = RequestMethod.POST)
     public String newManualReferenceCreate(@ModelAttribute ManualReference reference, RedirectAttributes attr) {
-        manualReferenceRepository.save(reference);       
+        referenceService.saveManualReference(reference);
         
         attr.addAttribute("id", reference.getId());
         return "redirect:/references/{id}";
