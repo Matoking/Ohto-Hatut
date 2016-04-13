@@ -10,6 +10,7 @@
             Name:<br/>
             <input type="text" th:field="*{name}"/><br/>
             <input type="submit" value="Submit"/>
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p> 
         </form>
     </body>
 </html>

@@ -24,7 +24,7 @@
                     <span th:if="${not #lists.containsAll(referenceList.references, references)}">Add a reference:</span>
 
                     <form  th:if="${not #lists.containsAll(referenceList.references, references)}" th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}" method="POST">
-                        <select name="referenceId">
+                        <select name="referenceId" id="references">
                             <option th:each="reference : ${references}" th:if="${not #lists.contains(referenceList.references, reference)}" th:value="${reference.id}" th:text="${reference.title}"></option>
                         </select>
                         <p><input type="submit" value="add reference"/></p>
