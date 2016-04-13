@@ -4,6 +4,7 @@
         <title>Create a new reference list</title>
     </head>
     <body>
+    <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <h1>Create a new reference list</h1>
         <form action="#" th:action="@{new}" th:object="${referenceList}" method="post">
             Name:<br/>

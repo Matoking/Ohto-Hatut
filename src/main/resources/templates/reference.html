@@ -4,6 +4,7 @@
         <title>References</title>
     </head>
     <body>
+    <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div th:each="field : ${reference.fields}">
             <h1 th:text="${field} + ':'"></h1>   
             <span th:text="${reference.getField(field)}"></span>
