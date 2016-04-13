@@ -40,7 +40,7 @@ public class ReferenceListController {
         model.addAttribute("referenceList", referenceListService.getReferenceList(id));
         model.addAttribute("references", referenceService.getAllReferences());
 
-        return "referenceList";
+        return "referencelist_show";
     }
     
     @RequestMapping(value = "/new", method = RequestMethod.GET)
