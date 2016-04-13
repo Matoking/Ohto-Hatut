@@ -1,5 +1,6 @@
 package ohtuhatut.controller;
 
+import javax.validation.Valid;
 import ohtuhatut.service.ReferenceListService;
 import ohtuhatut.service.ReferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ohtuhatut.domain.Reference;
 import ohtuhatut.domain.ReferenceList;
 import ohtuhatut.repository.ReferenceRepository;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -49,7 +51,13 @@ public class ReferenceListController {
     }
     
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String newReferenceListCreate(@ModelAttribute ReferenceList referenceList, RedirectAttributes attr){
+    public String newReferenceListCreate(@Valid @ModelAttribute ReferenceList referenceList,
+            BindingResult bindingResult,
+            RedirectAttributes attr) {
+        
+        if (bindingResult.hasErrors()) {
+            return "referencelist_new";
+        }
         referenceListService.save(referenceList);
         
         attr.addAttribute("id", referenceList.getId().toString());
