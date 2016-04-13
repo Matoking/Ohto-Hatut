@@ -82,6 +82,14 @@ public class ReferenceListControllerTest {
         assertTrue(referenceListRepository.count() == 1);
     }
     
+    @Test
+    public void postingAReferenceListWithEmptyNameDoesNotSaveItToTheDatabase() throws Exception {
+        mockMvc.perform(post(API_URI + "/new")
+                .param("name", ""));
+        
+        assertTrue(referenceListRepository.count() == 0);
+    }
+    
     @Transactional
     @Test
     public void addingAReferenceToTheListSavesItToTheListAndRedirectsToTheListsPage() throws Exception { 
