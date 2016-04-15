@@ -1,6 +1,6 @@
 language: java
 
-before_script:
+before_install:
   - mv src/test/easyb src/test/easyb_skip # Hack to make easyB tests work: we rename dir back to easyb later to run tests
   
 script:
