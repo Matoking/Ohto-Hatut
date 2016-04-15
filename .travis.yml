@@ -10,6 +10,9 @@ script:
   - mv src/test/easyb src/test/easyb_skip
   - mvn install -DskipTests=true
 
+before_deploy:
+  - mv src/test/easyb_skip src/test/easyb
+
 jdk:
   - oraclejdk8
 
