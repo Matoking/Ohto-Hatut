@@ -11,7 +11,7 @@ scenario "user can create a new reference list with a valid name", {
 
     given 'the user is at the reference creation page', {
         driver = new HtmlUnitDriver()
-        driver.get("http://localhost:8080/referencelists/new")
+        driver.get("http://localhost:8081/referencelists/new")
     }
 
     when 'a valid name is given to the list', {
@@ -28,11 +28,11 @@ scenario "user can create a new reference list with a valid name", {
 scenario "user cannot create a list without giving name", {
     given "the user is at the reference creation page", {
         driver = new HtmlUnitDriver()
-        driver.get("http://localhost:8080/referencelists/new")
+        driver.get("http://localhost:8081/referencelists/new")
     }
 
     when "no name is given to the list", {
-        element = driver.findElement(By.name("name"))
+        element = driver.findElement(By.name("nameaaaa"))
         element.submit()
     }
 

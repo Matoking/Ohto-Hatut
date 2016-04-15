@@ -1,12 +1,8 @@
 language: java
-
-before_script:
-  - mvn spring-boot:run &
-  - sleep 20s # Give Tomcat server time to start
   
 script:
   - mvn test
-  - mvn integration-test
+  - ./integration_test.sh
   - mvn install -DskipTests=true
 
 jdk:
