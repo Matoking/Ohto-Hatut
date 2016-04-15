@@ -1,8 +1,13 @@
 language: java
+
+before_script:
+  - mv src/test/easyb src/test/easyb_skip # Hack to make easyB tests work: we rename dir back to easyb later to run tests
   
 script:
   - mvn test
+  - mv src/test/easyb_skip src/test/easyb
   - ./integration_test.sh
+  - mv src/test/easyb src/test/easyb_skip
   - mvn install -DskipTests=true
 
 jdk:
