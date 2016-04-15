@@ -32,7 +32,7 @@ scenario "user cannot create a list without giving name", {
     }
 
     when "no name is given to the list", {
-        element = driver.findElement(By.name("nameaaaa"))
+        element = driver.findElement(By.name("name"))
         element.submit()
     }
 
