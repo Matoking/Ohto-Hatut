@@ -12,7 +12,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         
         <easyb.version>1.5</easyb.version>
-        <skipEasyB>${skipEasyB}</skipEasyB>
     </properties>
     
     
@@ -155,7 +154,6 @@
                     <storyType>html</storyType>
                     <storyReport>${basedir}/target/easyb/easyb-report.html
                     </storyReport>
-                    <skip>${skipEasyB}</skip>
                 </configuration>
             </plugin>
         </plugins>
