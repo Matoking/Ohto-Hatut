@@ -87,14 +87,28 @@ public class ReferenceListController {
         
     }
     
+    @RequestMapping(value = "/{referenceListId}/export", method = RequestMethod.GET)
+    public void exportReferenceList(@PathVariable(value="referenceListId") Long id,
+            HttpServletResponse response) throws IOException {
+        ReferenceList list = referenceListService.getReferenceList(id);
+        String formattedText = referenceFormatService.formatReferencesToBibTeX(list.getReferences());
+        
+        returnResponseWithBibTeXFile("references.bib", formattedText, response);
+    }
+    
     @RequestMapping(value = "/export_all", 
                     method = RequestMethod.GET)
     public void exportAll(HttpServletResponse response) throws IOException {
         String formattedText = referenceFormatService.formatReferencesToBibTeX(referenceService.getAllReferences());
+        
+        returnResponseWithBibTeXFile("references.bib", formattedText, response);
+    }
+    
+    private void returnResponseWithBibTeXFile(String filename, String content, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain");
-        response.setHeader("Content-Disposition", "attachment;filename=references.bib");
+        response.setHeader("Content-Disposition", String.format("attachment;filename=%s", filename));
         ServletOutputStream out = response.getOutputStream();
-        out.println(formattedText);
+        out.println(content);
         out.flush();
         out.close();
     }

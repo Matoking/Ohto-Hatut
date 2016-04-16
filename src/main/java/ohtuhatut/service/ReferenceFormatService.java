@@ -44,14 +44,17 @@ public class ReferenceFormatService {
     }
     
     private BibTeXEntry getBibTeXEntry(Reference reference) {
+        // TODO: Each entry contains a key used to cite or cross-reference the entry
+        // For now, put title as that key
+        BibTeXEntry bibEntry = new BibTeXEntry(getTypeKey(reference.getType()),
+                                               new Key(reference.getField("title")));
+        
         for (Map.Entry<String, String> entry : reference.getValueMap().entrySet()) {
-            BibTeXEntry bibEntry = new BibTeXEntry(getTypeKey(reference.getType()),
-                                                   getFieldKey(entry.getKey()));
+            // TODO: Numbers (eg. year of publication) should not be quoted
             bibEntry.addField(getFieldKey(entry.getKey()), new StringValue(entry.getValue(), StringValue.Style.QUOTED));
-            return bibEntry;
         }
         
-        return new BibTeXEntry(BibTeXEntry.TYPE_INPROCEEDINGS, BibTeXEntry.KEY_ADDRESS);
+        return bibEntry;
     }
     
     private Key getFieldKey(String field) {

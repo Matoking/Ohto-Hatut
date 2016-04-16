@@ -19,6 +19,7 @@
         <div>
             <div>
                 <span th:if="${#lists.isEmpty(references) or #lists.containsAll(referenceList.references, references)}">No references in the database at the moment for you to add</span>
+                <p th:if="${not #lists.isEmpty(referenceList.references)}"><a th:href="@{/referencelists/{referenceListId}/export(referenceListId=${referenceList.id})}">Export references</a></p>
 
                 <div th:if="${not #lists.isEmpty(references)}">
                     <span th:if="${not #lists.containsAll(referenceList.references, references)}">Add a reference:</span>
