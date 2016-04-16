@@ -2,16 +2,24 @@
 package ohtuhatut.selenium;
 
 import javax.transaction.Transactional;
+import ohtuhatut.repository.ArticleReferenceRepository;
+import ohtuhatut.repository.BookReferenceRepository;
+import ohtuhatut.repository.BookletReferenceRepository;
+import ohtuhatut.repository.ManualReferenceRepository;
+import ohtuhatut.repository.ReferenceListRepository;
+import ohtuhatut.repository.ReferenceRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.fluentlenium.adapter.FluentTest;
 import static org.fluentlenium.core.filter.FilterConstructor.withText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -28,6 +36,19 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @IntegrationTest("server.port:0")
 @Transactional
 public class ReferenceListTest extends FluentTest {
+    
+    @Autowired
+    private ReferenceRepository referenceRepository;
+    @Autowired
+    private BookReferenceRepository bookReferenceRepository;
+    @Autowired
+    private ArticleReferenceRepository articleReferenceRepository;
+    @Autowired
+    private BookletReferenceRepository bookletReferenceRepository;
+    @Autowired
+    private ManualReferenceRepository manualReferenceRepository;
+    @Autowired
+    private ReferenceListRepository referenceListRepository;
 
     @Value("${local.server.port}")
     private int serverPort;
@@ -35,6 +56,18 @@ public class ReferenceListTest extends FluentTest {
 
     private String getUrl() {
         return "http://localhost:" + serverPort;
+    }
+    
+    @Before
+    public void setUp() {
+        // Spring doesn't respect @Transactional decorator,
+        // so flush everything manually before every test
+        referenceRepository.deleteAll();
+        bookReferenceRepository.deleteAll();
+        articleReferenceRepository.deleteAll();
+        bookletReferenceRepository.deleteAll();
+        manualReferenceRepository.deleteAll();
+        referenceListRepository.deleteAll();
     }
 
     @Override
