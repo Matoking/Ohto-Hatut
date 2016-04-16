@@ -1,7 +1,9 @@
 package ohtuhatut.domain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -25,6 +27,9 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @DiscriminatorOptions(force=true)
 @Table(name = "Reference")
 public class Reference extends AbstractPersistable<Long> {
+    @Transient
+    protected String type;
+    
     protected String author;
     protected String title;
     protected String publisher;
@@ -84,6 +89,25 @@ public class Reference extends AbstractPersistable<Long> {
             default:
                 return null;
         }
+    }
+    
+    /**
+     * Get a map of field and value pairs
+     * 
+     * @return Map of field and value pairs
+     *         Optional fields that are empty are omitted
+     */
+    public Map<String, String> getValueMap() {
+        HashMap<String, String> valueMap = new HashMap<String, String>();
+        
+        for (String field : getFields()) {
+            String value = getField(field);
+            if (value != null) {
+                valueMap.put(field, value);
+            } 
+        }
+        
+        return valueMap;
     }
 
     public List<String> getOptionalFields() {
@@ -156,5 +180,15 @@ public class Reference extends AbstractPersistable<Long> {
 
     public void setYear(Integer year) {
         this.year = year;
-    }  
+    } 
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
+    
 }

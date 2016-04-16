@@ -21,6 +21,8 @@ import javax.persistence.Table;
 public class ArticleReference extends Reference {
     
     public ArticleReference() {
+        setType("article");
+        
         mandatoryFields = new ArrayList<>();
         mandatoryFields.add("author");
         mandatoryFields.add("title");

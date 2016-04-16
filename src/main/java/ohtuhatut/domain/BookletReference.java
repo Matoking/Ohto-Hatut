@@ -20,6 +20,8 @@ import javax.persistence.Table;
 public class BookletReference extends Reference {
     
     public BookletReference() {
+        setType("book");
+        
         mandatoryFields = new ArrayList<>();
         mandatoryFields.add("title");
         

@@ -21,6 +21,8 @@ import javax.persistence.Table;
 public class ManualReference extends Reference {
     
     public ManualReference() {
+        setType("manual");
+        
         mandatoryFields = new ArrayList<>();
         mandatoryFields.add("title");
         
