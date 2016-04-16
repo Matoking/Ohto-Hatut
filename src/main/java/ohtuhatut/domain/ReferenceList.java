@@ -21,7 +21,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class ReferenceList extends AbstractPersistable<Long> {
 
     @OneToMany(fetch = FetchType.LAZY,
-               cascade = CascadeType.REMOVE)
+               cascade = CascadeType.ALL,
+               orphanRemoval = true)
     private List<Reference> references;
 
     @NotEmpty
