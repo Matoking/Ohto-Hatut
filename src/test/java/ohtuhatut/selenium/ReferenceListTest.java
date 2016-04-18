@@ -2,10 +2,6 @@
 package ohtuhatut.selenium;
 
 import javax.transaction.Transactional;
-import ohtuhatut.repository.ArticleReferenceRepository;
-import ohtuhatut.repository.BookReferenceRepository;
-import ohtuhatut.repository.BookletReferenceRepository;
-import ohtuhatut.repository.ManualReferenceRepository;
 import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -34,19 +30,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @SpringApplicationConfiguration(classes = ohtuhatut.Main.class)
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
-@Transactional
 public class ReferenceListTest extends FluentTest {
     
     @Autowired
     private ReferenceRepository referenceRepository;
-    @Autowired
-    private BookReferenceRepository bookReferenceRepository;
-    @Autowired
-    private ArticleReferenceRepository articleReferenceRepository;
-    @Autowired
-    private BookletReferenceRepository bookletReferenceRepository;
-    @Autowired
-    private ManualReferenceRepository manualReferenceRepository;
     @Autowired
     private ReferenceListRepository referenceListRepository;
 
@@ -62,12 +49,8 @@ public class ReferenceListTest extends FluentTest {
     public void setUp() {
         // Spring doesn't respect @Transactional decorator,
         // so flush everything manually before every test
-        referenceRepository.deleteAll();
-        bookReferenceRepository.deleteAll();
-        articleReferenceRepository.deleteAll();
-        bookletReferenceRepository.deleteAll();
-        manualReferenceRepository.deleteAll();
         referenceListRepository.deleteAll();
+        referenceRepository.deleteAll();
     }
 
     @Override
