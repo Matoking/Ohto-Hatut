@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Reference lists</title>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    </head>
+    <body>
+    <div th:replace="fragments/navbar :: navbar">Navbar</div>
+        <div>
+            
+            
+            <h1>Reference lists</h1>
+            
+            <span th:if="${#lists.isEmpty(referenceLists)}">No reference lists in the database at the moment</span>
+            <ul>
+                <li th:each="referenceList : ${referenceLists}">
+                    <a th:href="@{/referencelists/{referenceListId}(referenceListId=${referenceList.id})}"><span th:text="${referenceList.name}"></span></a>
+                </li>
+            </ul>
+        </div>
+    </body>
+</html>
