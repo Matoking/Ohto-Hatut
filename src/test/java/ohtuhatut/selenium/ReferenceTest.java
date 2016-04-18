@@ -1,6 +1,8 @@
 package ohtuhatut.selenium;
 
 import org.fluentlenium.adapter.FluentTest;
+
+import static org.fluentlenium.core.filter.FilterConstructor.withText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -93,26 +95,26 @@ public class ReferenceTest extends FluentTest {
 
     private void getToReferenceCreationsChoosingPage() {
         goTo(getUrl());
-        click(find("a", 0));
+        click(find("a", withText(("New reference"))));
     }
     
     private void getToBookReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
-        click(find("a", 2));
+        click(find("a", withText(("Book reference"))));
     }
     
     private void getToArticleReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
-        click(find("a", 3));
+        click(find("a", withText(("Article reference"))));
     }
     
     private void getToBookletReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
-        click(find("a", 4));
+        click(find("a", withText(("Booklet reference"))));
     }
     
     private void getToManualReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
-        click(find("a", 5));
+        click(find("a", withText(("Manual reference"))));
     }
 }
