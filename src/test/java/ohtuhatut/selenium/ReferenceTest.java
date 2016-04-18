@@ -3,7 +3,9 @@ package ohtuhatut.selenium;
 import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
 import org.fluentlenium.adapter.FluentTest;
+
 import static org.fluentlenium.core.filter.FilterConstructor.withText;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;

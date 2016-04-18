@@ -1,7 +1,6 @@
 package ohtuhatut.domain;
 
 import java.util.ArrayList;
-import ohtuhatut.domain.Reference;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

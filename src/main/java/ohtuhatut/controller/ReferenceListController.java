@@ -112,5 +112,4 @@ public class ReferenceListController {
         out.flush();
         out.close();
     }
-            
 }
