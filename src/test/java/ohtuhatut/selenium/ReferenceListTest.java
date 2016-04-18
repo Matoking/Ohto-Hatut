@@ -1,13 +1,21 @@
 
 package ohtuhatut.selenium;
 
+import javax.transaction.Transactional;
+import ohtuhatut.repository.ReferenceListRepository;
+import ohtuhatut.repository.ReferenceRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.fluentlenium.adapter.FluentTest;
+import static org.fluentlenium.core.filter.FilterConstructor.withText;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -23,6 +31,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 public class ReferenceListTest extends FluentTest {
+    
+    @Autowired
+    private ReferenceRepository referenceRepository;
+    @Autowired
+    private ReferenceListRepository referenceListRepository;
 
     @Value("${local.server.port}")
     private int serverPort;
@@ -30,6 +43,14 @@ public class ReferenceListTest extends FluentTest {
 
     private String getUrl() {
         return "http://localhost:" + serverPort;
+    }
+    
+    @Before
+    public void setUp() {
+        // Spring doesn't respect @Transactional decorator,
+        // so flush everything manually before every test
+        referenceListRepository.deleteAll();
+        referenceRepository.deleteAll();
     }
 
     @Override
@@ -71,15 +92,46 @@ public class ReferenceListTest extends FluentTest {
     @Test
     public void addingReferencesToAReferenceListIsSuccessful() {
         createAReference();
-        createAReferenceList();        
+        createAReferenceList();
+        
+        System.out.println(pageSource());
         
         fillSelect("#references").withIndex(0);
         
         submit(find("form").first());
         
-        
         assertTrue(pageSource().contains("testTitle"));
         assertTrue(pageSource().contains("No references in the database at the moment for you to add"));
+    }
+    
+    @Test
+    public void linkToExportReferencesAppearsIfReferenceListContainsReferences() {
+        createAReference();
+        createAReferenceList();
+        
+        assertFalse(pageSource().contains("Export references"));
+        
+        fillSelect("#references").withIndex(0);
+        
+        submit(find("form").first());
+        
+        assertTrue(pageSource().contains("Export references"));
+    }
+    
+    @Test
+    public void exportingReferenceListOnlyExportsReferencesInTheList() {
+        createAReference();
+        createAReference();
+        createAReferenceList();
+        
+        fillSelect("#references").withIndex(0);
+        
+        submit(find("form").first());
+        
+        click(find("a", withText("Export references")));
+        
+        // Only one manual entry
+        assertEquals(1, StringUtils.countMatches(pageSource(), "@manual"));
     }
     
     private void createAReferenceList() {
@@ -98,16 +150,16 @@ public class ReferenceListTest extends FluentTest {
 
     private void getToReferenceListCreationPage() {
         goTo(getUrl());
-        click(find("a", 1));
+        click(find("a", withText("New referencelist")));
     }
     
     private void getToManualReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
-        click(find("a", 5));
+        click(find("a", withText("Manual reference")));
     }
     
     private void getToReferenceCreationsChoosingPage() {
         goTo(getUrl());
-        click(find("a", 0));
+        click(find("a", withText("New reference")));
     }
 }

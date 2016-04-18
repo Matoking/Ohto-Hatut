@@ -1,12 +1,16 @@
 package ohtuhatut.selenium;
 
+import ohtuhatut.repository.ReferenceListRepository;
+import ohtuhatut.repository.ReferenceRepository;
 import org.fluentlenium.adapter.FluentTest;
-import static org.junit.Assert.assertEquals;
+import static org.fluentlenium.core.filter.FilterConstructor.withText;
 import static org.junit.Assert.assertTrue;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -24,6 +28,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @IntegrationTest("server.port:0")
 public class ReferenceTest extends FluentTest {
 
+    @Autowired
+    private ReferenceRepository referenceRepository;
+    @Autowired
+    private ReferenceListRepository referenceListRepository;
+    
     @Value("${local.server.port}")
     private int serverPort;
     private WebDriver webDriver = new HtmlUnitDriver();
@@ -31,7 +40,15 @@ public class ReferenceTest extends FluentTest {
     private String getUrl() {
         return "http://localhost:" + serverPort;
     }
-
+    
+    @Before
+    public void setUp() {
+        // Spring doesn't respect @Transactional decorator,
+        // so flush everything manually before every test
+        referenceListRepository.deleteAll();
+        referenceRepository.deleteAll();
+    }
+    
     @Override
     public WebDriver getDefaultDriver() {
         return webDriver;
@@ -93,26 +110,26 @@ public class ReferenceTest extends FluentTest {
 
     private void getToReferenceCreationsChoosingPage() {
         goTo(getUrl());
-        click(find("a", 0));
+        click(find("a", withText("New reference")));
     }
     
     private void getToBookReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
-        click(find("a", 2));
+        click(find("a", withText("Book reference")));
     }
     
     private void getToArticleReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
-        click(find("a", 3));
+        click(find("a", withText("Article reference")));
     }
     
     private void getToBookletReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
-        click(find("a", 4));
+        click(find("a", withText("Booklet reference")));
     }
     
     private void getToManualReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
-        click(find("a", 5));
+        click(find("a", withText("Manual reference")));
     }
 }

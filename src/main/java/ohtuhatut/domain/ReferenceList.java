@@ -5,10 +5,10 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
-import javax.validation.constraints.NotNull;
+import javax.persistence.CascadeType;
+import javax.persistence.ManyToMany;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -20,7 +20,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "ReferenceList")
 public class ReferenceList extends AbstractPersistable<Long> {
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,
+                cascade = CascadeType.ALL)
     private List<Reference> references;
 
     @NotEmpty

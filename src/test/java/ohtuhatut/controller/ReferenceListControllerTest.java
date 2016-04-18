@@ -2,11 +2,9 @@ package ohtuhatut.controller;
 
 import javax.transaction.Transactional;
 import ohtuhatut.domain.BookReference;
-import ohtuhatut.domain.Reference;
 import ohtuhatut.domain.ReferenceList;
 import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
-import org.junit.After;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,11 +22,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -38,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ohtuhatut.Main.class)
 @WebAppConfiguration
+@Transactional
 public class ReferenceListControllerTest {
     
     private final String API_URI ="/referencelists";
@@ -71,8 +65,6 @@ public class ReferenceListControllerTest {
                 .andReturn();
     }
     
-
-    @Transactional
     @Test
     public void postingANewReferenceListSavesTheListToDatabase() throws Exception {
         
@@ -90,7 +82,6 @@ public class ReferenceListControllerTest {
         assertTrue(referenceListRepository.count() == 0);
     }
     
-    @Transactional
     @Test
     public void addingAReferenceToTheListSavesItToTheListAndRedirectsToTheListsPage() throws Exception { 
         BookReference reference = new BookReference();

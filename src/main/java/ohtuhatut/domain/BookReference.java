@@ -21,6 +21,8 @@ import javax.persistence.Table;
 public class BookReference extends Reference {
     
     public BookReference() {
+        setType("book");
+        
         mandatoryFields = new ArrayList<>();
         mandatoryFields.add("author");
         mandatoryFields.add("title");

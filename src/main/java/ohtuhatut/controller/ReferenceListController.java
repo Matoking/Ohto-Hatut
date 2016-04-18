@@ -1,5 +1,8 @@
 package ohtuhatut.controller;
 
+import java.io.IOException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import ohtuhatut.service.ReferenceListService;
 import ohtuhatut.service.ReferenceService;
@@ -12,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ohtuhatut.domain.Reference;
 import ohtuhatut.domain.ReferenceList;
-import ohtuhatut.repository.ReferenceRepository;
+import ohtuhatut.service.ReferenceFormatService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +37,9 @@ public class ReferenceListController {
 
     @Autowired
     private ReferenceService referenceService;
+    
+    @Autowired
+    private ReferenceFormatService referenceFormatService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getReferenceList(Model model, @PathVariable Long id){
@@ -80,4 +86,31 @@ public class ReferenceListController {
         return "redirect:/referencelists/{id}";
         
     }
+    
+    @RequestMapping(value = "/{referenceListId}/export", method = RequestMethod.GET)
+    public void exportReferenceList(@PathVariable(value="referenceListId") Long id,
+            HttpServletResponse response) throws IOException {
+        ReferenceList list = referenceListService.getReferenceList(id);
+        String formattedText = referenceFormatService.formatReferencesToBibTeX(list.getReferences());
+        
+        returnResponseWithBibTeXFile("references.bib", formattedText, response);
+    }
+    
+    @RequestMapping(value = "/export_all", 
+                    method = RequestMethod.GET)
+    public void exportAll(HttpServletResponse response) throws IOException {
+        String formattedText = referenceFormatService.formatReferencesToBibTeX(referenceService.getAllReferences());
+        
+        returnResponseWithBibTeXFile("references.bib", formattedText, response);
+    }
+    
+    private void returnResponseWithBibTeXFile(String filename, String content, HttpServletResponse response) throws IOException {
+        response.setContentType("text/plain");
+        response.setHeader("Content-Disposition", String.format("attachment;filename=%s", filename));
+        ServletOutputStream out = response.getOutputStream();
+        out.println(content);
+        out.flush();
+        out.close();
+    }
+            
 }

@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ohtuhatut.Main.class)
 @WebAppConfiguration
+@Transactional
 public class ReferenceControllerTest {
 
     private final String API_URI ="/references";
@@ -66,7 +67,6 @@ public class ReferenceControllerTest {
                 .andReturn();
     }
 
-    @Transactional
     @Test
     public void getRequestToASpesificReferenceWorks() throws Exception {
 
@@ -93,7 +93,6 @@ public class ReferenceControllerTest {
     }
 
 
-    @Transactional
     @Test
     public void postRequestToBookreferencesNewSavesABookreferenceToDatabase() throws Exception {
 
@@ -119,7 +118,6 @@ public class ReferenceControllerTest {
                 .andReturn();
     }
 
-    @Transactional
     @Test
     public void postRequestToArticlereferencesNewSavesAArticlereferenceToDatabase() throws Exception {
 
@@ -145,7 +143,6 @@ public class ReferenceControllerTest {
                 .andReturn();
     }
 
-    @Transactional
     @Test
     public void postRequestToBookletreferencesNewSavesABookletreferenceToDatabase() throws Exception {
 
@@ -167,7 +164,6 @@ public class ReferenceControllerTest {
                 .andReturn();
     }
 
-    @Transactional
     @Test
     public void postRequestToManualreferencesNewSavesAManualreferenceToDatabase() throws Exception {
 
