@@ -1,7 +1,6 @@
 
 package ohtuhatut.selenium;
 
-import javax.transaction.Transactional;
 import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
 import org.apache.commons.lang3.StringUtils;
@@ -95,8 +94,6 @@ public class ReferenceListTest extends FluentTest {
         createAReference();
         createAReferenceList();
         
-        System.out.println(pageSource());
-        
         fillSelect("#references").withIndex(0);
         
         submit(find("form").first());
@@ -135,6 +132,31 @@ public class ReferenceListTest extends FluentTest {
         assertEquals(1, StringUtils.countMatches(pageSource(), "@manual"));
     }
     
+    @Test
+    public void referenceListsPageShowsExistingReferenceLists() {
+        createAReferenceList();
+        getToReferenceListsPage();
+        
+        assertTrue(pageSource().contains("testList1"));          
+    }
+    
+    @Test
+    public void referenceListsPageDoesNotShowAnyReferenceListsIfNoneExist() {
+        getToReferenceListsPage();
+        
+        assertTrue(pageSource().contains("No reference lists in the database at the moment"));          
+    }
+    
+    @Test
+    public void userCanGetToThePageOfAReferenceListFromThePageShowingAllReferenceLists() {
+        createAReferenceList();
+        getToReferenceListsPage();
+        
+        click(find("a", withText("testList1")));
+        
+        assertTrue(pageSource().contains("No references in the database at the moment for you to add"));
+    }
+    
     private void createAReferenceList() {
         getToReferenceListCreationPage();
 
@@ -147,6 +169,11 @@ public class ReferenceListTest extends FluentTest {
 
         fill("#title").with("testTitle");
         submit(find("form").first());
+    }
+    
+    private void getToReferenceListsPage() {
+        goTo(getUrl());
+        click(find("a", withText("Reference lists")));
     }
 
     private void getToReferenceListCreationPage() {

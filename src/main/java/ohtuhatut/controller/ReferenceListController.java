@@ -41,6 +41,12 @@ public class ReferenceListController {
     @Autowired
     private ReferenceFormatService referenceFormatService;
 
+    @RequestMapping(method = RequestMethod.GET)
+    public String getAllReferenceLists(Model model) {
+        model.addAttribute("referenceLists", referenceListService.getAllReferenceLists());
+        return "referencelists";
+    }
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getReferenceList(Model model, @PathVariable Long id){
         model.addAttribute("referenceList", referenceListService.getReferenceList(id));

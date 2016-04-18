@@ -28,5 +28,9 @@ public class ReferenceListService {
     public void save(ReferenceList referenceList) {
         referenceListRepository.save(referenceList);
     }
+    
+    public List<ReferenceList> getAllReferenceLists() {
+        return referenceListRepository.findAll();
+    }
 
 }

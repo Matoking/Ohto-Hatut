@@ -1,5 +1,6 @@
 package ohtuhatut.controller;
 
+import java.util.List;
 import javax.transaction.Transactional;
 import ohtuhatut.domain.BookReference;
 import ohtuhatut.domain.ReferenceList;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
  *
@@ -95,6 +97,32 @@ public class ReferenceListControllerTest {
                 .andExpect(redirectedUrl(API_URI + "/" + list.getId()));
 
         assertTrue(list.getReferences().size() == 1);
+    }
+    
+    @Test
+    public void getRequestToSeeingAllReferenceLists() throws Exception {
+        saveListWithAReference();
+        MvcResult res = mockMvc.perform(get(API_URI))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("referenceLists"))
+                .andExpect(view().name("referencelists"))
+                .andReturn();
+        
+        List<ReferenceList> referenceLists = (List<ReferenceList>) res.getModelAndView().getModel()
+                .get("referenceLists");
+
+        assertTrue(referenceLists.size() == 1);
+        assertTrue(referenceLists.get(0).getReferences().size() == 1);
+    }
+    
+    private void saveListWithAReference() {
+        BookReference reference = new BookReference();
+        referenceRepository.save(reference);
+        
+        ReferenceList list = new ReferenceList();
+        list.setName("list1");
+        list.getReferences().add(reference);
+        referenceListRepository.save(list);
     }
 
 }
