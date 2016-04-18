@@ -26,7 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/referencelists")
 public class ReferenceListController {
-    
+
     @Autowired
     private ReferenceListService referenceListService;
 
@@ -34,48 +34,50 @@ public class ReferenceListController {
     private ReferenceService referenceService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String getReferenceList(Model model, @PathVariable Long id){
+    public String getReferenceList(Model model, @PathVariable Long id) {
         model.addAttribute("referenceList", referenceListService.getReferenceList(id));
         model.addAttribute("references", referenceService.getAllReferences());
 
         return "referenceList";
     }
-    
+
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newReferenceList(Model model){
+    public String newReferenceList(Model model) {
         model.addAttribute("referenceList", new ReferenceList());
-        
+
         return "referencelist_new";
     }
-    
+
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String newReferenceListCreate(@Valid @ModelAttribute ReferenceList referenceList,
-            BindingResult bindingResult,
-            RedirectAttributes attr) {
-        
+                                         BindingResult bindingResult,
+                                         RedirectAttributes attr) {
+
         if (bindingResult.hasErrors()) {
             return "referencelist_new";
         }
         referenceListService.save(referenceList);
-        
+
         attr.addAttribute("id", referenceList.getId().toString());
         return "redirect:/referencelists/{id}";
     }
-    
+
+
     @RequestMapping(value = "/{referenceListId}/references", method = RequestMethod.POST)
-    public String addReferenceToList(@PathVariable(value="referenceListId") Long id, 
-            @RequestParam(value="referenceId") Long referenceId,
-            RedirectAttributes redirectAttrs) {
-        
+    public String addReferenceToList(@PathVariable(value = "referenceListId") Long id,
+                                     @RequestParam(value = "referenceId") Long referenceId,
+                                     RedirectAttributes redirectAttrs) {
+
         ReferenceList list = referenceListService.getReferenceList(id);
         Reference reference = referenceService.getReference(referenceId);
-        
+
         list.getReferences().add(reference);
         referenceListService.save(list);
-        
+
         redirectAttrs.addAttribute("id", id);
-        
+
         return "redirect:/referencelists/{id}";
-        
+
     }
+
 }
