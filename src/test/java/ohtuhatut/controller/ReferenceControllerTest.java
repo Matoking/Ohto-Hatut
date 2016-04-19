@@ -106,6 +106,18 @@ public class ReferenceControllerTest {
 
     }
 
+    @Test
+    public void postToCreateNotValidBookreferenceDoesNotSave() throws Exception {
+
+        mockMvc.perform(post(API_URI + "/bookreferences/new")
+                .param("title", "test")
+                .param("publisher", "testingplace")
+                .param("year", "2016"));
+
+        assertTrue(bookReferenceRepository.count() == 0);
+
+    }
+
 
     @Test
     public void getRequestToCreateANewArticleReferenceWorks() throws Exception {
@@ -133,6 +145,19 @@ public class ReferenceControllerTest {
     }
 
     @Test
+    public void postToCreateNotValidArticlereferenceDoesNotSave() throws Exception {
+
+        mockMvc.perform(post(API_URI + "/articlereferences/new")
+                .param("title", "test")
+                .param("journal", "testingplace")
+                .param("volume","1")
+                .param("year", "2016"));
+
+        assertTrue(articleReferenceRepository.count() == 0);
+
+    }
+
+    @Test
     public void getRequestToCreateANewBookletReferenceWorks() throws Exception {
 
         MvcResult result = mockMvc.perform(get(API_URI + "/bookletreferences/new"))
@@ -150,6 +175,15 @@ public class ReferenceControllerTest {
                 .param("title", "test"));
 
         assertTrue(bookletReferenceRepository.count() == 1);
+
+    }
+
+    @Test
+    public void postToCreateNotValidBookletreferenceDoesNotSave() throws Exception {
+
+        mockMvc.perform(post(API_URI + "/bookletreferences/new"));
+
+        assertTrue(bookletReferenceRepository.count() == 0);
 
     }
 
@@ -173,6 +207,16 @@ public class ReferenceControllerTest {
         assertTrue(manualReferenceRepository.count() == 1);
 
     }
+
+    @Test
+    public void postToCreateNotValidManualreferenceDoesNotSave() throws Exception {
+
+        mockMvc.perform(post(API_URI + "/manualreferences/new"));
+
+        assertTrue(manualReferenceRepository.count() == 0);
+
+    }
+
 
 }
 
