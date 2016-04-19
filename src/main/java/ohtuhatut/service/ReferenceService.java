@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * @author sofiak
  * @author iilumme
+ * @author tuomokar
  */
 
 @Service
@@ -55,5 +56,47 @@ public class ReferenceService {
     public void saveInproceedingsReference(InproceedingsReference reference) {
         inproceedingsReferenceRepository.save(reference);
     }
+        
+    /**
+     * Receives a list of empty mandatory fields in a reference and
+     * returns an error message listing the empty fields. If there are no
+     * empty fields, a null value is returned.
+     * 
+     * @param emptyFields list of empty fields in a reference
+     * @return error messages
+     */
+    public String getErrorMessages(List<String> emptyFields) {
+        if (emptyFields.isEmpty()) {
+            return null;
+        } else if (emptyFields.size() == 1) {
+            return oneFieldEmptyMessage(emptyFields);
+        } else if (emptyFields.size() == 2) {
+            return twoFieldsEmptyMessage(emptyFields);
+        }
 
+        return threeOrMoreFieldsEmptyMessage(emptyFields);
+    }
+    
+    private String threeOrMoreFieldsEmptyMessage(List<String> emptyFields) {
+        StringBuilder sb = new StringBuilder();
+        
+        int i = 0;
+        while (i < emptyFields.size() - 2) {
+            sb.append(emptyFields.get(i) + ", ");
+            i++;
+        }
+
+        sb.append(emptyFields.get(i));
+        sb.append(" and " + emptyFields.get(i + 1) + " are empty!");
+
+        return sb.toString();
+    }
+    
+    private String oneFieldEmptyMessage(List<String> emptyFields) {
+        return emptyFields.get(0) + " is empty!";
+    }
+    
+    private String twoFieldsEmptyMessage(List<String> emptyFields) {
+        return emptyFields.get(0) + " and " + emptyFields.get(1) + " are empty!";
+    }
 }
