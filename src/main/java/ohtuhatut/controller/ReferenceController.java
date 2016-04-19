@@ -123,7 +123,7 @@ public class ReferenceController {
         attr.addAttribute("id", reference.getId());
         return "redirect:/references/{id}";
     }
-    // <-- manual references
+    // <-- inproceedings references
     
     
 }
