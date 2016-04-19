@@ -109,6 +109,24 @@ public class ReferenceTest extends FluentTest {
                
         assertTrue(pageSource().contains("testTitle"));
     }
+    
+    @Test
+    public void articleReferenceCreationGivesErrorMessageWhenValidFieldsAreLeftEmpty() {
+        getToArticleReferenceCreationPage();
+        
+        submit(find("form").first());
+               
+        assertTrue(pageSource().contains("author, title, journal, year and volume are empty!"));
+    }
+    
+    @Test
+    public void manualReferenceCreationGivesErrorMessageWhenValidFieldsAreLeftEmpty() {
+        getToManualReferenceCreationPage();
+        
+        submit(find("form").first());
+               
+        assertTrue(pageSource().contains("title is empty!"));
+    }
 
     private void getToReferenceCreationsChoosingPage() {
         goTo(getUrl());
