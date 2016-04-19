@@ -98,6 +98,25 @@ public class ReferenceListControllerTest {
 
         assertTrue(list.getReferences().size() == 1);
     }
+
+    @Test
+    public void addingAReferenceTwiceToTheListDoesNotSaveItToTheList() throws Exception {
+        BookReference reference = new BookReference();
+        reference = referenceRepository.save(reference);
+        ReferenceList list = new ReferenceList();
+        list.setName("list1");
+        list = referenceListRepository.save(list);
+
+        mockMvc.perform(post(API_URI + "/" + list.getId() + "/references")
+                .param("referenceId", reference.getId().toString()))
+                .andExpect(redirectedUrl(API_URI + "/" + list.getId()));
+
+        mockMvc.perform(post(API_URI + "/" + list.getId() + "/references")
+                .param("referenceId", reference.getId().toString()))
+                .andExpect(redirectedUrl(API_URI + "/" + list.getId()));
+
+        assertTrue(list.getReferences().size() == 1);
+    }
     
     @Test
     public void getRequestToSeeingAllReferenceLists() throws Exception {
