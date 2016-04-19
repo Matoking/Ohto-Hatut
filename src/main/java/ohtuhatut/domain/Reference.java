@@ -35,6 +35,7 @@ public class Reference extends AbstractPersistable<Long> {
 
     protected String author;
     protected String title;
+    protected String booktitle;
     protected String publisher;
     protected Integer year;
     protected String journal;
@@ -77,6 +78,9 @@ public class Reference extends AbstractPersistable<Long> {
             case "title":
                 return getTitle();
 
+            case "booktitle":
+                return getBooktitle();
+                
             case "journal":
                 return getJournal();
 
@@ -190,6 +194,14 @@ public class Reference extends AbstractPersistable<Long> {
 
     public void setTitle(String title) {;
         this.title = title;
+    }
+    
+    public String getBooktitle() {
+        return booktitle;
+    }
+
+    public void setBooktitle(String booktitle) {
+        this.booktitle = booktitle;
     }
 
     public String getPublisher() {
