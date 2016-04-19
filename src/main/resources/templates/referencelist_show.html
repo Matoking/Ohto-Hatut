@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Reference lists</title>
-        <meta charset="UTF-8"></meta>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-    </head>
-    <body>
-    <div th:replace="fragments/navbar :: navbar">Navbar</div>
-        <div>
-            <h1 th:text="${referenceList.name}"></h1>
+<head>
+    <title>Reference lists</title>
+    <meta charset="UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar">Navbar</div>
+<div>
+    <h1 th:text="${referenceList.name}"></h1>
 
-            <ul>
-                <li th:each="reference : ${referenceList.references}">
-                    <span th:text="${reference.title}"></span>
-                </li>
-            </ul>
+    <ul>
+        <li th:each="reference : ${referenceList.references}">
+            <span th:text="${reference.title}"></span>
+        </li>
+    </ul>
+</div>
+<div>
+    <div>
+        <span th:if="${#lists.isEmpty(references) or #lists.containsAll(referenceList.references, references)}">No references in the database at the moment for you to add</span>
+        <div th:if="${not #lists.isEmpty(references)}">
+            <span th:if="${not #lists.containsAll(referenceList.references, references)}">Add a reference:</span>
+
+            <form th:if="${not #lists.containsAll(referenceList.references, references)}"
+                  th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}"
+                  method="POST">
+                <select name="referenceId" id="references">
+                    <option th:each="reference : ${references}"
+                            th:if="${not #lists.contains(referenceList.references, reference)}"
+                            th:value="${reference.id}" th:text="${reference.title}"></option>
+                </select>
+                <p><input type="submit" value="add reference"/></p>
+            </form>
         </div>
-        <div>
-            <div>
-                <span th:if="${#lists.isEmpty(references) or #lists.containsAll(referenceList.references, references)}">No references in the database at the moment for you to add</span>
-                <p th:if="${not #lists.isEmpty(referenceList.references)}"><a th:href="@{/referencelists/{referenceListId}/export(referenceListId=${referenceList.id})}">Export references</a></p>
-
-                <div th:if="${not #lists.isEmpty(references)}">
-                    <span th:if="${not #lists.containsAll(referenceList.references, references)}">Add a reference:</span>
-
-                    <form  th:if="${not #lists.containsAll(referenceList.references, references)}" th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}" method="POST">
-                        <select name="referenceId" id="references">
-                            <option th:each="reference : ${references}" th:if="${not #lists.contains(referenceList.references, reference)}" th:value="${reference.id}" th:text="${reference.title}"></option>
-                        </select>
-                        <p><input type="submit" value="add reference"/></p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </body>
+        <p th:if="${not #lists.isEmpty(referenceList.references)}">
+        <form th:id="export" th:action="@{/referencelists/{referenceListId}/export(referenceListId=${referenceList.id})}" method="GET">
+            <input type="text" th:id="name" th:name="name"/>
+            <input type="submit" value="Export references"/>
+        </form>
+        </p>
+    </div>
+</div>
+</body>
 </html>

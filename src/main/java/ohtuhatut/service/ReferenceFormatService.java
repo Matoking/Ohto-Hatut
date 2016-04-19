@@ -65,7 +65,8 @@ public class ReferenceFormatService {
         keys.put("volume", BibTeXEntry.KEY_VOLUME);
         keys.put("year", BibTeXEntry.KEY_YEAR);
         keys.put("publisher", BibTeXEntry.KEY_PUBLISHER);
-        
+        keys.put("booktitle", BibTeXEntry.KEY_BOOKTITLE);
+
         return keys.get(field);
     }
     
@@ -75,6 +76,7 @@ public class ReferenceFormatService {
         keys.put("book", BibTeXEntry.TYPE_BOOK);
         keys.put("booklet", BibTeXEntry.TYPE_BOOKLET);
         keys.put("manual", BibTeXEntry.TYPE_MANUAL);
+        keys.put("inproceedings", BibTeXEntry.TYPE_INPROCEEDINGS);
         
         return keys.get(type);
     }
