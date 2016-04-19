@@ -134,13 +134,14 @@ public class ReferenceTest extends FluentTest {
                
         assertTrue(pageSource().contains("author, title, journal, year and volume are empty!"));
     }
-    
+
+
     @Test
     public void manualReferenceCreationGivesErrorMessageWhenValidFieldsAreLeftEmpty() {
         getToManualReferenceCreationPage();
-        
+
         submit(find("form").first());
-               
+
         assertTrue(pageSource().contains("title is empty!"));
     }
 

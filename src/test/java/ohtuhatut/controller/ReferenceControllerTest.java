@@ -247,9 +247,18 @@ public class ReferenceControllerTest {
 
     }
 
+    @Test
+    public void postToCreateBookreferenceWithNonNumericYearDoesNotWork() throws Exception {
+
+        mockMvc.perform(post(API_URI + "/bookreferences/new")
+                .param("title", "testauthor")
+                .param("title", "test")
+                .param("publisher", "testingplace")
+                .param("year", "yeah"));
+
+        assertTrue(bookReferenceRepository.count() == 0);
+
+    }
+
 
 }
-
-
-
-
