@@ -25,6 +25,8 @@ public class ReferenceService {
     private BookletReferenceRepository bookletReferenceRepository;
     @Autowired
     private ManualReferenceRepository manualReferenceRepository;
+    @Autowired
+    private InproceedingsReferenceRepository inproceedingsReferenceRepository;
 
     public Reference getReference(Long id) {
         return referenceRepository.findOne(id);
@@ -48,6 +50,10 @@ public class ReferenceService {
 
     public void saveManualReference(ManualReference reference) {
         manualReferenceRepository.save(reference);
+    }
+    
+    public void saveInproceedingsReference(InproceedingsReference reference) {
+        inproceedingsReferenceRepository.save(reference);
     }
 
 }

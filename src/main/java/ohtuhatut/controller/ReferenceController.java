@@ -4,6 +4,7 @@ package ohtuhatut.controller;
 import ohtuhatut.domain.ArticleReference;
 import ohtuhatut.domain.BookReference;
 import ohtuhatut.domain.BookletReference;
+import ohtuhatut.domain.InproceedingsReference;
 import ohtuhatut.domain.ManualReference;
 import ohtuhatut.service.ReferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +108,22 @@ public class ReferenceController {
     }
     // <-- manual references
     
+    // -------------- inproceedings references
+    @RequestMapping(value = "/inproceedingsreferences/new", method = RequestMethod.GET)
+    public String newInproceedingsReference(Model model){
+        model.addAttribute("reference", new InproceedingsReference());
+        model.addAttribute("referenceType", "inproceedingsreferences");
+        return "reference_new";
+    }
+    
+    @RequestMapping(value = "/inproceedingsreferences/new", method = RequestMethod.POST)
+    public String newInproceedingsReferenceCreate(@ModelAttribute InproceedingsReference reference, RedirectAttributes attr) {
+        referenceService.saveInproceedingsReference(reference);
+        
+        attr.addAttribute("id", reference.getId());
+        return "redirect:/references/{id}";
+    }
+    // <-- manual references
     
     
 }
