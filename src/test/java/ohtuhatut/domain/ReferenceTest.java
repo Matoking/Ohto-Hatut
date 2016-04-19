@@ -3,6 +3,9 @@ package ohtuhatut.domain;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author tuomokar
@@ -31,6 +34,63 @@ public class ReferenceTest {
         assertTrue(ref.getEmptyMandatoryFields().contains("year"));
         assertTrue(ref.getEmptyMandatoryFields().contains("volume"));
 
+    }
+
+    @Test
+    public void gettingFieldWhichIsNotAFieldOfTheReference() {
+        Reference ref = new BookletReference();
+        assertTrue(ref.getField("author") == null);
+        assertTrue(ref.getField("publisher") == null);
+        assertTrue(ref.getField("moon") == null);
+    }
+
+    @Test
+    public void gettingMandatoryFieldsWorks() {
+        Reference ref = new BookReference();
+
+        assertTrue(ref.getMandatoryFields().size() == 4);
+        assertTrue(ref.getMandatoryFields().contains("author"));
+        assertTrue(ref.getMandatoryFields().contains("title"));
+        assertTrue(ref.getMandatoryFields().contains("publisher"));
+        assertTrue(ref.getMandatoryFields().contains("year"));
+    }
+
+    @Test
+    public void settingMandatoryFieldsWorks() {
+        Reference ref = new BookletReference();
+        List<String> fields = new ArrayList<>();
+
+        fields.add("testField");
+        ref.setMandatoryFields(fields);
+
+        assertTrue(ref.getMandatoryFields().size() == 1);
+        assertTrue(ref.getMandatoryFields().contains("testField"));
+    }
+
+    @Test
+    public void gettingAndSettingOptionalFieldsWorks() {
+
+        Reference ref = new BookletReference();
+        List<String> fields = new ArrayList<>();
+
+        fields.add("testField");
+        ref.setOptionalFields(fields);
+
+        assertTrue(ref.getOptionalFields().size() == 1);
+        assertTrue(ref.getOptionalFields().contains("testField"));
+
+    }
+
+    @Test
+    public void settingFieldsWorks() {
+        Reference ref = new BookletReference();
+        List<String> fields = new ArrayList<>();
+
+        fields.add("testField");
+        ref.setFields(fields);
+
+        assertTrue(ref.getFields().size() == 1);
+        assertTrue(ref.getFields().contains("testField"));
     }
 
 }
