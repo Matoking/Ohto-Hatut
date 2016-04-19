@@ -23,9 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Controller class for ReferenceList page.
- *
- * @author iilumme
- * @author tuomokar
  */
 
 @Controller

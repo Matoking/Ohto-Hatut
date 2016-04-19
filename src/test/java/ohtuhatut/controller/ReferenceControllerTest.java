@@ -21,9 +21,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-/**
- * @author iilumme
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ohtuhatut.Main.class)
 @WebAppConfiguration
@@ -42,6 +39,8 @@ public class ReferenceControllerTest {
     private BookletReferenceRepository bookletReferenceRepository;
     @Autowired
     private ManualReferenceRepository manualReferenceRepository;
+    @Autowired
+    private InproceedingsReferenceRepository inproceedingsReferenceRepository;
 
 
     @Autowired
@@ -214,6 +213,37 @@ public class ReferenceControllerTest {
         mockMvc.perform(post(API_URI + "/manualreferences/new"));
 
         assertTrue(manualReferenceRepository.count() == 0);
+
+    }
+
+    @Test
+    public void getRequestToCreateANewInproceedingsReferenceWorks() throws Exception {
+
+        MvcResult result = mockMvc.perform(get(API_URI + "/inproceedingsreferences/new"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("reference"))
+                .andExpect(model().attribute("referenceType", is("inproceedingsreferences")))
+                .andExpect(view().name("reference_new"))
+                .andReturn();
+    }
+
+    @Test
+    public void postRequestToInproceedingsreferencesNewSavesAManualreferenceToDatabase() throws Exception {
+
+        mockMvc.perform(post(API_URI + "/inproceedingsreferences/new")
+                .param("author", "testAuthor")
+                .param("booktitle", "book")
+                .param("year", "2016")
+                .param("title", "test"));
+
+        assertTrue(inproceedingsReferenceRepository.count() == 1);
+
+    }
+
+    @Test
+    public void postToCreateNotValidInproceedingsreferenceDoesNotSave() throws Exception {
+        mockMvc.perform(post(API_URI + "/inproceedingsreferences/new"));
+        assertTrue(inproceedingsReferenceRepository.count() == 0);
 
     }
 

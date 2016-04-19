@@ -109,6 +109,22 @@ public class ReferenceTest extends FluentTest {
                
         assertTrue(pageSource().contains("testTitle"));
     }
+
+    @Test
+    public void inproceedingsReferenceCreationIsSuccessfulWhenGivenValidValues() {
+        getToInproceedingsReferenceCreationPage();
+
+        fill("#author").with("testAuthor");
+        fill("#title").with("testTitle");
+        fill("#booktitle").with("testBookTitle");
+        fill("#year").with("2011");
+        submit(find("form").first());
+
+        assertTrue(pageSource().contains("testAuthor"));
+        assertTrue(pageSource().contains("testTitle"));
+        assertTrue(pageSource().contains("testBookTitle"));
+        assertTrue(pageSource().contains("2011"));
+    }
     
     @Test
     public void articleReferenceCreationGivesErrorMessageWhenValidFieldsAreLeftEmpty() {
@@ -151,5 +167,10 @@ public class ReferenceTest extends FluentTest {
     private void getToManualReferenceCreationPage() {
         getToReferenceCreationsChoosingPage();
         click(find("a", withText("Manual reference")));
+    }
+
+    private void getToInproceedingsReferenceCreationPage() {
+        getToReferenceCreationsChoosingPage();
+        click(find("a", withText("Inproceedings reference")));
     }
 }

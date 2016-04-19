@@ -149,12 +149,20 @@ public class ReferenceController {
     }
     
     @RequestMapping(value = "/inproceedingsreferences/new", method = RequestMethod.POST)
-    public String newInproceedingsReferenceCreate(@ModelAttribute InproceedingsReference reference, RedirectAttributes attr) {
+    public String newInproceedingsReferenceCreate(@ModelAttribute InproceedingsReference reference, RedirectAttributes attr, Model model) {
+
+        if (!reference.getEmptyMandatoryFields().isEmpty()) {
+            model.addAttribute("emptyFields", referenceService.getErrorMessages(reference.getEmptyMandatoryFields()));
+            model.addAttribute("reference", new InproceedingsReference());
+            model.addAttribute("referenceType", "inproceedingsreferences");
+            return "reference_new";
+        }
         referenceService.saveInproceedingsReference(reference);
-        
+
         attr.addAttribute("id", reference.getId());
         return "redirect:/references/{id}";
     }
+
     // <-- inproceedings references
     
     
