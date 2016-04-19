@@ -23,9 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Controller class for ReferenceList page.
- *
- * @author iilumme
- * @author tuomokar
  */
 
 @Controller
@@ -83,10 +80,12 @@ public class ReferenceListController {
         
         ReferenceList list = referenceListService.getReferenceList(id);
         Reference reference = referenceService.getReference(referenceId);
-        
-        list.getReferences().add(reference);
-        referenceListService.save(list);
-        
+
+        if (!list.getReferences().contains(reference)) {
+            list.getReferences().add(reference);
+            referenceListService.save(list);
+        }
+
         redirectAttrs.addAttribute("id", id);
         
         return "redirect:/referencelists/{id}";

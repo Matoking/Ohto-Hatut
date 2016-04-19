@@ -26,6 +26,8 @@ public class ReferenceService {
     private BookletReferenceRepository bookletReferenceRepository;
     @Autowired
     private ManualReferenceRepository manualReferenceRepository;
+    @Autowired
+    private InproceedingsReferenceRepository inproceedingsReferenceRepository;
 
     public Reference getReference(Long id) {
         return referenceRepository.findOne(id);
@@ -51,6 +53,10 @@ public class ReferenceService {
         manualReferenceRepository.save(reference);
     }
     
+    public void saveInproceedingsReference(InproceedingsReference reference) {
+        inproceedingsReferenceRepository.save(reference);
+    }
+        
     /**
      * Receives a list of empty mandatory fields in a reference and
      * returns an error message listing the empty fields. If there are no
@@ -93,5 +99,4 @@ public class ReferenceService {
     private String twoFieldsEmptyMessage(List<String> emptyFields) {
         return emptyFields.get(0) + " and " + emptyFields.get(1) + " are empty!";
     }
-
 }
