@@ -125,8 +125,7 @@ public class ReferenceListTest extends FluentTest {
         fillSelect("#references").withIndex(0);
         
         submit(find("form").first());
-        
-        click(find("a", withText("Export references")));
+        submit(find("#export"));
         
         // Only one manual entry
         assertEquals(1, StringUtils.countMatches(pageSource(), "@manual"));

@@ -91,14 +91,15 @@ public class ReferenceListController {
         return "redirect:/referencelists/{id}";
         
     }
-    
+
     @RequestMapping(value = "/{referenceListId}/export", method = RequestMethod.GET)
     public void exportReferenceList(@PathVariable(value="referenceListId") Long id,
+                                    @RequestParam(value="name", required=false, defaultValue="references") String name,
             HttpServletResponse response) throws IOException {
         ReferenceList list = referenceListService.getReferenceList(id);
         String formattedText = referenceFormatService.formatReferencesToBibTeX(list.getReferences());
-        
-        returnResponseWithBibTeXFile("references.bib", formattedText, response);
+
+        returnResponseWithBibTeXFile(name + ".bib", formattedText, response);
     }
     
     @RequestMapping(value = "/export_all", 
@@ -108,7 +109,7 @@ public class ReferenceListController {
         
         returnResponseWithBibTeXFile("references.bib", formattedText, response);
     }
-    
+
     private void returnResponseWithBibTeXFile(String filename, String content, HttpServletResponse response) throws IOException {
         response.setContentType("text/plain");
         response.setHeader("Content-Disposition", String.format("attachment;filename=%s", filename));
