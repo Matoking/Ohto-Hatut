@@ -13,7 +13,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * The class for a list of references
- * Created by iilumme.
  */
 
 @Entity
