@@ -153,6 +153,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/**/ProductionProfile.class</exclude>
+                        <exclude>**com.steadystate*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
