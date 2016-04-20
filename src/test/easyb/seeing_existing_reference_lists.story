@@ -7,6 +7,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
 description 'user can see any existing reference lists and get more info on them'
 
 /*
+
 // commented out at least for now, since easyB doesn't reset the database after running scenarios, causing
 // this test to fail
 scenario "user can not see any lists if there are none", {
