@@ -173,12 +173,12 @@ public class ReferenceListTest extends FluentTest {
     
     private void getToReferenceListsPage() {
         goTo(getUrl());
-        click(find("a", withText("Reference lists")));
+        click(find("#referencelist"));
     }
 
     private void getToReferenceListCreationPage() {
         goTo(getUrl());
-        click(find("a", withText("New referencelist")));
+        click(find("#referencelist-new"));
     }
     
     private void getToManualReferenceCreationPage() {
@@ -188,6 +188,6 @@ public class ReferenceListTest extends FluentTest {
     
     private void getToReferenceCreationsChoosingPage() {
         goTo(getUrl());
-        click(find("a", withText("New reference")));
+        click(find("#reference-new"));
     }
 }
