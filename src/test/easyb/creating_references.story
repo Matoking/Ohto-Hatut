@@ -3,6 +3,7 @@ import ohtuhatut.*
 import org.openqa.selenium.*
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 
+
 description 'User can create a new reference list with a valid name'
 
 scenario "user can create an inproceedings reference with mandatory values", {
