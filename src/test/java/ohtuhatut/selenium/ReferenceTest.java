@@ -152,7 +152,7 @@ public class ReferenceTest extends FluentTest {
 
     private void getToReferenceCreationsChoosingPage() {
         goTo(getUrl());
-        click(find("a", withText("New reference")));
+        click(find("#reference-new"));
     }
     
     private void getToBookReferenceCreationPage() {
