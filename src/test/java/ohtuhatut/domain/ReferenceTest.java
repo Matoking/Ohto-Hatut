@@ -19,8 +19,9 @@ public class ReferenceTest {
         ref.setTitle("title1");
         ref.setPublisher("publisher1");
 
-        assertTrue(ref.getEmptyMandatoryFields().size() == 1);
+        assertTrue(ref.getEmptyMandatoryFields().size() == 2);
         assertTrue(ref.getEmptyMandatoryFields().contains("year"));
+        assertTrue(ref.getEmptyMandatoryFields().contains("key"));
     }
 
     @Test
@@ -33,6 +34,7 @@ public class ReferenceTest {
         assertTrue(ref.getEmptyMandatoryFields().contains("journal"));
         assertTrue(ref.getEmptyMandatoryFields().contains("year"));
         assertTrue(ref.getEmptyMandatoryFields().contains("volume"));
+        assertTrue(ref.getEmptyMandatoryFields().contains("key"));
 
     }
 
@@ -48,11 +50,12 @@ public class ReferenceTest {
     public void gettingMandatoryFieldsWorks() {
         Reference ref = new BookReference();
 
-        assertTrue(ref.getMandatoryFields().size() == 4);
+        assertTrue(ref.getMandatoryFields().size() == 5);
         assertTrue(ref.getMandatoryFields().contains("author"));
         assertTrue(ref.getMandatoryFields().contains("title"));
         assertTrue(ref.getMandatoryFields().contains("publisher"));
         assertTrue(ref.getMandatoryFields().contains("year"));
+        assertTrue(ref.getMandatoryFields().contains("key"));
     }
 
     @Test
@@ -91,6 +94,42 @@ public class ReferenceTest {
 
         assertTrue(ref.getFields().size() == 1);
         assertTrue(ref.getFields().contains("testField"));
+    }
+    
+    @Test
+    public void keyIsNotInTheListOfAllFields() {
+        Reference ref = new BookletReference();
+        List<String> fields = new ArrayList<>();
+
+        fields.add("testField");
+        ref.setFields(fields);
+
+        assertTrue(ref.getFields().size() == 1);
+        assertTrue(!ref.getFields().contains("key"));
+    }
+    
+    @Test
+    public void keyIsNotInTheListOfOptionalFields() {
+        Reference ref = new BookletReference();
+        List<String> fields = new ArrayList<>();
+
+        fields.add("testField");
+        ref.setOptionalFields(fields);
+
+        assertTrue(ref.getOptionalFields().size() == 1);
+        assertTrue(!ref.getOptionalFields().contains("key"));
+    }
+    
+    @Test
+    public void keyIsNotInTheListOfMandatoryFieldsAfterSettingTheMandatoryFields() {
+        Reference ref = new BookletReference();
+        List<String> fields = new ArrayList<>();
+
+        fields.add("testField");
+        ref.setMandatoryFields(fields);
+
+        assertTrue(ref.getMandatoryFields().size() == 1);
+        assertTrue(!ref.getMandatoryFields().contains("key"));
     }
 
 }
