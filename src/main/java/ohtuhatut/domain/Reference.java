@@ -33,6 +33,8 @@ public class Reference extends AbstractPersistable<Long> {
     @Transient
     protected String type;
 
+    protected String key;
+    
     protected String author;
     protected String title;
     protected String booktitle;
@@ -52,22 +54,29 @@ public class Reference extends AbstractPersistable<Long> {
     protected List<String> fields;
 
     /**
-     * Create the list 'fields' which contains both mandatory and optional
+     * Create the list 'fields' which contains both mandatory and optional.
+     * The key value is added to the list of mandatory fields after populating
+     * the 'fields' list, as we don't want it to go the bibtex file along
+     * with the other values, but only as the key of the reference
      * fields
      */
     protected void populateFields() {
         fields = new ArrayList<String>(mandatoryFields);
         fields.addAll(optionalFields);
+        mandatoryFields.add("key");
     }
 
     /**
      * Get the value of the named field
      *
      * @return The value of the field as String. If field doesn't belong to this
-     * reference type, null is returned
+     * reference type, null is returned. The field 'key' is returned always
+     * as every reference has it but it's not within the list of all the fields
+     * so there's a separate check for it at the start.
      */
     public String getField(String field) {
-        if (!fields.contains(field)) {
+        
+        if (!fields.contains(field) && !field.equals("key")) {
             return null;
         }
 
@@ -92,6 +101,10 @@ public class Reference extends AbstractPersistable<Long> {
 
             case "publisher":
                 return getPublisher();
+              
+            case "key":
+                return getKey();
+                
 
             default:
                 return null;
@@ -105,7 +118,7 @@ public class Reference extends AbstractPersistable<Long> {
      * omitted
      */
     public Map<String, String> getValueMap() {
-        HashMap<String, String> valueMap = new HashMap<String, String>();
+        HashMap<String, String> valueMap = new HashMap<>();
 
         for (String field : getFields()) {
             String value = getField(field);
@@ -226,6 +239,14 @@ public class Reference extends AbstractPersistable<Long> {
 
     public void setType(String type) {
         this.type = type;
+    }
+    
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
 }
