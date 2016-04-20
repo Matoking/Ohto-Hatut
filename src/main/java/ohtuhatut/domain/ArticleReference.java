@@ -31,6 +31,11 @@ public class ArticleReference extends Reference {
         mandatoryFields.add("volume");
         
         optionalFields = new ArrayList<>();
+        optionalFields.add("number");
+        optionalFields.add("pages");
+        optionalFields.add("month");
+        optionalFields.add("note");
+        optionalFields.add("key");
         
         populateFields();
     }

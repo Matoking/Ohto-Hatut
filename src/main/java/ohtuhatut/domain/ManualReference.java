@@ -27,6 +27,14 @@ public class ManualReference extends Reference {
         mandatoryFields.add("title");
         
         optionalFields = new ArrayList<>();
+        optionalFields.add("author");
+        optionalFields.add("organization");
+        optionalFields.add("address");
+        optionalFields.add("edition");
+        optionalFields.add("month");
+        optionalFields.add("year");
+        optionalFields.add("note");
+        optionalFields.add("key");
         
         populateFields();
     }

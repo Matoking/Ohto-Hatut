@@ -29,6 +29,14 @@ public class BookReference extends Reference {
         mandatoryFields.add("year");
         
         optionalFields = new ArrayList<>();
+        optionalFields.add("key");
+        optionalFields.add("note");
+        optionalFields.add("month");
+        optionalFields.add("edition");
+        optionalFields.add("address");
+        optionalFields.add("series");
+        optionalFields.add("volume");
+        optionalFields.add("number");
         
         populateFields();
     }

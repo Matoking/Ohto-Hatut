@@ -11,11 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import ohtuhatut.domain.Reference;
-import org.jbibtex.BibTeXDatabase;
-import org.jbibtex.BibTeXEntry;
-import org.jbibtex.BibTeXFormatter;
-import org.jbibtex.Key;
-import org.jbibtex.StringValue;
+import org.jbibtex.*;
 import org.springframework.stereotype.Service;
 
 /**
@@ -50,8 +46,16 @@ public class ReferenceFormatService {
                                                new Key(reference.getField("title")));
         
         for (Map.Entry<String, String> entry : reference.getValueMap().entrySet()) {
-            // TODO: Numbers (eg. year of publication) should not be quoted
-            bibEntry.addField(getFieldKey(entry.getKey()), new StringValue(entry.getValue(), StringValue.Style.QUOTED));
+
+            if(!entry.getValue().equals("") && entry.getValue() != null && !entry.getValue().equals("null")) {
+                if (!entry.getKey().equals("year")) {
+                    bibEntry.addField(getFieldKey(entry.getKey()), new StringValue(entry.getValue(), StringValue.Style.QUOTED));
+                } else {
+                    // TODO: Numbers (eg. year of publication) should not be quoted
+                    bibEntry.addField(getFieldKey(entry.getKey()), new StringValue(entry.getValue(), StringValue.Style.QUOTED));
+                }
+
+            }
         }
         
         return bibEntry;
@@ -66,6 +70,17 @@ public class ReferenceFormatService {
         keys.put("year", BibTeXEntry.KEY_YEAR);
         keys.put("publisher", BibTeXEntry.KEY_PUBLISHER);
         keys.put("booktitle", BibTeXEntry.KEY_BOOKTITLE);
+        keys.put("pages", BibTeXEntry.KEY_PAGES);
+        keys.put("month", BibTeXEntry.KEY_MONTH);
+        keys.put("note", BibTeXEntry.KEY_NOTE);
+        keys.put("key", BibTeXEntry.KEY_KEY);
+        keys.put("howpublished", BibTeXEntry.KEY_HOWPUBLISHED);
+        keys.put("address", BibTeXEntry.KEY_ADDRESS);
+        keys.put("series", BibTeXEntry.KEY_SERIES);
+        keys.put("edition", BibTeXEntry.KEY_EDITION);
+        keys.put("editor", BibTeXEntry.KEY_EDITOR);
+        keys.put("number", BibTeXEntry.KEY_NUMBER);
+        keys.put("organization", BibTeXEntry.KEY_ORGANIZATION);
 
         return keys.get(field);
     }
