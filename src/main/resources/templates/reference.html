@@ -2,12 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>References</title>
+        <div th:replace="fragments/imports :: imports"></div>
     </head>
     <body>
-    <div th:replace="fragments/navbar :: navbar">Navbar</div>
-        <div th:each="field : ${reference.fields}">
-            <h1 th:text="${field} + ':'"></h1>   
-            <span th:text="${reference.getField(field)}"></span>
+        <div th:replace="fragments/navbar :: navbar">Navbar</div>
+        <div class="container">
+            <div th:each="field : ${reference.fields}">
+                <h1 th:text="${field} + ':'"></h1>   
+                <span th:text="${reference.getField(field)}"></span>
+            </div>
         </div>
     </body>
 </html>
