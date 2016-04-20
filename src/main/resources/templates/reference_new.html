@@ -3,10 +3,12 @@
     <head>
         <title>Create a new reference</title>
         <meta charset="UTF-8"></meta>
+        <div th:replace="fragments/imports :: imports"></div>
     </head>
     <body>
-        <div th:replace="fragments/navbar :: navbar">Navbar</div>
-        <div>
+    <div th:replace="fragments/navbar :: navbar">Navbar</div>
+        <div class="container">
+
             <h1>Create a new reference</h1>
 
             <p th:if="${emptyFields != null}" th:text="${emptyFields}"></p>

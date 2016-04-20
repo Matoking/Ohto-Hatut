@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Create a new reference list</title>
+        <div th:replace="fragments/imports :: imports"></div>
     </head>
     <body>
-    <div th:replace="fragments/navbar :: navbar">Navbar</div>
-        <h1>Create a new reference list</h1>
-        <form action="#" th:action="@{new}" th:object="${referenceList}" method="post">
-            Name:<br/>
-            <input type="text" th:field="*{name}"/><br/>
-            <input type="submit" value="Submit"/>
-            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p> 
-        </form>
+        <div th:replace="fragments/navbar :: navbar">Navbar</div>
+        <div class="container">
+            <h1>Create a new reference list</h1>
+            <form action="#" th:action="@{new}" th:object="${referenceList}" method="post">
+                Name:<br/>
+                <input type="text" th:field="*{name}"/><br/>
+                <input type="submit" value="Submit"/>
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p> 
+            </form>
+        </div>
     </body>
 </html>
