@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 /**
  *
  * @author matoking
+ * @author tuomokar
  */
 @Service
 public class ReferenceFormatService {
@@ -40,10 +41,9 @@ public class ReferenceFormatService {
     }
     
     private BibTeXEntry getBibTeXEntry(Reference reference) {
-        // TODO: Each entry contains a key used to cite or cross-reference the entry
-        // For now, put title as that key
+
         BibTeXEntry bibEntry = new BibTeXEntry(getTypeKey(reference.getType()),
-                                               new Key(reference.getField("title")));
+                                               new Key(reference.getKey()));
         
         for (Map.Entry<String, String> entry : reference.getValueMap().entrySet()) {
 

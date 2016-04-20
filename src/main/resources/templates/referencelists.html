@@ -4,14 +4,15 @@
         <title>Reference lists</title>
         <meta charset="UTF-8"></meta>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <div th:replace="fragments/imports :: imports"></div>
     </head>
     <body>
-    <div th:replace="fragments/navbar :: navbar">Navbar</div>
-        <div>
-            
-            
+        <div th:replace="fragments/navbar :: navbar">Navbar</div>
+        <div class="container">
+
+
             <h1>Reference lists</h1>
-            
+
             <span th:if="${#lists.isEmpty(referenceLists)}">No reference lists in the database at the moment</span>
             <ul>
                 <li th:each="referenceList : ${referenceLists}">

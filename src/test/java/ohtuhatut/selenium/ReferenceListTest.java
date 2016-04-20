@@ -91,7 +91,7 @@ public class ReferenceListTest extends FluentTest {
     
     @Test
     public void addingReferencesToAReferenceListIsSuccessful() {
-        createAReference();
+        createAReference(1);
         createAReferenceList();
         
         fillSelect("#references").withIndex(0);
@@ -104,7 +104,7 @@ public class ReferenceListTest extends FluentTest {
     
     @Test
     public void linkToExportReferencesAppearsIfReferenceListContainsReferences() {
-        createAReference();
+        createAReference(1);
         createAReferenceList();
         
         assertFalse(pageSource().contains("Export references"));
@@ -118,8 +118,8 @@ public class ReferenceListTest extends FluentTest {
     
     @Test
     public void exportingReferenceListOnlyExportsReferencesInTheList() {
-        createAReference();
-        createAReference();
+        createAReference(1);
+        createAReference(2);
         createAReferenceList();
         
         fillSelect("#references").withIndex(0);
@@ -163,10 +163,11 @@ public class ReferenceListTest extends FluentTest {
         submit(find("form").first());
     }
     
-    private void createAReference() {
+    private void createAReference(int i) {
         getToManualReferenceCreationPage();
 
         fill("#title").with("testTitle");
+        fill("#key").with("key" + i);
         submit(find("form").first());
     }
     

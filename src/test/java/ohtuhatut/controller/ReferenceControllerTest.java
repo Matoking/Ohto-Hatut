@@ -99,7 +99,8 @@ public class ReferenceControllerTest {
                 .param("author", "tester")
                 .param("title", "test")
                 .param("publisher", "testingplace")
-                .param("year", "2016"));
+                .param("year", "2016")
+                .param("key", "key1"));
 
         assertTrue(bookReferenceRepository.count() == 1);
 
@@ -137,7 +138,8 @@ public class ReferenceControllerTest {
                 .param("title", "test")
                 .param("journal", "testingplace")
                 .param("volume","1")
-                .param("year", "2016"));
+                .param("year", "2016")
+                .param("key", "key2"));
 
         assertTrue(articleReferenceRepository.count() == 1);
 
@@ -171,7 +173,8 @@ public class ReferenceControllerTest {
     public void postRequestToBookletreferencesNewSavesABookletreferenceToDatabase() throws Exception {
 
         mockMvc.perform(post(API_URI + "/bookletreferences/new")
-                .param("title", "test"));
+                .param("title", "test")
+                .param("key", "key3"));
 
         assertTrue(bookletReferenceRepository.count() == 1);
 
@@ -201,7 +204,8 @@ public class ReferenceControllerTest {
     public void postRequestToManualreferencesNewSavesAManualreferenceToDatabase() throws Exception {
 
         mockMvc.perform(post(API_URI + "/manualreferences/new")
-                .param("title", "test"));
+                .param("title", "test")
+                .param("key", "key4"));
 
         assertTrue(manualReferenceRepository.count() == 1);
 
@@ -234,7 +238,8 @@ public class ReferenceControllerTest {
                 .param("author", "testAuthor")
                 .param("booktitle", "book")
                 .param("year", "2016")
-                .param("title", "test"));
+                .param("title", "test")
+                .param("key", "key5"));
 
         assertTrue(inproceedingsReferenceRepository.count() == 1);
 
@@ -254,7 +259,9 @@ public class ReferenceControllerTest {
                 .param("title", "testauthor")
                 .param("title", "test")
                 .param("publisher", "testingplace")
-                .param("year", "yeah"));
+                .param("year", "yeah")
+                .param("key", "key6"));
+                
 
         assertTrue(bookReferenceRepository.count() == 0);
 

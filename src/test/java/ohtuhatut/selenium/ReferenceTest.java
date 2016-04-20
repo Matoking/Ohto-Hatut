@@ -64,6 +64,7 @@ public class ReferenceTest extends FluentTest {
         fill("#title").with("testTitle");
         fill("#publisher").with("testPublisher");
         fill("#year").with("2012");
+        fill("#key").with("key1");
         submit(find("form").first());       
 
         assertTrue(pageSource().contains("testAuthor"));
@@ -81,6 +82,7 @@ public class ReferenceTest extends FluentTest {
         fill("#journal").with("testJournal");
         fill("#year").with("2011");
         fill("#volume").with("testVolume");
+        fill("#key").with("key2");
         submit(find("form").first());
         
         assertTrue(pageSource().contains("testAuthor"));
@@ -95,6 +97,7 @@ public class ReferenceTest extends FluentTest {
         getToBookletReferenceCreationPage();
 
         fill("#title").with("testTitle");
+        fill("#key").with("key3");
         submit(find("form").first());      
 
         assertTrue(pageSource().contains("testTitle"));
@@ -105,6 +108,7 @@ public class ReferenceTest extends FluentTest {
         getToManualReferenceCreationPage();
 
         fill("#title").with("testTitle");
+        fill("#key").with("key4");
         submit(find("form").first());
                
         assertTrue(pageSource().contains("testTitle"));
@@ -118,6 +122,7 @@ public class ReferenceTest extends FluentTest {
         fill("#title").with("testTitle");
         fill("#booktitle").with("testBookTitle");
         fill("#year").with("2011");
+        fill("#key").with("key5");
         submit(find("form").first());
 
         assertTrue(pageSource().contains("testAuthor"));
@@ -132,7 +137,7 @@ public class ReferenceTest extends FluentTest {
         
         submit(find("form").first());
                
-        assertTrue(pageSource().contains("author, title, journal, year and volume are empty!"));
+        assertTrue(pageSource().contains("author, title, journal, year, volume and key are empty!"));
     }
 
 
@@ -142,7 +147,7 @@ public class ReferenceTest extends FluentTest {
 
         submit(find("form").first());
 
-        assertTrue(pageSource().contains("title is empty!"));
+        assertTrue(pageSource().contains("title and key are empty!"));
     }
 
     private void getToReferenceCreationsChoosingPage() {

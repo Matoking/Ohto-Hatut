@@ -36,6 +36,7 @@ public class ReferenceServiceTest {
         ref.setTitle("title1");
         ref.setPublisher("publisher1");
         ref.setYear(1900);
+        ref.setKey("key1");
 
         assertEquals("author is empty!", referenceService.getErrorMessages(ref.getEmptyMandatoryFields()));
     }
@@ -48,6 +49,7 @@ public class ReferenceServiceTest {
         ref.setJournal("journal1");
         ref.setVolume("vol1");
         ref.setYear(2001);
+        ref.setKey("key2");
 
         assertEquals("author and title are empty!", referenceService.getErrorMessages(ref.getEmptyMandatoryFields()));
     }
@@ -59,6 +61,7 @@ public class ReferenceServiceTest {
         ref.setTitle("");
         ref.setPublisher("");
         ref.setYear(1900);
+        ref.setKey("key3");
 
         assertEquals("author, title and publisher are empty!", referenceService.getErrorMessages(ref.getEmptyMandatoryFields()));
     }
@@ -69,9 +72,11 @@ public class ReferenceServiceTest {
         ref.setAuthor("");
         ref.setTitle("");
         ref.setPublisher("");
+        ref.setKey("");
         ref.setYear(null);
+        
 
-        assertEquals("author, title, publisher and year are empty!", referenceService.getErrorMessages(ref.getEmptyMandatoryFields()));
+        assertEquals("author, title, publisher, year and key are empty!", referenceService.getErrorMessages(ref.getEmptyMandatoryFields()));
     }
 
     @Test
