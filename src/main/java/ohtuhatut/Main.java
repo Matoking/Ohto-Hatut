@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Import;
  * 
  * @author tuomokar
  */
-@Import({ProductionProfile.class})
 @SpringBootApplication
 public class Main {
     
