@@ -47,7 +47,6 @@ public class Reference extends AbstractPersistable<Long> {
     protected String pages;
     protected String month;
     protected String note;
-    protected String key;
     protected String howpublished;
     protected String address;
     protected String series;
@@ -118,7 +117,6 @@ public class Reference extends AbstractPersistable<Long> {
               
             case "key":
                 return getKey();
-                
 
             case "pages":
                 return getPages();
@@ -128,9 +126,6 @@ public class Reference extends AbstractPersistable<Long> {
 
             case "note":
                 return getNote();
-
-            case "key":
-                return getKey();
 
             case "howpublished":
                 return getHowpublished();
@@ -320,14 +315,6 @@ public class Reference extends AbstractPersistable<Long> {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 
     public String getHowpublished() {
