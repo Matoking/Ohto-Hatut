@@ -26,6 +26,12 @@ public class BookletReference extends Reference {
         mandatoryFields.add("title");
         
         optionalFields = new ArrayList<>();
+        optionalFields.add("author");
+        optionalFields.add("howpublished");
+        optionalFields.add("address");
+        optionalFields.add("month");
+        optionalFields.add("year");
+        optionalFields.add("note");
         
         populateFields();
     }
