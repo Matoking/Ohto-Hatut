@@ -62,7 +62,6 @@ scenario "user can click on the name of a reference list to get to its page", {
         element = driver.findElement(By.linkText("list7")); 
         element.click()
         driver.getPageSource().contains("list7").shouldBe true
-        driver.getPageSource().contains("No references in the database at the moment for you to add").shouldBe true
     }
 }
 
