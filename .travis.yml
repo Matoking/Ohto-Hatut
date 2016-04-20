@@ -1,16 +1,16 @@
 language: java
 
 before_install:
-  - mv src/test/easyb src/test/easyb_skip # Hack to make easyB tests work: we rename dir back to easyb later to run tests
+  - mv src/test/easyb_skip src/test/easyb_skip # Hack to make easyB tests work: we rename dir back to easyb_skip later to run tests
 
 after_success:
   - mvn clean test jacoco:report coveralls:report
   
 script:
   - mvn test
-  - mv src/test/easyb_skip src/test/easyb
+  - mv src/test/easyb_skip src/test/easyb_skip
   - ./integration_test.sh
-  - mv src/test/easyb src/test/easyb_skip
+  - mv src/test/easyb_skip src/test/easyb_skip
   - mvn install -DskipTests=true
 
 jdk:
