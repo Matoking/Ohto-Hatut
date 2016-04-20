@@ -32,7 +32,6 @@ public class BookletReference extends Reference {
         optionalFields.add("month");
         optionalFields.add("year");
         optionalFields.add("note");
-        optionalFields.add("key");
         
         populateFields();
     }

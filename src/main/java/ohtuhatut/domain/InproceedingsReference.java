@@ -28,7 +28,6 @@ public class InproceedingsReference extends Reference{
         optionalFields.add("organization");
         optionalFields.add("publisher");
         optionalFields.add("note");
-        optionalFields.add("key");
         
         populateFields();
     }

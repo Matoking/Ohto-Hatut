@@ -35,7 +35,6 @@ public class ArticleReference extends Reference {
         optionalFields.add("pages");
         optionalFields.add("month");
         optionalFields.add("note");
-        optionalFields.add("key");
         
         populateFields();
     }
