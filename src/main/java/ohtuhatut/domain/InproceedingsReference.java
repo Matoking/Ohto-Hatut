@@ -19,7 +19,7 @@ public class InproceedingsReference extends Reference{
         mandatoryFields.add("year");
         
         optionalFields = new ArrayList<>();
-        /*optionalFields.add("editor");
+        optionalFields.add("editor");
         optionalFields.add("volume");
         optionalFields.add("series");
         optionalFields.add("pages");
@@ -28,7 +28,6 @@ public class InproceedingsReference extends Reference{
         optionalFields.add("organization");
         optionalFields.add("publisher");
         optionalFields.add("note");
-        optionalFields.add("key");*/
         
         populateFields();
     }
