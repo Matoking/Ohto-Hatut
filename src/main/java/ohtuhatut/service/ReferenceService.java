@@ -5,6 +5,7 @@ import ohtuhatut.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,7 +57,7 @@ public class ReferenceService {
     public void saveInproceedingsReference(InproceedingsReference reference) {
         inproceedingsReferenceRepository.save(reference);
     }
-        
+
     /**
      * Receives a list of empty mandatory fields in a reference and
      * returns an error message listing the empty fields. If there are no

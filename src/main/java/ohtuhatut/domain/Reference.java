@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  *
  * @author matoking
  * @author tuomokar
+ * @author iilumme
  */
 @Entity
 @Inheritance
@@ -42,6 +43,18 @@ public class Reference extends AbstractPersistable<Long> {
     protected Integer year;
     protected String journal;
     protected String volume;
+
+    protected String pages;
+    protected String month;
+    protected String note;
+    protected String howpublished;
+    protected String address;
+    protected String series;
+    protected String edition;
+    protected String editor;
+    protected String number;
+    protected String organization;
+
 
     @Transient
     protected List<String> mandatoryFields;
@@ -104,7 +117,38 @@ public class Reference extends AbstractPersistable<Long> {
               
             case "key":
                 return getKey();
-                
+
+            case "pages":
+                return getPages();
+
+            case "month":
+                return getMonth();
+
+            case "note":
+                return getNote();
+
+            case "howpublished":
+                return getHowpublished();
+
+            case "address":
+                return "" + getAddress();
+
+            case "series":
+                return getSeries();
+
+
+            case "edition":
+                return getEdition();
+
+            case "editor":
+                return getEditor();
+
+            case "number":
+                return "" + getNumber();
+
+            case "organization":
+                return getOrganization();
+
 
             default:
                 return null;
@@ -249,4 +293,83 @@ public class Reference extends AbstractPersistable<Long> {
         this.key = key;
     }
 
+    public String getPages() {
+        return pages;
+    }
+
+    public void setPages(String pages) {
+        this.pages = pages;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getHowpublished() {
+        return howpublished;
+    }
+
+    public void setHowpublished(String howpublished) {
+        this.howpublished = howpublished;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String series) {
+        this.series = series;
+    }
+
+    public String getEdition() {
+        return edition;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
+    }
+
+    public String getEditor() {
+        return editor;
+    }
+
+    public void setEditor(String editor) {
+        this.editor = editor;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
 }
