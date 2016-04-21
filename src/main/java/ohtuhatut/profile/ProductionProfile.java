@@ -2,6 +2,9 @@ package ohtuhatut.profile;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +20,18 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Profile("production")
 public class ProductionProfile {
 
+    private static Connection getConnection() throws URISyntaxException, SQLException {
+        URI dbUri = new URI(System.getenv("DATABASE_URL"));
+
+        String username = dbUri.getUserInfo().split(":")[0];
+        String password = dbUri.getUserInfo().split(":")[1];
+        String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+
+        return DriverManager.getConnection(dbUrl, username, password);
+    }
+
+    /*
+    
     @Bean
     public PlatformTransactionManager transactionManager() throws URISyntaxException {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
@@ -57,4 +72,6 @@ public class ProductionProfile {
 
         return basicDataSource;
     }
+    
+     */
 }
