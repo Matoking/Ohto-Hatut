@@ -33,7 +33,7 @@ public class ProductionProfile {
         return DataSourceBuilder.create().build();
     }
     */
-    /*
+    
     
     private static Connection getConnection() throws URISyntaxException, SQLException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
@@ -45,7 +45,7 @@ public class ProductionProfile {
         return DriverManager.getConnection(dbUrl, username, password);
     }
     
-    */
+    
     /*
     
     @Bean
