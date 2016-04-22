@@ -46,7 +46,7 @@ public class ProductionProfile {
     }
     
     */
-    
+    /*
     
     @Bean
     public PlatformTransactionManager transactionManager() throws URISyntaxException {
@@ -88,5 +88,6 @@ public class ProductionProfile {
 
         return basicDataSource;
     }
-     
+    
+    */
 }
