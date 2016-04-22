@@ -46,19 +46,22 @@ public class ReferenceFormatService {
                                                new Key(reference.getKey()));
         
         for (Map.Entry<String, String> entry : reference.getValueMap().entrySet()) {
-
-            if(!entry.getValue().equals("") && entry.getValue() != null && !entry.getValue().equals("null")) {
-                if (!entry.getKey().equals("year")) {
-                    bibEntry.addField(getFieldKey(entry.getKey()), new StringValue(entry.getValue(), StringValue.Style.QUOTED));
-                } else {
-                    // TODO: Numbers (eg. year of publication) should not be quoted
-                    bibEntry.addField(getFieldKey(entry.getKey()), new StringValue(entry.getValue(), StringValue.Style.QUOTED));
-                }
-
-            }
+            addEntry(entry.getKey(), entry.getValue(), bibEntry);
         }
         
         return bibEntry;
+    }
+    
+    private void addEntry(String field, String value, BibTeXEntry bibEntry) {
+        if (value == null || value.isEmpty()) {
+            return;
+        }
+        
+        if (value.equals("year")) {
+            bibEntry.addField(getFieldKey(field), new DigitStringValue(value));
+        } else {
+            bibEntry.addField(getFieldKey(field), new StringValue(value, StringValue.Style.QUOTED));
+        }
     }
     
     private Key getFieldKey(String field) {

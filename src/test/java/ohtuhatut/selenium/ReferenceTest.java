@@ -5,7 +5,7 @@ import ohtuhatut.repository.ReferenceRepository;
 import org.fluentlenium.adapter.FluentTest;
 
 import static org.fluentlenium.core.filter.FilterConstructor.withText;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -148,6 +148,43 @@ public class ReferenceTest extends FluentTest {
         submit(find("form").first());
 
         assertTrue(pageSource().contains("title and key are empty!"));
+    }
+    
+    @Test
+    public void manualReferenceCanBeCreatedAndThenEdited() {
+        createAReference(1);
+        
+        click(find("a", withText("Edit")));
+        
+        fill("#title").with("editedTitle");
+        
+        submit(find("form").first());
+        
+        // The edited title exists
+        assertTrue(pageSource().contains("editedTitle"));
+        assertFalse(pageSource().contains("testTitle"));
+    }
+    
+    @Test
+    public void manualReferenceCantBeUpdatedWhenValidFieldIsLeftEmpty() {
+        createAReference(1);
+        
+        click(find("a", withText("Edit")));
+        
+        fill("#title").with("");
+        
+        submit(find("form").first());
+        
+        // The edited title exists
+        assertTrue(pageSource().contains("title is empty"));
+    }
+    
+    private void createAReference(int i) {
+        getToManualReferenceCreationPage();
+
+        fill("#title").with("testTitle");
+        fill("#key").with("key" + i);
+        submit(find("form").first());
     }
 
     private void getToReferenceCreationsChoosingPage() {

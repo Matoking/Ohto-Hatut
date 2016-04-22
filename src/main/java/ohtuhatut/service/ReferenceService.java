@@ -5,7 +5,6 @@ import ohtuhatut.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +56,47 @@ public class ReferenceService {
     public void saveInproceedingsReference(InproceedingsReference reference) {
         inproceedingsReferenceRepository.save(reference);
     }
-
+    
+    public void saveReference(Reference reference) {
+        referenceRepository.save(reference);
+    }
+    
+    /*
+     * Bind reference to its correct type (eg. a "book" Reference will be returned
+     * as a BookReference)
+     */
+    public Reference bindReference(Reference reference) {
+        Reference newReference = null;
+        
+        switch(reference.getType()) {
+            case "article":
+                newReference = new ArticleReference();
+                break;
+                
+            case "book":
+                newReference = new BookReference();
+                break;
+                
+            case "booklet":
+                newReference = new BookletReference();
+                break;
+                
+            case "inproceedings":
+                newReference = new InproceedingsReference();
+                break;
+                
+            case "manual":
+                newReference = new ManualReference();
+                break;
+                
+            default:
+                return null;
+        }
+        
+        newReference.copyFields(reference);
+        return newReference;
+    }
+    
     /**
      * Receives a list of empty mandatory fields in a reference and
      * returns an error message listing the empty fields. If there are no
