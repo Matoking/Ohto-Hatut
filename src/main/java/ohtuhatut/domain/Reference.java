@@ -76,10 +76,9 @@ public class Reference extends AbstractPersistable<Long> {
      * fields
      */
     protected void populateFields() {
-        optionalFields.add("key");
-        
         fields = new ArrayList<String>(mandatoryFields);
         fields.addAll(optionalFields);
+        mandatoryFields.add("key");
     }
 
     /**
@@ -91,7 +90,6 @@ public class Reference extends AbstractPersistable<Long> {
      * so there's a separate check for it at the start.
      */
     public String getField(String field) {
-        
         if (!fields.contains(field) && !field.equals("key")) {
             return null;
         }
@@ -113,7 +111,7 @@ public class Reference extends AbstractPersistable<Long> {
                 return getVolume();
 
             case "year":
-                return "" + getYear();
+                return getYear() == null ? "" : "" + getYear();
 
             case "publisher":
                 return getPublisher();
@@ -138,7 +136,6 @@ public class Reference extends AbstractPersistable<Long> {
 
             case "series":
                 return getSeries();
-
 
             case "edition":
                 return getEdition();
@@ -280,6 +277,7 @@ public class Reference extends AbstractPersistable<Long> {
             }
         }
         
+        this.setKey(reference.getKey());
         this.setId(reference.getId());
     }
 
