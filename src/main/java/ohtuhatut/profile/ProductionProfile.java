@@ -23,6 +23,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Profile("production")
 public class ProductionProfile {
 
+    
+    
     /*
     @Bean
     @Primary
@@ -44,7 +46,7 @@ public class ProductionProfile {
     }
     
     */
-    /*
+    
     
     @Bean
     public PlatformTransactionManager transactionManager() throws URISyntaxException {
@@ -64,12 +66,12 @@ public class ProductionProfile {
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPersistenceUnitName("production");
         factory.setPackagesToScan("ohtuhatut.domain");
-        factory.setDataSource(dataSource());
 
         factory.afterPropertiesSet();
         return factory;
     }
-
+    
+    /*
     @Bean
     public DataSource dataSource() throws URISyntaxException {
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
@@ -86,6 +88,5 @@ public class ProductionProfile {
 
         return basicDataSource;
     }
-    
      */
 }
