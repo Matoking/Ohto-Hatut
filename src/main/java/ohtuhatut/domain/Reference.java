@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -30,7 +32,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @DiscriminatorOptions(force = true)
 @Table(name = "Reference")
 public class Reference extends AbstractPersistable<Long> {
-
+    
     @Transient
     protected String type;
 
@@ -74,9 +76,10 @@ public class Reference extends AbstractPersistable<Long> {
      * fields
      */
     protected void populateFields() {
+        optionalFields.add("key");
+        
         fields = new ArrayList<String>(mandatoryFields);
         fields.addAll(optionalFields);
-        mandatoryFields.add("key");
     }
 
     /**
@@ -195,6 +198,89 @@ public class Reference extends AbstractPersistable<Long> {
         });
         
         return emptyFields;
+    }
+    
+    /*
+     * Copy fields from a given reference
+     */
+    public void copyFields(Reference reference) {
+        for (String field : fields) {
+            switch(field) {
+                case "author":
+                    this.setAuthor(reference.getAuthor());
+                    break;
+
+                case "title":
+                    this.setTitle(reference.getTitle());
+                    break;
+
+                case "booktitle":
+                    this.setBooktitle(reference.getBooktitle());
+                    break;
+
+                case "journal":
+                    this.setJournal(reference.getJournal());
+                    break;
+
+                case "volume":
+                    this.setVolume(reference.getVolume());
+                    break;
+
+                case "year":
+                    this.setYear(reference.getYear());
+                    break;
+
+                case "publisher":
+                    this.setPublisher(reference.getPublisher());
+                    break;
+
+                case "key":
+                    this.setKey(reference.getKey());
+                    break;
+
+                case "pages":
+                    this.setPages(reference.getPages());
+                    break;
+
+                case "month":
+                    this.setMonth(reference.getMonth());
+                    break;
+
+                case "note":
+                    this.setNote(reference.getNote());
+                    break;
+
+                case "howpublished":
+                    this.setHowpublished(reference.getHowpublished());
+                    break;
+
+                case "address":
+                    this.setAddress(reference.getAddress());
+                    break;
+
+                case "series":
+                    this.setSeries(reference.getSeries());
+                    break;
+
+                case "edition":
+                    this.setEdition(reference.getEdition());
+                    break;
+
+                case "editor":
+                    this.setEditor(reference.getEditor());
+                    break;
+
+                case "number":
+                    this.setNumber(reference.getNumber());
+                    break;
+
+                case "organization":
+                    this.setOrganization(reference.getOrganization());
+                    break;
+            }
+        }
+        
+        this.setId(reference.getId());
     }
 
     public List<String> getOptionalFields() {
@@ -371,5 +457,10 @@ public class Reference extends AbstractPersistable<Long> {
 
     public void setOrganization(String organization) {
         this.organization = organization;
+    }
+
+    @Override
+    public void setId(Long id) {
+        super.setId(id);
     }
 }

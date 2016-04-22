@@ -5,11 +5,11 @@ import ohtuhatut.domain.BookReference;
 import ohtuhatut.domain.BookletReference;
 import ohtuhatut.domain.InproceedingsReference;
 import ohtuhatut.domain.ManualReference;
+import ohtuhatut.domain.Reference;
 import ohtuhatut.service.ReferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/references")
 public class ReferenceController {
-
     @Autowired
     private ReferenceService referenceService;
 
@@ -38,6 +37,29 @@ public class ReferenceController {
     public String getReference(Model model, @PathVariable Long id) {
         model.addAttribute("reference", referenceService.getReference(id));
         return "reference";
+    }
+    
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String editReference(Model model, @PathVariable Long id) {
+        model.addAttribute("reference", referenceService.getReference(id));
+        return "reference_edit";
+    }
+    
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    public String updateReference(@ModelAttribute Reference reference,
+            @PathVariable Long id, RedirectAttributes attr, Model model) {
+        reference = referenceService.bindReference(reference);
+        
+        if (!reference.getEmptyMandatoryFields().isEmpty()) {
+            model.addAttribute("emptyFields", referenceService.getErrorMessages(reference.getEmptyMandatoryFields()));
+            model.addAttribute("reference", referenceService.getReference(reference.getId()));
+            return "reference_edit";
+        }
+        
+        referenceService.saveReference(reference);
+        
+        attr.addAttribute("id", reference.getId());
+        return "redirect:/references/{id}";
     }
 
     // -------------- book references
