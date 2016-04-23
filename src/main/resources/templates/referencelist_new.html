@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Create a new reference list</title>
-        <div th:replace="fragments/imports :: imports"></div>
+        <th:block th:replace="fragments/imports :: imports"></th:block>
     </head>
     <body>
         <div th:replace="fragments/navbar :: navbar">Navbar</div>
@@ -12,7 +12,7 @@
                 Name:<br/>
                 <input type="text" th:field="*{name}"/><br/>
                 <input type="submit" value="Submit"/>
-                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p> 
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p>
             </form>
         </div>
     </body>

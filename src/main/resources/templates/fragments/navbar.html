@@ -10,12 +10,13 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Ohtu-Hatut</a>
+                        <a class="navbar-brand" th:href="@{/}">Ohtu-Hatut</a>
                     </div>
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a th:href="@{/references/new}" id="reference-new">New reference</a></li>
+                            <li><a th:href="@{/references/choose}" id="reference-choose">New reference</a></li>
                             <li><a th:href="@{/referencelists/new}" id="referencelist-new">New referencelist</a></li>
+                            <li><a th:href="@{/references/}" id="references">References</a></li>
                             <li><a th:href="@{/referencelists/}" id="referencelist">Reference lists</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">

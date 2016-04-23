@@ -94,7 +94,7 @@ public class ReferenceListTest extends FluentTest {
         createAReference(1);
         createAReferenceList();
         
-        fillSelect("#references").withIndex(0);
+        fillSelect("#referencesAvailable").withIndex(0);
         
         submit(find("form").first());
         
@@ -109,7 +109,7 @@ public class ReferenceListTest extends FluentTest {
         
         assertFalse(pageSource().contains("Export references"));
         
-        fillSelect("#references").withIndex(0);
+        fillSelect("#referencesAvailable").withIndex(0);
         
         submit(find("form").first());
         
@@ -121,8 +121,8 @@ public class ReferenceListTest extends FluentTest {
         createAReference(1);
         createAReference(2);
         createAReferenceList();
-        
-        fillSelect("#references").withIndex(0);
+
+        fillSelect("#referencesAvailable").withIndex(0);
         
         submit(find("form").first());
         submit(find("#export"));
@@ -188,6 +188,6 @@ public class ReferenceListTest extends FluentTest {
     
     private void getToReferenceCreationsChoosingPage() {
         goTo(getUrl());
-        click(find("#reference-new"));
+        click(find("#reference-choose"));
     }
 }

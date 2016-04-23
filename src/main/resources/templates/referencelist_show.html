@@ -4,7 +4,7 @@
         <title>Reference lists</title>
         <meta charset="UTF-8"></meta>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-        <div th:replace="fragments/imports :: imports"></div>
+        <th:block th:replace="fragments/imports :: imports"></th:block>
     </head>
     <body>
         <div class="container">
@@ -14,7 +14,7 @@
 
                 <ul>
                     <li th:each="reference : ${referenceList.references}">
-                        <span th:text="${reference.title}"></span>
+                        <a th:href="@{/references/{referenceId}/(referenceId=${reference.id})}" th:text="${reference.title}"></a>
                     </li>
                 </ul>
             </div>
@@ -28,7 +28,7 @@
                               th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}"
                               method="POST">
 
-                            <select name="referenceId" id="references">
+                            <select name="referenceId" id="referencesAvailable">
                                 <option th:each="reference : ${references}"
                                         th:if="${not #lists.contains(referenceList.references, reference)}"
                                         th:value="${reference.id}" th:text="${reference.title}"></option>
@@ -39,7 +39,7 @@
                     </div>
                     <div th:if="${not #lists.isEmpty(referenceList.references)}">
                         <form th:id="export" th:action="@{/referencelists/{referenceListId}/export(referenceListId=${referenceList.id})}" method="GET">
-                            <input type="text" th:id="name" th:name="name"/>
+                            <input placeholder="Filename" type="text" th:id="name" th:name="name"/>
                             <input type="submit" value="Export references"/>
                         </form>
 

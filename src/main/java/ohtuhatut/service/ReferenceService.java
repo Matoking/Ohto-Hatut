@@ -19,16 +19,6 @@ public class ReferenceService {
 
     @Autowired
     private ReferenceRepository referenceRepository;
-    @Autowired
-    private BookReferenceRepository bookReferenceRepository;
-    @Autowired
-    private ArticleReferenceRepository articleReferenceRepository;
-    @Autowired
-    private BookletReferenceRepository bookletReferenceRepository;
-    @Autowired
-    private ManualReferenceRepository manualReferenceRepository;
-    @Autowired
-    private InproceedingsReferenceRepository inproceedingsReferenceRepository;
 
     public Reference getReference(Long id) {
         return referenceRepository.findOne(id);
@@ -37,27 +27,47 @@ public class ReferenceService {
     public List<Reference> getAllReferences() {
         return referenceRepository.findAll();
     }
-
-    public void saveBookReference(BookReference reference) {
-        bookReferenceRepository.save(reference);
-    }
-
-    public void saveArticleReference(ArticleReference reference) {
-        articleReferenceRepository.save(reference);
-    }
-
-    public void saveBookletReference(BookletReference reference) {
-        bookletReferenceRepository.save(reference);
-    }
-
-    public void saveManualReference(ManualReference reference) {
-        manualReferenceRepository.save(reference);
+    
+    public void saveReference(Reference reference) {
+        referenceRepository.save(reference);
     }
     
-    public void saveInproceedingsReference(InproceedingsReference reference) {
-        inproceedingsReferenceRepository.save(reference);
+    /*
+     * Bind reference to its correct type (eg. a "book" Reference will be returned
+     * as a BookReference)
+     */
+    public Reference bindReference(Reference reference) {
+        Reference newReference = null;
+        
+        switch(reference.getType()) {
+            case "article":
+                newReference = new ArticleReference();
+                break;
+                
+            case "book":
+                newReference = new BookReference();
+                break;
+                
+            case "booklet":
+                newReference = new BookletReference();
+                break;
+                
+            case "inproceedings":
+                newReference = new InproceedingsReference();
+                break;
+                
+            case "manual":
+                newReference = new ManualReference();
+                break;
+                
+            default:
+                return null;
+        }
+        
+        newReference.copyFields(reference);
+        return newReference;
     }
-
+    
     /**
      * Receives a list of empty mandatory fields in a reference and
      * returns an error message listing the empty fields. If there are no
@@ -99,5 +109,111 @@ public class ReferenceService {
     
     private String twoFieldsEmptyMessage(List<String> emptyFields) {
         return emptyFields.get(0) + " and " + emptyFields.get(1) + " are empty!";
+    }
+
+    /**
+     * Get mandatory fields for viewing reference_new.html.
+     * @param type type of the reference
+     * @return fields
+     */
+    public static List<String> getMandatoryFields(String type) {
+
+        List<String> mandatoryFields = new ArrayList<>();
+
+        switch (type) {
+            case "article":
+                mandatoryFields.add("author");
+                mandatoryFields.add("title");
+                mandatoryFields.add("journal");
+                mandatoryFields.add("year");
+                mandatoryFields.add("volume");
+                break;
+
+            case "book":
+                mandatoryFields.add("author");
+                mandatoryFields.add("title");
+                mandatoryFields.add("publisher");
+                mandatoryFields.add("year");
+                break;
+
+            case "booklet":
+                mandatoryFields.add("title");
+                break;
+
+            case "inproceedings":
+                mandatoryFields.add("author");
+                mandatoryFields.add("title");
+                mandatoryFields.add("booktitle");
+                mandatoryFields.add("year");
+                break;
+
+            case "manual":
+                mandatoryFields.add("title");
+                break;
+        }
+
+        return mandatoryFields;
+    }
+
+    /**
+     * Get optional fields for viewing reference_new.html.
+     * @param type type of the reference
+     * @return fields
+     */
+    public static List<String> getOptionalFields(String type) {
+
+        List<String> optionalFields = new ArrayList<>();
+
+        switch (type) {
+            case "article":
+                optionalFields.add("number");
+                optionalFields.add("pages");
+                optionalFields.add("month");
+                optionalFields.add("note");
+                break;
+
+            case "book":
+                optionalFields.add("note");
+                optionalFields.add("month");
+                optionalFields.add("edition");
+                optionalFields.add("address");
+                optionalFields.add("series");
+                optionalFields.add("volume");
+                optionalFields.add("number");
+                break;
+
+            case "booklet":
+                optionalFields.add("author");
+                optionalFields.add("howpublished");
+                optionalFields.add("address");
+                optionalFields.add("month");
+                optionalFields.add("year");
+                optionalFields.add("note");
+                break;
+
+            case "inproceedings":
+                optionalFields.add("editor");
+                optionalFields.add("volume");
+                optionalFields.add("series");
+                optionalFields.add("pages");
+                optionalFields.add("address");
+                optionalFields.add("month");
+                optionalFields.add("organization");
+                optionalFields.add("publisher");
+                optionalFields.add("note");
+                break;
+
+            case "manual":
+                optionalFields.add("author");
+                optionalFields.add("organization");
+                optionalFields.add("address");
+                optionalFields.add("edition");
+                optionalFields.add("month");
+                optionalFields.add("year");
+                optionalFields.add("note");
+                break;
+        }
+
+        return optionalFields;
     }
 }
