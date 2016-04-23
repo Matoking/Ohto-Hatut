@@ -182,7 +182,7 @@
                 </executions>
                 <configuration>
                     <storyType>html</storyType>
-                    <storyReport>${basedir}/target/easyb/easyb-report.html
+                    <storyReport>${basedir}/target/easyb_skip/easyb_skip-report.html
                     </storyReport>
                 </configuration>
             </plugin>
