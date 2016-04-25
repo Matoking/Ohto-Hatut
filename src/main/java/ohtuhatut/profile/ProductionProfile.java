@@ -32,6 +32,7 @@ public class ProductionProfile {
         return DataSourceBuilder.create().build();
     }
         
+    /*
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws URISyntaxException {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
@@ -47,7 +48,7 @@ public class ProductionProfile {
         factory.afterPropertiesSet();
         return factory;
     }
-    
+    */
     /*
     
     
