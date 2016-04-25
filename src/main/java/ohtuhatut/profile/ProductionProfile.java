@@ -34,10 +34,9 @@ public class ProductionProfile {
     }
         
     @Bean
-    @Primary
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws URISyntaxException {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setJpaDialect(new HibernateJpaDialect());
+//        factory.setJpaDialect(new HibernateJpaDialect());
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
