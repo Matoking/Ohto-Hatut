@@ -26,8 +26,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 @Profile("production")
 public class ProductionProfile {
 
+    @Autowired
+    private ReferenceListRepository referenceListRepository;
     
-    
+    @Autowired
+    private ReferenceRepository referenceRepository;
     
     @Bean
     @Primary
@@ -35,15 +38,9 @@ public class ProductionProfile {
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
-    
-    @Autowired
-    private ReferenceListRepository referenceListRepository;
-    
-    @Autowired
-    private ReferenceRepository referenceRepository;
-    
-    
+        
     @Bean
+    @Primary
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws URISyntaxException {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaDialect(new HibernateJpaDialect());
