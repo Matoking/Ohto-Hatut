@@ -6,7 +6,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import javax.sql.DataSource;
+import ohtuhatut.repository.ReferenceListRepository;
+import ohtuhatut.repository.ReferenceRepository;
 import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +35,12 @@ public class ProductionProfile {
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
+    
+    @Autowired
+    private ReferenceListRepository referenceListRepository;
+    
+    @Autowired
+    private ReferenceRepository referenceRepository;
     
     
     /*
