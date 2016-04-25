@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
  *
  * @author matoking
  * @author tuomokar
+ * @author iilumme
  */
 @Service
 public class ReferenceFormatService {

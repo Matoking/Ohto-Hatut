@@ -14,7 +14,7 @@
 
                 <ul>
                     <li th:each="reference : ${referenceList.references}">
-                        <span th:text="${reference.title}"></span>
+                        <a th:href="@{/references/{referenceId}/(referenceId=${reference.id})}" th:text="${reference.title}"></a>
                     </li>
                 </ul>
             </div>
@@ -28,7 +28,7 @@
                               th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}"
                               method="POST">
 
-                            <select name="referenceId" id="references">
+                            <select name="referenceId" id="referencesAvailable">
                                 <option th:each="reference : ${references}"
                                         th:if="${not #lists.contains(referenceList.references, reference)}"
                                         th:value="${reference.id}" th:text="${reference.title}"></option>

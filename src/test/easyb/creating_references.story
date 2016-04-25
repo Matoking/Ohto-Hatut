@@ -49,7 +49,7 @@ void createDriver() {
 
 
 void getToReferenceCreationPage() {
-    driver.get("http://localhost:8081/references/new")
+    driver.get("http://localhost:8081/references/choose")
     element = driver.findElement(By.linkText("Inproceedings reference"))
     element.click();
 }
