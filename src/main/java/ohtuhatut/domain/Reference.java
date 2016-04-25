@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.hibernate.annotations.DiscriminatorOptions;
@@ -30,6 +33,10 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @DiscriminatorOptions(force = true)
 @Table(name = "Reference")
 public class Reference extends AbstractPersistable<Long> {
+    
+    @ManyToMany(fetch = FetchType.LAZY,
+                cascade = CascadeType.ALL)
+    private List<ReferenceList> referenceLists;
     
     @Transient
     protected String type;
@@ -459,4 +466,13 @@ public class Reference extends AbstractPersistable<Long> {
     public void setId(Long id) {
         super.setId(id);
     }
+
+    public List<ReferenceList> getReferenceLists() {
+        return referenceLists;
+    }
+
+    public void setReferenceLists(List<ReferenceList> referenceLists) {
+        this.referenceLists = referenceLists;
+    }
+    
 }
