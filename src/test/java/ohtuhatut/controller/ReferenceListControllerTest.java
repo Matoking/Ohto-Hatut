@@ -3,6 +3,7 @@ package ohtuhatut.controller;
 import java.util.List;
 import javax.transaction.Transactional;
 import ohtuhatut.domain.BookReference;
+import ohtuhatut.domain.ManualReference;
 import ohtuhatut.domain.ReferenceList;
 import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
@@ -51,7 +52,9 @@ public class ReferenceListControllerTest {
     
     @Before
     public void setUp() {
+
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
+        this.referenceListRepository.deleteAll();
     }
 
     @Test
@@ -135,7 +138,10 @@ public class ReferenceListControllerTest {
     }
     
     private void saveListWithAReference() {
-        BookReference reference = new BookReference();
+
+        ManualReference reference = new ManualReference();
+        reference.setTitle("test");
+        reference.setKey("keyyy");
         referenceRepository.save(reference);
         
         ReferenceList list = new ReferenceList();

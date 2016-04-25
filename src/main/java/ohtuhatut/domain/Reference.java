@@ -30,7 +30,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @DiscriminatorOptions(force = true)
 @Table(name = "Reference")
 public class Reference extends AbstractPersistable<Long> {
-
+    
     @Transient
     protected String type;
 
@@ -88,7 +88,6 @@ public class Reference extends AbstractPersistable<Long> {
      * so there's a separate check for it at the start.
      */
     public String getField(String field) {
-        
         if (!fields.contains(field) && !field.equals("key")) {
             return null;
         }
@@ -110,7 +109,7 @@ public class Reference extends AbstractPersistable<Long> {
                 return getVolume();
 
             case "year":
-                return "" + getYear();
+                return getYear() == null ? "" : "" + getYear();
 
             case "publisher":
                 return getPublisher();
@@ -135,7 +134,6 @@ public class Reference extends AbstractPersistable<Long> {
 
             case "series":
                 return getSeries();
-
 
             case "edition":
                 return getEdition();
@@ -195,6 +193,90 @@ public class Reference extends AbstractPersistable<Long> {
         });
         
         return emptyFields;
+    }
+    
+    /*
+     * Copy fields from a given reference
+     */
+    public void copyFields(Reference reference) {
+        for (String field : fields) {
+            switch(field) {
+                case "author":
+                    this.setAuthor(reference.getAuthor());
+                    break;
+
+                case "title":
+                    this.setTitle(reference.getTitle());
+                    break;
+
+                case "booktitle":
+                    this.setBooktitle(reference.getBooktitle());
+                    break;
+
+                case "journal":
+                    this.setJournal(reference.getJournal());
+                    break;
+
+                case "volume":
+                    this.setVolume(reference.getVolume());
+                    break;
+
+                case "year":
+                    this.setYear(reference.getYear());
+                    break;
+
+                case "publisher":
+                    this.setPublisher(reference.getPublisher());
+                    break;
+
+                case "key":
+                    this.setKey(reference.getKey());
+                    break;
+
+                case "pages":
+                    this.setPages(reference.getPages());
+                    break;
+
+                case "month":
+                    this.setMonth(reference.getMonth());
+                    break;
+
+                case "note":
+                    this.setNote(reference.getNote());
+                    break;
+
+                case "howpublished":
+                    this.setHowpublished(reference.getHowpublished());
+                    break;
+
+                case "address":
+                    this.setAddress(reference.getAddress());
+                    break;
+
+                case "series":
+                    this.setSeries(reference.getSeries());
+                    break;
+
+                case "edition":
+                    this.setEdition(reference.getEdition());
+                    break;
+
+                case "editor":
+                    this.setEditor(reference.getEditor());
+                    break;
+
+                case "number":
+                    this.setNumber(reference.getNumber());
+                    break;
+
+                case "organization":
+                    this.setOrganization(reference.getOrganization());
+                    break;
+            }
+        }
+        
+        this.setKey(reference.getKey());
+        this.setId(reference.getId());
     }
 
     public List<String> getOptionalFields() {
@@ -371,5 +453,10 @@ public class Reference extends AbstractPersistable<Long> {
 
     public void setOrganization(String organization) {
         this.organization = organization;
+    }
+
+    @Override
+    public void setId(Long id) {
+        super.setId(id);
     }
 }

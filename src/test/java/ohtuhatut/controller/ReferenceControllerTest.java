@@ -31,17 +31,6 @@ public class ReferenceControllerTest {
 
     @Autowired
     private ReferenceRepository referenceRepository;
-    @Autowired
-    private BookReferenceRepository bookReferenceRepository;
-    @Autowired
-    private ArticleReferenceRepository articleReferenceRepository;
-    @Autowired
-    private BookletReferenceRepository bookletReferenceRepository;
-    @Autowired
-    private ManualReferenceRepository manualReferenceRepository;
-    @Autowired
-    private InproceedingsReferenceRepository inproceedingsReferenceRepository;
-
 
     @Autowired
     private WebApplicationContext webAppContext;
@@ -60,7 +49,7 @@ public class ReferenceControllerTest {
 
     @Test
     public void getRequestToCreateANewReferenceHasStatusOK() throws Exception {
-        MvcResult result = mockMvc.perform(get(API_URI + "/new"))
+        MvcResult result = mockMvc.perform(get(API_URI + "/choose"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("reference_choose"))
                 .andReturn();
@@ -71,6 +60,7 @@ public class ReferenceControllerTest {
 
         BookletReference blr = new BookletReference();
         blr.setTitle("test");
+        blr.setKey("test");
         referenceRepository.save(blr);
 
         MvcResult result = mockMvc.perform(get(API_URI + "/" + blr.getId()))
@@ -80,190 +70,215 @@ public class ReferenceControllerTest {
                 .andReturn();
     }
 
+
+    // -------------- book references
+
     @Test
     public void getRequestToCreateANewBookReferenceWorks() throws Exception {
 
-        MvcResult result = mockMvc.perform(get(API_URI + "/bookreferences/new"))
+        MvcResult result = mockMvc.perform(get(API_URI + "/new?type=book"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(model().attribute("referenceType", is("bookreferences")))
                 .andExpect(view().name("reference_new"))
                 .andReturn();
     }
 
 
     @Test
-    public void postRequestToBookreferencesNewSavesABookreferenceToDatabase() throws Exception {
+    public void postRequestToCreateNewBookReferenceSavesTheReferenceToDatabase() throws Exception {
 
-        mockMvc.perform(post(API_URI + "/bookreferences/new")
+        mockMvc.perform(post(API_URI + "/new")
                 .param("author", "tester")
                 .param("title", "test")
                 .param("publisher", "testingplace")
                 .param("year", "2016")
-                .param("key", "key1"));
+                .param("key", "key1")
+                .param("type", "book"));
 
-        assertTrue(bookReferenceRepository.count() == 1);
+        assertTrue(referenceRepository.count() == 1);
 
     }
 
     @Test
     public void postToCreateNotValidBookreferenceDoesNotSave() throws Exception {
 
-        mockMvc.perform(post(API_URI + "/bookreferences/new")
+        mockMvc.perform(post(API_URI + "/new")
                 .param("title", "test")
                 .param("publisher", "testingplace")
-                .param("year", "2016"));
+                .param("year", "2016")
+                .param("type", "book"));
 
-        assertTrue(bookReferenceRepository.count() == 0);
+        assertTrue(referenceRepository.count() == 0);
 
     }
+
+    // <-- book references
+
+    // -------------- article references
 
 
     @Test
     public void getRequestToCreateANewArticleReferenceWorks() throws Exception {
 
-        MvcResult result = mockMvc.perform(get(API_URI + "/articlereferences/new"))
+        MvcResult result = mockMvc.perform(get(API_URI + "/new?type=article"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(model().attribute("referenceType", is("articlereferences")))
                 .andExpect(view().name("reference_new"))
                 .andReturn();
     }
 
-    @Test
-    public void postRequestToArticlereferencesNewSavesAArticlereferenceToDatabase() throws Exception {
 
-        mockMvc.perform(post(API_URI + "/articlereferences/new")
+    @Test
+    public void postRequestToCreateNewArticleReferenceSavesTheReferenceToDatabase() throws Exception {
+
+        mockMvc.perform(post(API_URI + "/new")
                 .param("author", "tester")
                 .param("title", "test")
                 .param("journal", "testingplace")
                 .param("volume","1")
                 .param("year", "2016")
-                .param("key", "key2"));
+                .param("key", "key2")
+                .param("type", "article"));
 
-        assertTrue(articleReferenceRepository.count() == 1);
-
+        assertTrue(referenceRepository.count() == 1);
     }
 
     @Test
-    public void postToCreateNotValidArticlereferenceDoesNotSave() throws Exception {
+    public void postToCreateNotValidArticleReferenceDoesNotSave() throws Exception {
 
-        mockMvc.perform(post(API_URI + "/articlereferences/new")
+        mockMvc.perform(post(API_URI + "/new")
                 .param("title", "test")
-                .param("journal", "testingplace")
-                .param("volume","1")
-                .param("year", "2016"));
+                .param("year", "2016")
+                .param("type", "article"));
 
-        assertTrue(articleReferenceRepository.count() == 0);
+        assertTrue(referenceRepository.count() == 0);
 
     }
+
+    // <-- article references
+
+    // -------------- booklet references
 
     @Test
     public void getRequestToCreateANewBookletReferenceWorks() throws Exception {
 
-        MvcResult result = mockMvc.perform(get(API_URI + "/bookletreferences/new"))
+        MvcResult result = mockMvc.perform(get(API_URI + "/new?type=booklet"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(model().attribute("referenceType", is("bookletreferences")))
                 .andExpect(view().name("reference_new"))
                 .andReturn();
     }
 
     @Test
-    public void postRequestToBookletreferencesNewSavesABookletreferenceToDatabase() throws Exception {
+    public void postRequestToCreateNewBookletReferenceSavesTheReferenceToDatabase() throws Exception {
 
-        mockMvc.perform(post(API_URI + "/bookletreferences/new")
+        mockMvc.perform(post(API_URI + "/new")
                 .param("title", "test")
-                .param("key", "key3"));
+                .param("key", "key2")
+                .param("type", "booklet"));
 
-        assertTrue(bookletReferenceRepository.count() == 1);
-
+        assertTrue(referenceRepository.count() == 1);
     }
 
     @Test
     public void postToCreateNotValidBookletreferenceDoesNotSave() throws Exception {
 
-        mockMvc.perform(post(API_URI + "/bookletreferences/new"));
+        mockMvc.perform(post(API_URI + "/new")
+                .param("type", "booklet"));
 
-        assertTrue(bookletReferenceRepository.count() == 0);
+        assertTrue(referenceRepository.count() == 0);
 
     }
+
+
+    // <-- booklet references
+
+    // -------------- manual references
 
     @Test
     public void getRequestToCreateANewManualReferenceWorks() throws Exception {
 
-        MvcResult result = mockMvc.perform(get(API_URI + "/manualreferences/new"))
+        MvcResult result = mockMvc.perform(get(API_URI + "/new?type=manual"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(model().attribute("referenceType", is("manualreferences")))
                 .andExpect(view().name("reference_new"))
                 .andReturn();
     }
 
     @Test
-    public void postRequestToManualreferencesNewSavesAManualreferenceToDatabase() throws Exception {
+    public void postRequestToCreateNewManualReferenceSavesTheReferenceToDatabase() throws Exception {
 
-        mockMvc.perform(post(API_URI + "/manualreferences/new")
+        mockMvc.perform(post(API_URI + "/new")
                 .param("title", "test")
-                .param("key", "key4"));
+                .param("key", "key4")
+                .param("type", "manual"));
 
-        assertTrue(manualReferenceRepository.count() == 1);
-
+        assertTrue(referenceRepository.count() == 1);
     }
 
     @Test
     public void postToCreateNotValidManualreferenceDoesNotSave() throws Exception {
 
-        mockMvc.perform(post(API_URI + "/manualreferences/new"));
+        mockMvc.perform(post(API_URI + "/new")
+                .param("type", "manual"));
 
-        assertTrue(manualReferenceRepository.count() == 0);
+        assertTrue(referenceRepository.count() == 0);
 
     }
+
+    // <-- manual references
+
+    // -------------- inproceedings references
 
     @Test
     public void getRequestToCreateANewInproceedingsReferenceWorks() throws Exception {
 
-        MvcResult result = mockMvc.perform(get(API_URI + "/inproceedingsreferences/new"))
+        MvcResult result = mockMvc.perform(get(API_URI + "/new?type=inproceedings"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(model().attribute("referenceType", is("inproceedingsreferences")))
                 .andExpect(view().name("reference_new"))
                 .andReturn();
     }
 
-    @Test
-    public void postRequestToInproceedingsreferencesNewSavesAManualreferenceToDatabase() throws Exception {
 
-        mockMvc.perform(post(API_URI + "/inproceedingsreferences/new")
+    @Test
+    public void postRequestToCreateNewInproceedingsReferenceSavesTheReferenceToDatabase() throws Exception {
+
+        mockMvc.perform(post(API_URI + "/new")
                 .param("author", "testAuthor")
                 .param("booktitle", "book")
                 .param("year", "2016")
                 .param("title", "test")
-                .param("key", "key5"));
+                .param("key", "key5")
+                .param("type", "inproceedings"));
 
-        assertTrue(inproceedingsReferenceRepository.count() == 1);
-
+        assertTrue(referenceRepository.count() == 1);
     }
 
     @Test
     public void postToCreateNotValidInproceedingsreferenceDoesNotSave() throws Exception {
-        mockMvc.perform(post(API_URI + "/inproceedingsreferences/new"));
-        assertTrue(inproceedingsReferenceRepository.count() == 0);
+        mockMvc.perform(post(API_URI + "/new")
+                .param("title", "test")
+                .param("type", "inproceedings"));
+        assertTrue(referenceRepository.count() == 0);
 
     }
+
+    // <-- inproceedings references
+
 
     @Test
     public void postToCreateBookreferenceWithNonNumericYearDoesNotWork() throws Exception {
 
         mockMvc.perform(post(API_URI + "/bookreferences/new")
-                .param("title", "testauthor")
+                .param("author", "testauthor")
                 .param("title", "test")
                 .param("publisher", "testingplace")
                 .param("year", "yeah")
-                .param("key", "key6"));
-                
+                .param("key", "key6")
+                .param("type", "book"));
 
-        assertTrue(bookReferenceRepository.count() == 0);
+        assertTrue(referenceRepository.count() == 0);
 
     }
 
