@@ -43,6 +43,22 @@ public class ProductionProfile {
     private ReferenceRepository referenceRepository;
     
     
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws URISyntaxException {
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaDialect(new HibernateJpaDialect());
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
+
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPersistenceUnitName("production");
+        factory.setPackagesToScan("ohtuhatut.domain");
+
+        factory.afterPropertiesSet();
+        return factory;
+    }
+    
     /*
     
     
@@ -66,23 +82,7 @@ public class ProductionProfile {
         transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
         return transactionManager;
     }
-
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws URISyntaxException {
-        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-        factory.setJpaDialect(new HibernateJpaDialect());
-
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
-
-        factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPersistenceUnitName("production");
-        factory.setPackagesToScan("ohtuhatut.domain");
-
-        factory.afterPropertiesSet();
-        return factory;
-    }
-    
+   
     
     @Bean
     public DataSource dataSource() throws URISyntaxException {
