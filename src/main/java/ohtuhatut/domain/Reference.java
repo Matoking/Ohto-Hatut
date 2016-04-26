@@ -33,11 +33,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @DiscriminatorOptions(force = true)
 @Table(name = "Reference")
 public class Reference extends AbstractPersistable<Long> {
-    
-    @ManyToMany(fetch = FetchType.LAZY,
-                cascade = CascadeType.ALL)
-    private List<ReferenceList> referenceLists;
-    
+     
     @Transient
     protected String type;
 
@@ -465,14 +461,6 @@ public class Reference extends AbstractPersistable<Long> {
     @Override
     public void setId(Long id) {
         super.setId(id);
-    }
-
-    public List<ReferenceList> getReferenceLists() {
-        return referenceLists;
-    }
-
-    public void setReferenceLists(List<ReferenceList> referenceLists) {
-        this.referenceLists = referenceLists;
     }
     
 }
