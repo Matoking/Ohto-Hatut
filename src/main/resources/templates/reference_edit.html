@@ -6,7 +6,7 @@
         <div th:replace="fragments/imports :: imports"></div>
     </head>
     <body>
-    <div th:replace="fragments/navbar :: navbar">Navbar</div>
+        <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div class="container">
 
             <h1 th:text="'Edit reference: ' + ${reference.title}"></h1>
@@ -19,14 +19,14 @@
                     <input type="text" id="key" name="key" th:value="${reference.key != null} ? ${reference.key} : ''"/>
                 </p>
                 <p th:each="field : ${reference.fields}" th:if="${field != 'key'}">
-                <span th:if="${#lists.contains(reference.mandatoryFields, field)}">*</span><span th:text="${field} + ':'"></span><br/>
+                    <span th:if="${#lists.contains(reference.mandatoryFields, field)}">*</span><span th:text="${field} + ':'"></span><br/>
 
-                <input th:if="${field =='year'}" th:id="${field}" type="number" th:name="${field}"
-                       th:value="${reference.getField(field) != null} ? ${reference.getField(field)} : ''"/><br/>
-                <input th:if="${field !='year'}" th:id="${field}" type="text" th:name="${field}"
-                       th:value="${reference.getField(field) != null} ? ${reference.getField(field)} : ''"/><br/>
+                    <input th:if="${field =='year'}" th:id="${field}" type="number" th:name="${field}"
+                           th:value="${reference.getField(field) != null} ? ${reference.getField(field)} : ''"/><br/>
+                    <input th:if="${field !='year'}" th:id="${field}" type="text" th:name="${field}"
+                           th:value="${reference.getField(field) != null} ? ${reference.getField(field)} : ''"/><br/>
                 </p>
-                
+
                 <input type="hidden" th:id="id" th:name="id" th:value="${reference.id}"/>
                 <input type="hidden" th:id="type" th:name="type" th:value="${reference.type}"/>
 
