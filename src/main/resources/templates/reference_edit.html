@@ -34,18 +34,6 @@
 
                 <input type="submit" value="Submit"/>
             </form>
-            <form id="delete-reference" action="#" th:action="@{/references/{id}/delete/(id=${reference.id})}" th:object="${reference}" method="post">
-            </form>
-            <button onclick="confirmDeletion()">Delete</button>
         </div>
-    
-    <script>
-        function confirmDeletion() {
-            if (confirm("Confirm deletion of reference") === true) {
-                $("#delete-reference").submit();
-            }
-        }
-    </script>
-    
     </body>
 </html>
