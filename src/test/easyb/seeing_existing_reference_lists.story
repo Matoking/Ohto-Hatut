@@ -9,8 +9,8 @@ description 'user can see any existing reference lists and get more info on them
 
 
 /*
-// commented out at least for now, since easyB doesn't reset the database after running scenarios, causing
-// this test to fail
+// Commented out at least for now, since easyB doesn't reset the database after running scenarios, causing
+// this test to fail. The test works locally when this story is run in isolation.
 scenario "user can not see any lists if there are none", {
 
     given 'the user is at the reference creation page', {
@@ -79,7 +79,7 @@ void getToReferenceListCreationPage() {
     driver.get("http://localhost:8081/referencelists/new")
 }
 
-void createReferenceList(int i) {
+void createReferenceList(i) {
     element = driver.findElement(By.name("name")); 
     element.sendKeys("list" + i);      
     element.submit()
