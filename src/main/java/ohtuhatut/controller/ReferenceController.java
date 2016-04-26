@@ -1,6 +1,7 @@
 package ohtuhatut.controller;
 
 import ohtuhatut.domain.Reference;
+import ohtuhatut.service.ReferenceListService;
 import ohtuhatut.service.ReferenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ReferenceController {
     @Autowired
     private ReferenceService referenceService;
+    
+    @Autowired
+    private ReferenceListService referenceListService;
 
     @RequestMapping(method = RequestMethod.GET)
     public String getAllReferences(Model model) {
@@ -97,4 +101,20 @@ public class ReferenceController {
     }
 
     // <--- new
+    
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.POST)
+    public String deleteReference(@PathVariable Long id) {
+ 
+        Reference reference = referenceService.getReference(id);
+        
+        if (reference == null) {
+            return "404";
+        }
+        
+        referenceListService.removeReference(reference);
+        
+        referenceService.deleteReference(reference);
+        
+        return "redirect:/references/";
+    }
 }

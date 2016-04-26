@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import ohtuhatut.domain.Reference;
 
 
 /**
@@ -28,4 +29,11 @@ public class ReferenceListService {
         return referenceListRepository.findAll();
     }
 
+    public void removeReference(Reference reference) {
+        for (ReferenceList referenceList : referenceListRepository.findAll()) {
+            if (referenceList.getReferences().contains(reference)) {
+                referenceList.removeReference(reference);
+            }
+        }
+    }
 }
