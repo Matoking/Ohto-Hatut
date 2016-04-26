@@ -179,6 +179,13 @@ public class ReferenceTest extends FluentTest {
         assertTrue(pageSource().contains("title is empty"));
     }
     
+    @Test
+    public void nonexistingReferenceCantBeEdited() {
+        getDefaultDriver().get(this.getUrl() + "/references/1000/edit");
+        
+        assertTrue(pageSource().contains("Reference does not exist"));
+    }
+    
     private void createAReference(int i) {
         getToManualReferenceCreationPage();
 

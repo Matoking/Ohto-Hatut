@@ -81,7 +81,7 @@ public class ReferenceServiceTest {
 
     @Test
     public void nullIsReturnedIfEmptyListIsGiven() {
-        assertNull(referenceService.getErrorMessages(new ArrayList<>()));
+        assertNull(referenceService.getErrorMessages(new ArrayList<String>()));
     }
 
 }

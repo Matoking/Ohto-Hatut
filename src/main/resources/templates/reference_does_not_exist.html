@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Reference does not exist</title>
+        <meta charset="UTF-8"></meta>
+        <div th:replace="fragments/imports :: imports"></div>
+    </head>
+    <body>
+        <div th:replace="fragments/navbar :: navbar">Navbar</div>
+        <div class="container">
+
+            <div class="alert alert-danger">
+                <strong>Reference does not exist</strong>
+                <p>This reference does not exist. It may have been deleted.</p>
+            </div>
+        </div>
+    </body>
+</html>

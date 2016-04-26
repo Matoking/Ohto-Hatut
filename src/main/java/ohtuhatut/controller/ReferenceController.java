@@ -35,8 +35,13 @@ public class ReferenceController {
     
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     public String editReference(Model model, @PathVariable Long id) {
-        model.addAttribute("reference", referenceService.getReference(id));
-        return "reference_edit";
+        Reference reference = referenceService.getReference(id);
+        if (reference != null) {
+            model.addAttribute("reference", reference);
+            return "reference_edit";
+        } else {
+            return "reference_does_not_exist";
+        }
     }
     
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
