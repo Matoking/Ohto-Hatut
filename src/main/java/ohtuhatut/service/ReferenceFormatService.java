@@ -61,8 +61,16 @@ public class ReferenceFormatService {
         if (value.equals("year")) {
             bibEntry.addField(getFieldKey(field), new DigitStringValue(value));
         } else {
+            replaceSpecialCharactersToBibtex(value);
             bibEntry.addField(getFieldKey(field), new StringValue(value, StringValue.Style.QUOTED));
         }
+    }
+    
+    private String replaceSpecialCharactersToBibtex(String value) {
+        value = value.replace("ä", "\"{a}");
+        value = value.replace("ö", "\"{o}");
+        value = value.replace("å", "\r{a}");
+        return value;
     }
     
     private Key getFieldKey(String field) {
