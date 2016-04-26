@@ -32,6 +32,10 @@ public class ReferenceService {
         referenceRepository.save(reference);
     }
     
+    public void deleteReference(Reference reference) {
+        referenceRepository.delete(reference);
+    }
+    
     /*
      * Bind reference to its correct type (eg. a "book" Reference will be returned
      * as a BookReference)

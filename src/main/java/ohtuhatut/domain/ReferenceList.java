@@ -44,4 +44,8 @@ public class ReferenceList extends AbstractPersistable<Long> {
     public void setReferences(List<Reference> references) {
         this.references = references;
     }
+    
+    public void removeReference(Reference reference) {
+        references.remove(reference);
+    }
 }
