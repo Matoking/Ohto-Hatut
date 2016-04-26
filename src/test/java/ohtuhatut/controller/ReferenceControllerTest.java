@@ -70,6 +70,16 @@ public class ReferenceControllerTest {
                 .andReturn();
     }
 
+    @Test
+    public void getRequestToAllReferencesWorks() throws Exception {
+
+        MvcResult result = mockMvc.perform(get(API_URI))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("references"))
+                .andExpect(view().name("references"))
+                .andReturn();
+    }
+
 
     // -------------- book references
 
