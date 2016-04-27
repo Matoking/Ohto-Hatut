@@ -113,7 +113,7 @@ public class ReferenceController {
         Reference reference = referenceService.getReference(id);
         
         if (reference == null) {
-            return "404";
+            return "reference_does_not_exist";
         }
         
         referenceListService.removeReference(reference);
