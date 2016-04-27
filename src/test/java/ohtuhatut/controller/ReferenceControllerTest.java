@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
-import static org.hamcrest.Matchers.*;
+import ohtuhatut.domain.Reference;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -291,6 +291,27 @@ public class ReferenceControllerTest {
         assertTrue(referenceRepository.count() == 0);
 
     }
-
+    
+    @Test
+    public void postToDeleteExistingReferenceWillRedirectToReferenceList() throws Exception {
+        mockMvc.perform(post(API_URI + "/new")
+                .param("title", "test")
+                .param("key", "key4")
+                .param("type", "manual"));
+        
+        Reference reference = referenceRepository.findAll().get(0);
+        
+        mockMvc.perform(post(API_URI + "/" + reference.getId() + "/delete"));
+        
+        assertTrue(referenceRepository.count() == 0);
+    }
+    
+    @Test
+    public void postToDeleteNonexistingReferenceWillDisplayError() throws Exception {
+        mockMvc.perform(post(API_URI + "/1/delete/")
+                .param("id", "500"))
+                .andExpect(view().name("reference_does_not_exist"))
+                .andReturn();
+    }
 
 }
