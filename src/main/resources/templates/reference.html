@@ -25,7 +25,7 @@
             <form id="delete-reference" action="#" th:action="@{/references/{id}/delete/(id=${reference.id})}" th:object="${reference}" method="post">
             </form>
         </div>
-
+        <th:block th:replace="fragments/footer :: footer"></th:block>
         <script>
             function confirmDeletion() {
                 if (confirm("Confirm deletion of reference") === true) {

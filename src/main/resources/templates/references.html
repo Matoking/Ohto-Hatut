@@ -20,17 +20,16 @@
                     <a class="btn btn-xs btn-primary" th:href="@{/references/{id}/edit(id=${reference.id})}">Edit</a>
                     <button class="btn btn-xs btn-danger" th:onclick="'confirmDeletion(' + ${reference.id} + ')'">Delete</button>
                     <form th:id="'delete-reference-' + ${reference.id}" action="#" th:action="@{/references/{id}/delete/(id=${reference.id})}" th:object="${reference}" method="post">
-                    </form>
-                </li>
+                    </form></li>
             </ul>
-            
-            <script>
-                function confirmDeletion(referenceId) {
-                    if (confirm("Confirm deletion of reference") === true) {
-                        $("#delete-reference-" + referenceId).submit();
-                    }
-                }
-            </script>
         </div>
+        <th:block th:replace="fragments/footer :: footer"></th:block>
+        <script>
+            function confirmDeletion(referenceId) {
+                if (confirm("Confirm deletion of reference") === true) {
+                    $("#delete-reference-" + referenceId).submit();
+                }
+            }
+        </script>
     </body>
 </html>
