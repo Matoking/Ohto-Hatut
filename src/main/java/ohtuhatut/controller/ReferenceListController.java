@@ -91,6 +91,23 @@ public class ReferenceListController {
         return "redirect:/referencelists/{id}";
         
     }
+    
+    @RequestMapping(value = "/{referenceListId}/references/remove", method = RequestMethod.POST)
+    public String removeReferenceFromList(@PathVariable(value="referenceListId") Long id,
+            @RequestParam(value="referenceId") Long referenceId,
+            RedirectAttributes redirectAttrs) {
+        ReferenceList list = referenceListService.getReferenceList(id);
+        Reference reference = referenceService.getReference(referenceId);
+
+        if (list.getReferences().contains(reference)) {
+            list.getReferences().remove(reference);
+            referenceListService.save(list);
+        }
+
+        redirectAttrs.addAttribute("id", id);
+        
+        return "redirect:/referencelists/{id}";
+    }
 
     @RequestMapping(value = "/{referenceListId}/export", method = RequestMethod.GET)
     public void exportReferenceList(@PathVariable(value="referenceListId") Long id,

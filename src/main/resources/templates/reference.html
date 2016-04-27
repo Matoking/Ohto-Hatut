@@ -10,6 +10,7 @@
             <h1 th:text="${reference.title}"></h1>
             <div>
                 <a class="btn btn-primary" th:href="@{/references/{id}/edit(id=${reference.id})}">Edit</a>
+                <button class="btn btn-danger" onclick="confirmDeletion()">Delete</button>
             </div>
             <div th:each="field : ${reference.mandatoryFields}">
                 <h1 th:text="'*' + ${field} + ':'"></h1>
@@ -21,7 +22,16 @@
                     <span th:text="${reference.getField(field)}"></span>
                 </div>
             </div>
+            <form id="delete-reference" action="#" th:action="@{/references/{id}/delete/(id=${reference.id})}" th:object="${reference}" method="post">
+            </form>
         </div>
         <th:block th:replace="fragments/footer :: footer"></th:block>
+        <script>
+            function confirmDeletion() {
+                if (confirm("Confirm deletion of reference") === true) {
+                    $("#delete-reference").submit();
+                }
+            }
+        </script>
     </body>
 </html>

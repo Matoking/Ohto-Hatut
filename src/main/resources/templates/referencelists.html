@@ -9,8 +9,6 @@
     <body>
         <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div class="container">
-
-
             <h1>Reference lists</h1>
 
             <span th:if="${#lists.isEmpty(referenceLists)}">No reference lists in the database at the moment</span>

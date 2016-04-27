@@ -179,12 +179,44 @@ public class ReferenceTest extends FluentTest {
         assertTrue(pageSource().contains("title is empty"));
     }
     
+    @Test
+    public void nonexistingReferenceCantBeEdited() {
+        getDefaultDriver().get(this.getUrl() + "/references/1000/edit");
+        
+        assertTrue(pageSource().contains("Reference does not exist"));
+    }
+
+    @Test
+    public void referencesPageShowsAllTheExistingReferences() {
+        createAReference(1);
+        createAReference(2);
+        getToReferencesPage();
+
+        assertTrue(pageSource().contains("References"));
+        assertTrue(pageSource().contains("testTitle"));
+
+    }
+
+    @Test
+    public void referencesPageShowsNoReferencesWhenThereAreNoReferences() {
+        getToReferencesPage();
+
+        assertTrue(pageSource().contains("References"));
+        assertTrue(pageSource().contains("No references in the database at the moment"));
+
+    }
+    
     private void createAReference(int i) {
         getToManualReferenceCreationPage();
 
         fill("#title").with("testTitle");
         fill("#key").with("key" + i);
         submit(find("form").first());
+    }
+
+    private void getToReferencesPage() {
+        goTo(getUrl());
+        click(find("#references"));
     }
 
     private void getToReferenceCreationsChoosingPage() {

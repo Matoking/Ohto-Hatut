@@ -7,14 +7,20 @@
         <th:block th:replace="fragments/imports :: imports"></th:block>
     </head>
     <body>
+        <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div class="container">
-            <div th:replace="fragments/navbar :: navbar">Navbar</div>
             <div>
                 <h1 th:text="${referenceList.name}"></h1>
 
                 <ul>
                     <li th:each="reference : ${referenceList.references}">
                         <a th:href="@{/references/{referenceId}/(referenceId=${reference.id})}" th:text="${reference.title}"></a>
+                        
+                        <!-- Button to remove reference from list -->
+                        <form th:action="@{/referencelists/{referenceListId}/references/remove(referenceListId=${referenceList.id})}" method="post">
+                            <input type="hidden" name="referenceId" th:value="${reference.id}"/>
+                            <input class="btn btn-warning btn-xs" type="submit" value="Remove from list"/>
+                        </form>
                     </li>
                 </ul>
             </div>
@@ -24,6 +30,7 @@
                     <div th:if="${not #lists.isEmpty(references)}">
                         <span th:if="${not #lists.containsAll(referenceList.references, references)}">Add a reference:</span>
 
+                        <!-- Select element to add references to list -->
                         <form th:if="${not #lists.containsAll(referenceList.references, references)}"
                               th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}"
                               method="POST">
