@@ -58,7 +58,7 @@ public class ReferenceFormatService {
             return;
         }
         
-        if (value.equals("year")) {
+        if (field.equals("year")) {
             bibEntry.addField(getFieldKey(field), new DigitStringValue(value));
         } else {
             replaceSpecialCharactersToBibtex(value);
