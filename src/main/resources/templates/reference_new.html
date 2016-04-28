@@ -12,7 +12,7 @@
             <h1>Create a new reference</h1>
 
 
-            <p th:if="${emptyFields != null}" th:text="${emptyFields}"></p>
+            <p th:if="${emptyFields != null}" th:text="${emptyFields}" class="alert alert-danger"></p>
 
             <form action="#" th:action="@{/references/new/}" th:object="${reference}" method="post">
                 <p>
