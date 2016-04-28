@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
+import ohtuhatut.domain.BookReference;
 import ohtuhatut.domain.Reference;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -51,7 +52,7 @@ public class ReferenceControllerTest {
     public void getRequestToCreateANewReferenceHasStatusOK() throws Exception {
         MvcResult result = mockMvc.perform(get(API_URI + "/choose"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("reference_choose"))
+                .andExpect(view().name("references/reference_choose"))
                 .andReturn();
     }
 
@@ -66,7 +67,7 @@ public class ReferenceControllerTest {
         MvcResult result = mockMvc.perform(get(API_URI + "/" + blr.getId()))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(view().name("reference"))
+                .andExpect(view().name("references/reference_show"))
                 .andReturn();
     }
 
@@ -76,7 +77,7 @@ public class ReferenceControllerTest {
         MvcResult result = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("references"))
-                .andExpect(view().name("references"))
+                .andExpect(view().name("references/references"))
                 .andReturn();
     }
 
@@ -89,7 +90,7 @@ public class ReferenceControllerTest {
         MvcResult result = mockMvc.perform(get(API_URI + "/new?type=book"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(view().name("reference_new"))
+                .andExpect(view().name("references/reference_new"))
                 .andReturn();
     }
 
@@ -133,7 +134,7 @@ public class ReferenceControllerTest {
         MvcResult result = mockMvc.perform(get(API_URI + "/new?type=article"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(view().name("reference_new"))
+                .andExpect(view().name("references/reference_new"))
                 .andReturn();
     }
 
@@ -175,7 +176,7 @@ public class ReferenceControllerTest {
         MvcResult result = mockMvc.perform(get(API_URI + "/new?type=booklet"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(view().name("reference_new"))
+                .andExpect(view().name("references/reference_new"))
                 .andReturn();
     }
 
@@ -211,7 +212,7 @@ public class ReferenceControllerTest {
         MvcResult result = mockMvc.perform(get(API_URI + "/new?type=manual"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(view().name("reference_new"))
+                .andExpect(view().name("references/reference_new"))
                 .andReturn();
     }
 
@@ -246,7 +247,7 @@ public class ReferenceControllerTest {
         MvcResult result = mockMvc.perform(get(API_URI + "/new?type=inproceedings"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("reference"))
-                .andExpect(view().name("reference_new"))
+                .andExpect(view().name("references/reference_new"))
                 .andReturn();
     }
 
@@ -310,8 +311,20 @@ public class ReferenceControllerTest {
     public void postToDeleteNonexistingReferenceWillDisplayError() throws Exception {
         mockMvc.perform(post(API_URI + "/1/delete/")
                 .param("id", "500"))
-                .andExpect(view().name("reference_does_not_exist"))
-                .andReturn();
+                .andExpect(view().name("references/reference_does_not_exist"));
+    }
+    
+    @Test
+    public void makingAGetRequestToTheReferenceCreationPageWithoutGivingTypeParameterRedirectsToTheChoosingPage() throws Exception {
+        mockMvc.perform(get(API_URI + "/new"))
+                .andExpect(redirectedUrl(API_URI + "/choose"));
+    }
+    
+    @Test
+    public void makingAGetRequestToTheReferenceCreationPageWhenGivingTypeParameterThatNoReferenceTypeHasRedirectsToTheChoosingPage() throws Exception {
+        mockMvc.perform(get(API_URI + "/new?type=randomTypeHere"))
+                .andExpect(redirectedUrl(API_URI + "/choose"));
     }
 
+    
 }

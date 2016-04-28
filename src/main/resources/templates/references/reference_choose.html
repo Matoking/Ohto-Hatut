@@ -10,6 +10,8 @@
         <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div class="container">
             <h1>Choose the type of reference you want to make:</h1>
+            
+            <p th:if="${typeNotChosen}" th:text="${typeNotChosen}" class="alert alert-info"></p>
             <ul>
                 <li><a th:href="@{/references/new?type=book}">Book reference</a></li>
                 <li><a th:href="@{/references/new?type=article}">Article reference</a></li>
