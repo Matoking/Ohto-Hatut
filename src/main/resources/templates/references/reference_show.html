@@ -7,25 +7,31 @@
     <body>
         <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div class="container">
-            <h1 th:text="${reference.title}"></h1>
+            <h1 th:text="${reference.title}">Reference title</h1>
+            
             <div>
                 <a class="btn btn-primary" th:href="@{/references/{id}/edit(id=${reference.id})}">Edit</a>
                 <button class="btn btn-danger" onclick="confirmDeletion()">Delete</button>
             </div>
+            
             <div th:each="field : ${reference.mandatoryFields}">
                 <h1 th:text="'*' + ${field} + ':'"></h1>
                 <span th:text="${reference.getField(field)}"></span>
             </div>
+            
             <div th:each="field : ${reference.optionalFields}">
                 <div th:if="${reference.getField(field) != '' and reference.getField(field) != 'null'}">
                     <h1 th:text="${field} + ':'"></h1>
                     <span th:text="${reference.getField(field)}"></span>
                 </div>
             </div>
+            
             <form id="delete-reference" action="#" th:action="@{/references/{id}/delete/(id=${reference.id})}" th:object="${reference}" method="post">
             </form>
-        </div>
+        </div>       
 
+        <th:block th:replace="fragments/footer :: footer"></th:block>
+        
         <script src="/js/scripts.js"></script>
     </body>
 </html>

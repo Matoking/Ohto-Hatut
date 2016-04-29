@@ -10,7 +10,6 @@
         <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div class="container">
 
-
             <h1>References</h1>
 
             <span th:if="${#lists.isEmpty(references)}">No references in the database at the moment</span>
@@ -23,9 +22,10 @@
                     </form>
                 </li>
             </ul>
-
         </div>
         
+        <th:block th:replace="fragments/footer :: footer"></th:block>
+
         <script src="/js/scripts.js"></script>
     </body>
 </html>

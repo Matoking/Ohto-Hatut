@@ -33,8 +33,10 @@
                 <p>Fields marked with * are mandatory.</p>
 
                 <input type="hidden" th:id="type" th:name="type" th:value="${reference.type}"/><br/>
-                <input type="submit" value="Submit"/>
+                <input class="btn btn-primary" type="submit" value="Submit"/>
             </form>
         </div>
+    
+        <th:block th:replace="fragments/footer :: footer"></th:block>
     </body>
 </html>
