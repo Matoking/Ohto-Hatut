@@ -137,6 +137,20 @@ public class ReferenceListControllerTest {
         assertTrue(referenceLists.get(0).getReferences().size() == 1);
     }
     
+    @Test
+    public void postRequestToDeleteReferenceListDeletesReferenceListButNotReferences() throws Exception {
+        saveListWithAReference();
+        
+        ReferenceList referenceList = referenceListRepository.findAll().get(0);
+        
+        mockMvc.perform(post(API_URI + "/" + referenceList.getId() + "/delete"))
+                .andExpect(status().isFound())
+                .andReturn();
+        
+        assertTrue(referenceListRepository.findAll().isEmpty());
+        assertTrue(referenceRepository.findAll().size() == 1);
+    }
+    
     private void saveListWithAReference() {
 
         ManualReference reference = new ManualReference();

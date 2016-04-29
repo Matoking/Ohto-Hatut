@@ -11,3 +11,9 @@ function confirmDeletion(referenceId) {
         $(deletionFormId).submit();
     }
 }
+
+function confirmListDeletion() {
+    if (confirm("Confirm deletion of reference list")) {
+        $("#delete-reference-list").submit();
+    }
+}
