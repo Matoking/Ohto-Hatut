@@ -69,8 +69,8 @@
                     <div class="panel-heading">Delete reference list</div>
                     <div class="panel-body">
                         <form id="delete-reference-list" action="#" th:action="@{/referencelists/{id}/delete/(id=${referenceList.id})}" th:object="${referenceList}" method="post">
-                            <button class="btn btn-danger" onclick="confirmListDeletion()">Delete</button>
                         </form>
+                        <button class="btn btn-danger" onclick="confirmListDeletion()">Delete</button>
                     </div>
                 </div>
             </div>
