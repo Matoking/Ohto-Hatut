@@ -1,5 +1,6 @@
 package ohtuhatut.service;
 
+import java.util.ArrayList;
 import ohtuhatut.domain.ReferenceList;
 import ohtuhatut.repository.ReferenceListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,10 @@ public class ReferenceListService {
                 referenceList.removeReference(reference);
             }
         }
+    }
+    
+    public void deleteReferenceList(ReferenceList referenceList) {
+        referenceList.setReferences(new ArrayList<Reference>());
+        referenceListRepository.delete(referenceList);
     }
 }

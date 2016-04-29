@@ -90,6 +90,34 @@ public class ReferenceListController {
         attr.addAttribute("id", referenceList.getId().toString());
         return "redirect:/referencelists/{id}";
     }
+    
+    @RequestMapping(value = "/{referenceListId}/rename", method = RequestMethod.POST)
+    public String renameReferenceList(@PathVariable(value = "referenceListId") Long id,
+            @RequestParam(value = "name") String newName,
+            RedirectAttributes attr, Model model) {
+        ReferenceList referenceList = referenceListService.getReferenceList(id);
+        
+        if (newName.isEmpty()) {
+            attr.addAttribute("id", referenceList.getId().toString());
+            return "redirect:/referencelists/{id}";
+        }
+        
+        referenceList.setName(newName);
+        referenceListService.save(referenceList);
+        
+        attr.addAttribute("id", referenceList.getId().toString());
+        return "redirect:/referencelists/{id}";
+    }
+    
+    @RequestMapping(value = "/{referenceListId}/delete", method = RequestMethod.POST)
+    public String renameReferenceList(@PathVariable(value = "referenceListId") Long id,
+            RedirectAttributes attr) {
+        ReferenceList referenceList = referenceListService.getReferenceList(id);
+        
+        referenceListService.deleteReferenceList(referenceList);
+        
+        return "redirect:/referencelists";
+    }
 
     /**
      * Handles the POST request for adding references to a reference list.
