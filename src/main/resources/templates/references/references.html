@@ -10,7 +10,6 @@
         <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div class="container">
 
-
             <h1>References</h1>
 
             <span th:if="${#lists.isEmpty(references)}">No references in the database at the moment</span>
@@ -20,16 +19,13 @@
                     <a class="btn btn-xs btn-primary" th:href="@{/references/{id}/edit(id=${reference.id})}">Edit</a>
                     <button class="btn btn-xs btn-danger" th:onclick="'confirmDeletion(' + ${reference.id} + ')'">Delete</button>
                     <form th:id="'delete-reference-' + ${reference.id}" action="#" th:action="@{/references/{id}/delete/(id=${reference.id})}" th:object="${reference}" method="post">
-                    </form></li>
+                    </form>
+                </li>
             </ul>
         </div>
+        
         <th:block th:replace="fragments/footer :: footer"></th:block>
-        <script>
-            function confirmDeletion(referenceId) {
-                if (confirm("Confirm deletion of reference") === true) {
-                    $("#delete-reference-" + referenceId).submit();
-                }
-            }
-        </script>
+
+        <script src="/js/scripts.js"></script>
     </body>
 </html>

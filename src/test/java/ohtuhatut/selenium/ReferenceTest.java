@@ -182,7 +182,7 @@ public class ReferenceTest extends FluentTest {
 
     @Test
     public void nonexistingReferenceCantBeEdited() {
-        getDefaultDriver().get(this.getUrl() + "/references/1000/edit");
+        goTo(getUrl() + "/references/1000/edit");
 
         assertTrue(pageSource().contains("Reference does not exist"));
     }
@@ -206,6 +206,29 @@ public class ReferenceTest extends FluentTest {
         assertTrue(pageSource().contains("No references in the database at the moment"));
 
     }
+    
+    @Test
+    public void tryingToEnterTheReferenceCreationPageWithoutHavingChosenATypeRedirectsTheUserToTheChoosingPage() {
+        goTo(getUrl() + "/references/new");
+        getDefaultDriver().get(getUrl() + "/references/new");
+        
+        assertTrue(pageSource().contains("Please choose a type first"));
+    }
+    
+    @Test
+    public void tryingToEnterTheReferenceCreationPageWhenGivingATypeThatNoReferenceHasRedirectsTheUserToTheChoosingPage() {
+        goTo(getUrl() + "/references/new");
+        getDefaultDriver().get(getUrl() + "/references/new/?type=randomTypeHere");
+        
+        assertTrue(pageSource().contains("Please choose a type first"));
+    }
+            
+            /*
+            if (type == null || referenceService.typeIsNotKnown(type)) {
+            redirectAttr.addFlashAttribute("typeNotChosen", "Please choose a type first");
+            return "redirect:/references/choose";
+        }
+            */
 
     private void createAReference(int i) {
         getToManualReferenceCreationPage();

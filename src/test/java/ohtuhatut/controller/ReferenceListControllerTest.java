@@ -127,7 +127,7 @@ public class ReferenceListControllerTest {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("referenceLists"))
-                .andExpect(view().name("referencelists"))
+                .andExpect(view().name("referencelists/referencelists"))
                 .andReturn();
         
         List<ReferenceList> referenceLists = (List<ReferenceList>) res.getModelAndView().getModel()

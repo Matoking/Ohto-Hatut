@@ -1,14 +1,20 @@
 package ohtuhatut.service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 import ohtuhatut.Main;
 import ohtuhatut.domain.ArticleReference;
 import ohtuhatut.domain.BookReference;
+import ohtuhatut.domain.BookletReference;
+import ohtuhatut.domain.InproceedingsReference;
+import ohtuhatut.domain.ManualReference;
 import ohtuhatut.domain.Reference;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import org.junit.Before;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +88,116 @@ public class ReferenceServiceTest {
     @Test
     public void nullIsReturnedIfEmptyListIsGiven() {
         assertNull(referenceService.getErrorMessages(new ArrayList<String>()));
+    }
+    
+    @Test
+    public void correctMandatoryFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithBookAsParameter() {
+        Reference reference = new BookReference();
+        List<String> types = referenceService.getMandatoryFields("book");
+        
+        assertEquals(types, reference.getMandatoryFields());
+    }
+    
+    @Test
+    public void correctMandatoryFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithArticleAsParameter() {
+        Reference reference = new ArticleReference();
+        List<String> types = referenceService.getMandatoryFields("article");
+        
+        assertEquals(types, reference.getMandatoryFields());
+    }
+    
+    @Test
+    public void correctMandatoryFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithBookletAsParameter() {
+        Reference reference = new BookletReference();
+        List<String> types = referenceService.getMandatoryFields("booklet");
+        
+        assertEquals(types, reference.getMandatoryFields());
+    }
+    
+    @Test
+    public void correctMandatoryFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithInproceedingsAsParameter() {
+        Reference reference = new InproceedingsReference();
+        List<String> types = referenceService.getMandatoryFields("inproceedings");
+        
+        assertEquals(types, reference.getMandatoryFields());
+    }
+    
+    @Test
+    public void correctMandatoryFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithManualAsParameter() {
+        Reference reference = new ManualReference();
+        List<String> types = referenceService.getMandatoryFields("manual");
+        
+        assertEquals(types, reference.getMandatoryFields());
+    }
+    
+    @Test
+    public void correctOptionalFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithBookAsParameter() {
+        Reference reference = new BookReference();
+        List<String> types = referenceService.getOptionalFields("book");
+        
+        assertEquals(types, reference.getOptionalFields());
+    }
+    
+    @Test
+    public void correctOptionalFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithArticleAsParameter() {
+        Reference reference = new ArticleReference();
+        List<String> types = referenceService.getOptionalFields("article");
+        
+        assertEquals(types, reference.getOptionalFields());
+    }
+    
+    @Test
+    public void correctOptionalFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithBookletAsParameter() {
+        Reference reference = new BookletReference();
+        List<String> types = referenceService.getOptionalFields("booklet");
+        
+        assertEquals(types, reference.getOptionalFields());
+    }
+    
+    @Test
+    public void correctOptionalFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithInproceedingsAsParameter() {
+        Reference reference = new InproceedingsReference();
+        List<String> types = referenceService.getOptionalFields("inproceedings");
+        
+        assertEquals(types, reference.getOptionalFields());
+    }
+    
+    @Test
+    public void correctOptionalFieldsAreReturnedWhenCallingMethodGetMandatoryFieldsWithManualAsParameter() {
+        Reference reference = new ManualReference();
+        List<String> types = referenceService.getOptionalFields("manual");
+        
+        assertEquals(types, reference.getOptionalFields());
+    }
+    
+    @Test
+    public void theMethodTypeIsNotKnownReturnsTrueWhenNoReferenceHasTheGivenType() {
+        assertTrue(referenceService.typeIsNotKnown("randomTypeHere"));
+    }
+    
+    @Test
+    public void theMethodTypeIsNotKnownReturnsFalseWhenGivingTheTypeOfAManualReference() {
+        assertFalse(referenceService.typeIsNotKnown("manual"));
+    }
+    
+    @Test
+    public void theMethodTypeIsNotKnownReturnsFalseWhenGivingTheTypeOfAnInproceedingsReference() {
+        assertFalse(referenceService.typeIsNotKnown("inproceedings"));
+    }
+    
+    @Test
+    public void theMethodTypeIsNotKnownReturnsFalseWhenGivingTheTypeOfABookReference() {
+        assertFalse(referenceService.typeIsNotKnown("book"));
+    }
+    
+    @Test
+    public void theMethodTypeIsNotKnownReturnsFalseWhenGivingTheTypeOfABookletReference() {
+        assertFalse(referenceService.typeIsNotKnown("booklet"));
+    }
+    
+    @Test
+    public void theMethodTypeIsNotKnownReturnsFalseWhenGivingTheTypeOfAnArticleReference() {
+        assertFalse(referenceService.typeIsNotKnown("article"));
     }
 
 }
