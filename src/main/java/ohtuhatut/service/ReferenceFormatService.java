@@ -71,16 +71,19 @@ public class ReferenceFormatService {
         if (field.equals("year")) {
             bibEntry.addField(getFieldKey(field), new DigitStringValue(value));
         } else {
-            replaceSpecialCharactersToBibtex(value);
-            bibEntry.addField(getFieldKey(field), new StringValue(value, StringValue.Style.QUOTED));
+            String formattedValue = replaceSpecialCharactersToBibtex(value);
+            bibEntry.addField(getFieldKey(field), new StringValue(formattedValue, StringValue.Style.QUOTED));
         }
     }
     
     private String replaceSpecialCharactersToBibtex(String value) {
-        value = value.replace("ä", "\"{a}");
-        value = value.replace("ö", "\"{o}");
-        value = value.replace("å", "\r{a}");
-        return value;
+        String lowerCaseA = value.replace("ä", "{\\\"a}");
+        String upperCaseA = lowerCaseA.replace("Ä", "{\\\"A}");
+        String lowerCaseO = upperCaseA.replace("ö", "{\\\"o}");
+        String upperCaseO = lowerCaseO.replace("Ö", "{\\\"O}");
+        String lowerCase2ndA = upperCaseO.replace("å", "{\\aa}");
+        String upperCase2ndA = lowerCase2ndA.replace("Å", "{\\AA}");
+        return upperCase2ndA;
     }
     
     private Key getFieldKey(String field) {
