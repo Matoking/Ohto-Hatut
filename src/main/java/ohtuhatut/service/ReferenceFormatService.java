@@ -71,8 +71,8 @@ public class ReferenceFormatService {
         if (field.equals("year")) {
             bibEntry.addField(getFieldKey(field), new DigitStringValue(value));
         } else {
-            replaceSpecialCharactersToBibtex(value);
-            bibEntry.addField(getFieldKey(field), new StringValue(value, StringValue.Style.QUOTED));
+            String formattedValue = replaceSpecialCharactersToBibtex(value);
+            bibEntry.addField(getFieldKey(field), new StringValue(formattedValue, StringValue.Style.QUOTED));
         }
     }
     

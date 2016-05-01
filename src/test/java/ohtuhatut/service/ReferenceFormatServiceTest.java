@@ -21,6 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Main.class)
 public class ReferenceFormatServiceTest {
 
     @Autowired
@@ -36,13 +39,11 @@ public class ReferenceFormatServiceTest {
         List<Reference> references = new ArrayList<>();
         Reference ref = new ManualReference();
         
-
         ref.setKey("key1");
-        ref.setTitle("TäTöTå");
+        ref.setTitle("tätä");
         references.add(ref);
-        
-        System.out.println(references);
-        System.out.println(referenceFormatService.formatReferencesToBibTeX(references));
+       
+        assertTrue(referenceFormatService.formatReferencesToBibTeX(references).contains("t{\\\"a}t{\\\"a}"));
     }
 
 }
