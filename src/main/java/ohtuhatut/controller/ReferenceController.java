@@ -1,5 +1,6 @@
 package ohtuhatut.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import ohtuhatut.domain.Reference;
 import ohtuhatut.service.ReferenceListService;
@@ -56,6 +57,7 @@ public class ReferenceController {
             return "references/reference_does_not_exist";
         }
 
+        model.addAttribute("emptyFields", new ArrayList<>());
         model.addAttribute("reference", reference);
         return "references/reference_edit";
     }
@@ -76,7 +78,8 @@ public class ReferenceController {
         reference = referenceService.bindReference(reference);
 
         if (!reference.getEmptyMandatoryFields().isEmpty()) {
-            model.addAttribute("emptyFields", referenceService.getErrorMessages(reference.getEmptyMandatoryFields()));
+            model.addAttribute("emptyFieldMessage", referenceService.getErrorMessages(reference.getEmptyMandatoryFields()));
+            model.addAttribute("emptyFields", reference.getEmptyMandatoryFields());
             model.addAttribute("reference", referenceService.getReference(reference.getId()));
             return "references/reference_edit";
         }
@@ -120,6 +123,7 @@ public class ReferenceController {
         List<String> fields = referenceService.getMandatoryFields(type);
         fields.addAll(referenceService.getOptionalFields(type));
         
+        model.addAttribute("emptyFields", new ArrayList<>());
         model.addAttribute("mandatoryFields", referenceService.getMandatoryFields(type));
         model.addAttribute("optionalFields", referenceService.getOptionalFields(type));
         model.addAttribute("fields", fields);
@@ -142,10 +146,13 @@ public class ReferenceController {
         reference = referenceService.bindReference(reference);
 
         if (!reference.getEmptyMandatoryFields().isEmpty()) {
-            model.addAttribute("emptyFields", referenceService.getErrorMessages(reference.getEmptyMandatoryFields()));
+            model.addAttribute("emptyFieldMessage", referenceService.getErrorMessages(reference.getEmptyMandatoryFields()));
+            model.addAttribute("emptyFields", reference.getEmptyMandatoryFields());
             model.addAttribute("reference", reference);
-            model.addAttribute("mandatoryFields", referenceService.getMandatoryFields(reference.getType()));
-            model.addAttribute("optionalFields", referenceService.getOptionalFields(reference.getType()));
+            
+            model.addAttribute("mandatoryFields", reference.getMandatoryFields());
+            model.addAttribute("optionalFields", reference.getOptionalFields());
+            model.addAttribute("fields", reference.getFields());
             return "references/reference_new";
         }
         referenceService.saveReference(reference);
