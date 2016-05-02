@@ -170,5 +170,75 @@ public class ReferenceService {
         return allTypes.get(type) == null;
     }
     
+    public boolean referenceKeyAlreadyUsed(String key) {
+        return !referenceRepository.findByKey(key).isEmpty();
+    }
+    
+    /**
+     * Returns an error message if key has already been used. If the key hasn't
+     * been used, then null is returned.
+     * 
+     * @param key A reference's Bibtex key
+     * @return error message if key has been used, or null if it has not been
+     * used
+     */
+    public String keyNotUniqueErrorMessage(String key) {
+        if (referenceKeyAlreadyUsed(key)) {
+            return "That key has already been used, please use another key";
+        }
+        return null;
+    }
+    
+    /**
+     * Returns an error message if a given reference's key is in use on some
+     * other reference. If it is not, then null is returned
+     * 
+     * @param reference a reference to be compared to
+     * @return error message if key has been used on some other reference, or 
+     * null if it has not been used
+     */
+    public String keyIsInUseOnSomeOtherReferenceErrorMessage(Reference reference) {
+        if (referenceKeyAlreadyUsedOnSomeOtherReference(reference)) {
+            return "That key is in use on another reference, please use another key";
+        }
+        return null;
+    }
+    
+    /**
+     * Checks if a key has already been used, and if it has, checks if the
+     * reference having that key is the same reference as the one given as the
+     * parameter. This method can be used for editing references - if the 
+     * reference is the same one, then it must be able to be resaved with the
+     * key it already has, and the check must be applied only to other
+     * references.
+     * 
+     * @param reference Reference to be compared to the ones in the database
+     * @return true if reference's key has been used on some other reference
+     * than the one received as the parameter. Otherwise false is returned.
+     */
+    public boolean referenceKeyAlreadyUsedOnSomeOtherReference(Reference reference) {
+        List<Reference> references = referenceRepository.findByKey(reference.getKey());       
+        
+        for (Reference ref : references) {
+            if (referencesAreTheSame(ref, reference)) {
+                continue;
+            }
+            
+            if (keysAreTheSame(ref.getKey(), reference.getKey())) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    private boolean referencesAreTheSame(Reference ref1, Reference ref2) {
+        return ref1.getId().equals(ref2.getId());
+    }
+    
+    private boolean keysAreTheSame(String key1, String key2) {
+        return key1.equals(key2);
+    }
+    
     
 }

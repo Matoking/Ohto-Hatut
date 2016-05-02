@@ -1,6 +1,7 @@
 
 package ohtuhatut.repository;
 
+import java.util.List;
 import ohtuhatut.domain.Reference;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,5 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author tuomokar
  */
 public interface ReferenceRepository extends JpaRepository<Reference, Long>  {
-    
+    List<Reference> findByKey(String key);
 }
