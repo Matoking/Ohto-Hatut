@@ -16,11 +16,15 @@
             <div class="alert alert-danger" th:if="${emptyFieldMessage != null}">
                 <p th:text="${emptyFieldMessage}"></p>
             </div>
+            
+            <div th:if="${keyUsed}" class="alert alert-danger">
+                <p th:text="${keyUsed}"></p>
+            </div>
 
             <form class="form-horizontal" action="#" th:action="@{/references/{id}/edit/(id=${reference.id})}" th:object="${reference}" method="post">
                 <div class="form-group">
                     <label for="key" class="col-sm-2 control-label">*Key:</label>
-                    <div class="col-sm-10" th:classappend="${emptyFields.contains('key')} ? 'has-error'">
+                    <div class="col-sm-10" th:classappend="${emptyFields.contains('key')} or ${keyUsed} ? 'has-error'">
                         <input class="form-control" type="text" id="key" name="key" th:value="${reference.key != null} ? ${reference.key} : ''"/>
                     </div>
                 </div>

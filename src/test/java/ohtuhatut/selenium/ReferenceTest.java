@@ -223,17 +223,34 @@ public class ReferenceTest extends FluentTest {
         assertTrue(pageSource().contains("Please choose a type first"));
     }
             
-            /*
-            if (type == null || referenceService.typeIsNotKnown(type)) {
-            redirectAttr.addFlashAttribute("typeNotChosen", "Please choose a type first");
-            return "redirect:/references/choose";
-        }
-            */
+    @Test
+    public void tryingToGiveAKeyThatHasAlreadyBeenUsedGivesErrorMessage() {
+        createAReference(3);
+        createAReference(3);
+        
+        assertTrue(pageSource().contains("That key has already been used, please use another key"));
+    }
+    
+    @Test
+    public void tryingToGiveAnAlreadyUsedKeyAndLeavingMandatoryFieldsEmptyGivesErrorMessagesForBoth() {
+        createAReference(3);
+        tryToCreateReferenceWithoutTitle(3);
+        
+        assertTrue(pageSource().contains("That key has already been used, please use another key"));
+        assertTrue(pageSource().contains("title is empty"));
+    }    
 
     private void createAReference(int i) {
         getToManualReferenceCreationPage();
 
         fill("#title").with("testTitle");
+        fill("#key").with("key" + i);
+        submit(find("form").first());
+    }
+    
+    private void tryToCreateReferenceWithoutTitle(int i) {
+        getToManualReferenceCreationPage();
+        
         fill("#key").with("key" + i);
         submit(find("form").first());
     }
@@ -272,4 +289,5 @@ public class ReferenceTest extends FluentTest {
         getToReferenceCreationsChoosingPage();
         click(find("a", withText("Inproceedings reference")));
     }
+    
 }
