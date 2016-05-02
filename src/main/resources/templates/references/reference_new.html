@@ -9,31 +9,36 @@
         <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div class="container">
 
-            <h1>Create a new reference</h1>
-
+            <div class="page-header">
+                <h1>Create a new reference</h1>
+            </div>
 
             <p th:if="${emptyFields}" th:text="${emptyFields}" class="alert alert-danger"></p>
 
-            <form action="#" th:action="@{/references/new/}" th:object="${reference}" method="post">
-                <p>
-                    <span>*Key:</span><br/>
-                    <input id="key" name="key"/>
-                </p>
-                <p th:each="field : ${mandatoryFields}" th:if="${field != 'key'}">
-                    <span>*</span><span th:text="${field} + ':'"></span><br/>
-                    <input th:if="${field =='year'}" th:id="${field}" type="number" th:name="${field}"/><br/>
-                    <input th:if="${field !='year'}" th:id="${field}" type="text" th:name="${field}"/><br/>
-                </p>
-                <p th:each="field : ${optionalFields}" th:if="${field != 'key'}">
-                    <span th:text="${field} + ':'"></span><br/>
-                    <input th:if="${field =='year'}" th:id="${field}" type="number" th:name="${field}"/><br/>
-                    <input th:if="${field !='year'}" th:id="${field}" type="text" th:name="${field}"/><br/>
-                </p>
-
-                <p>Fields marked with * are mandatory.</p>
-
-                <input type="hidden" th:id="type" th:name="type" th:value="${reference.type}"/><br/>
-                <input class="btn btn-primary" type="submit" value="Submit"/>
+            <form class="form-horizontal" action="#" th:action="@{/references/new/}" th:object="${reference}" method="post">
+                <div class="form-group">
+                    <label for="key" class="col-sm-2 control-label">*Key:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" id="key" name="key"/>
+                    </div>
+                </div>
+                
+                <div class="form-group" th:each="field : ${fields}" th:if="${field != 'key'}">
+                    <label th:style="${mandatoryFields.contains(field)} ? 'font-weight: bold' : 'font-weight: normal'" for="${field}" class="col-sm-2 control-label"><span th:if="${mandatoryFields.contains(field)}">*</span><span th:text="${field} + ':'"></span></label>
+                    <div class="col-sm-10">
+                        <input class="form-control" th:if="${field =='year'}" th:id="${field}" type="number" th:name="${field}"/>
+                        <input class="form-control" th:if="${field !='year'}" th:id="${field}" type="text" th:name="${field}"/>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <p>Fields marked with * are mandatory.</p>
+                        <hr/>
+                        <input type="hidden" th:id="type" th:name="type" th:value="${reference.type}"/><br/>
+                        <input class="btn btn-primary" type="submit" value="Submit"/>
+                    </div>
+                </div>
             </form>
         </div>
     

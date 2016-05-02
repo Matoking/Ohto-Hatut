@@ -1,5 +1,6 @@
 package ohtuhatut.controller;
 
+import java.util.List;
 import ohtuhatut.domain.Reference;
 import ohtuhatut.service.ReferenceListService;
 import ohtuhatut.service.ReferenceService;
@@ -115,8 +116,13 @@ public class ReferenceController {
         Reference ref = new Reference();
         ref.setType(type);
         model.addAttribute("reference", ref);
+        
+        List<String> fields = referenceService.getMandatoryFields(type);
+        fields.addAll(referenceService.getOptionalFields(type));
+        
         model.addAttribute("mandatoryFields", referenceService.getMandatoryFields(type));
         model.addAttribute("optionalFields", referenceService.getOptionalFields(type));
+        model.addAttribute("fields", fields);
 
         return "references/reference_new";
     }
