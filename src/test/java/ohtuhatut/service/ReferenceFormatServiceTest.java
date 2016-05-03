@@ -66,6 +66,7 @@ public class ReferenceFormatServiceTest {
 
         ref.setKey("key1");
         ref.setTitle("tÅtå");
+        ref.setYear(1999);
         references.add(ref);
 
         assertTrue(referenceFormatService.formatReferencesToBibTeX(references).contains("t{\\AA}t{\\aa}"));
