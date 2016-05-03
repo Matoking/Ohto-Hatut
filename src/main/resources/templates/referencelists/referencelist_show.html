@@ -12,7 +12,7 @@
             <div class="page-header">
                 <h1 th:text="${referenceList.name}"></h1>
             </div>
-            
+
             <div class="col-md-9">
                 <ul>
                     <li th:each="reference : ${referenceList.references}">
@@ -42,7 +42,7 @@
                             </select>
 
                             <br/>
-                            <p><input class="btn btn-primary" type="submit" value="add reference"/></p>             
+                            <p><input class="btn btn-primary" type="submit" value="add reference"/></p>
                         </form>
                     </div>
                     <div th:if="${not #lists.isEmpty(referenceList.references)}">
@@ -76,7 +76,11 @@
             </div>
         </div>
         <th:block th:replace="fragments/footer :: footer"></th:block>
-        
+        <script>
+            $(document).ready(function() {
+                $("select").searchable();
+            });
+        </script>
         <script src="/js/scripts.js"></script>
     </body>
 </html>
