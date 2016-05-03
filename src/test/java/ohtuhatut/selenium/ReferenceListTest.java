@@ -1,10 +1,12 @@
 
 package ohtuhatut.selenium;
 
+import ohtuhatut.domain.Reference;
 import ohtuhatut.repository.ReferenceListRepository;
 import ohtuhatut.repository.ReferenceRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.fluentlenium.adapter.FluentTest;
+import static org.fluentlenium.core.filter.FilterConstructor.withId;
 
 import static org.fluentlenium.core.filter.FilterConstructor.withText;
 import static org.junit.Assert.assertEquals;
@@ -154,6 +156,55 @@ public class ReferenceListTest extends FluentTest {
         click(find("a", withText("testList1")));
         
         assertTrue(pageSource().contains("No references in the database at the moment for you to add"));
+    }
+    
+    @Test
+    public void userCanRemoveReferencesFromAReferenceList() {
+        createAReference(1);
+        createAReference(2);
+        createAReferenceList();
+
+        fillSelect("#referencesAvailable").withIndex(0);
+        
+        submit(find("form", withId("addReferenceForm")).first());
+        
+        assertTrue(pageSource().contains("testTitle"));
+        
+        Reference reference = referenceRepository.findAll().get(0);
+        
+        submit(find("#removeReference-" + reference.getId()));
+        
+        assertTrue(!pageSource().contains("Remove from list"));
+    }
+    
+    @Test
+    public void userCanRenameReferenceList() {
+        createAReferenceList();
+        
+        assertTrue(pageSource().contains("testList"));
+        
+        fill("#name").with("newTestList");
+        
+        submit(find("form", withId("renameForm")));
+        
+        assertTrue(pageSource().contains("newTestList"));
+        
+        getToReferenceListsPage();
+        
+        assertTrue(pageSource().contains("newTestList"));
+    }
+    
+    @Test
+    public void userCantRenameReferenceListToBeBlank() {
+        createAReferenceList();
+        
+        assertTrue(pageSource().contains("testList"));
+        
+        fill("#name").with("");
+        
+        submit(find("form", withId("renameForm")));
+        
+        assertTrue(pageSource().contains("testList"));
     }
     
     private void createAReferenceList() {

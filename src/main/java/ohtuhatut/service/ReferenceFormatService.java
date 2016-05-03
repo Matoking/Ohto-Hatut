@@ -22,6 +22,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ReferenceFormatService {
+    
+    private Map<String, Key> keys;
+    
+    public ReferenceFormatService() {
+        keys = new HashMap<>();
+        
+        fillAttributeKeys();
+        fillTypeKeys();
+    }
+    
     public String formatReferencesToBibTeX(List<Reference> references) {
         StringWriter writer = new StringWriter();
         BibTeXDatabase database = new BibTeXDatabase();
@@ -58,15 +68,33 @@ public class ReferenceFormatService {
             return;
         }
         
-        if (value.equals("year")) {
+        if (field.equals("year")) {
             bibEntry.addField(getFieldKey(field), new DigitStringValue(value));
         } else {
-            bibEntry.addField(getFieldKey(field), new StringValue(value, StringValue.Style.QUOTED));
+            String formattedValue = replaceSpecialCharactersToBibtex(value);
+            bibEntry.addField(getFieldKey(field), new StringValue(formattedValue, StringValue.Style.QUOTED));
         }
     }
     
+    private String replaceSpecialCharactersToBibtex(String value) {
+        String lowerCaseA = value.replace("ä", "{\\\"a}");
+        String upperCaseA = lowerCaseA.replace("Ä", "{\\\"A}");
+        String lowerCaseO = upperCaseA.replace("ö", "{\\\"o}");
+        String upperCaseO = lowerCaseO.replace("Ö", "{\\\"O}");
+        String lowerCase2ndA = upperCaseO.replace("å", "{\\aa}");
+        String upperCase2ndA = lowerCase2ndA.replace("Å", "{\\AA}");
+        return upperCase2ndA;
+    }
+    
     private Key getFieldKey(String field) {
-        Map<String, Key> keys = new HashMap<String, Key>();
+        return keys.get(field);
+    }
+    
+    private Key getTypeKey(String type) {     
+        return keys.get(type);
+    }
+    
+    private void fillAttributeKeys() {
         keys.put("author", BibTeXEntry.KEY_AUTHOR);
         keys.put("title", BibTeXEntry.KEY_TITLE);
         keys.put("journal", BibTeXEntry.KEY_JOURNAL);
@@ -85,18 +113,13 @@ public class ReferenceFormatService {
         keys.put("editor", BibTeXEntry.KEY_EDITOR);
         keys.put("number", BibTeXEntry.KEY_NUMBER);
         keys.put("organization", BibTeXEntry.KEY_ORGANIZATION);
-
-        return keys.get(field);
     }
     
-    private Key getTypeKey(String type) {
-        Map<String, Key> keys = new HashMap<String, Key>();
+    private void fillTypeKeys() {
         keys.put("article", BibTeXEntry.TYPE_ARTICLE);
         keys.put("book", BibTeXEntry.TYPE_BOOK);
         keys.put("booklet", BibTeXEntry.TYPE_BOOKLET);
         keys.put("manual", BibTeXEntry.TYPE_MANUAL);
         keys.put("inproceedings", BibTeXEntry.TYPE_INPROCEEDINGS);
-        
-        return keys.get(type);
     }
 }

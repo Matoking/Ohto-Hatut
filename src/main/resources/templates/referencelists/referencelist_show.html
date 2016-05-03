@@ -9,29 +9,29 @@
     <body>
         <div th:replace="fragments/navbar :: navbar">Navbar</div>
         <div class="container">
-            <div>
+            <div class="page-header">
                 <h1 th:text="${referenceList.name}"></h1>
+            </div>
 
+            <div class="col-md-9">
                 <ul>
                     <li th:each="reference : ${referenceList.references}">
                         <a th:href="@{/references/{referenceId}/(referenceId=${reference.id})}" th:text="${reference.title}"></a>
-                        
+
                         <!-- Button to remove reference from list -->
-                        <form th:action="@{/referencelists/{referenceListId}/references/remove(referenceListId=${referenceList.id})}" method="post">
+                        <form th:id="'removeReference-' + ${reference.id}" style="display: inline-block;" th:action="@{/referencelists/{referenceListId}/references/remove(referenceListId=${referenceList.id})}" method="post">
                             <input type="hidden" name="referenceId" th:value="${reference.id}"/>
                             <input class="btn btn-warning btn-xs" type="submit" value="Remove from list"/>
                         </form>
                     </li>
                 </ul>
-            </div>
-            <div>
                 <div>
                     <span th:if="${#lists.isEmpty(references) or #lists.containsAll(referenceList.references, references)}">No references in the database at the moment for you to add</span>
                     <div th:if="${not #lists.isEmpty(references)}">
                         <span th:if="${not #lists.containsAll(referenceList.references, references)}">Add a reference:</span>
 
                         <!-- Select element to add references to list -->
-                        <form th:if="${not #lists.containsAll(referenceList.references, references)}"
+                        <form id="addReferenceForm" th:if="${not #lists.containsAll(referenceList.references, references)}"
                               th:action="@{/referencelists/{referenceListId}/references/(referenceListId=${referenceList.id})}"
                               method="POST">
 
@@ -41,7 +41,8 @@
                                         th:value="${reference.id}" th:text="${reference.title}"></option>
                             </select>
 
-                            <p><input class="btn btn-primary" type="submit" value="add reference"/></p>             
+                            <br/>
+                            <p><input class="btn btn-primary" type="submit" value="add reference"/></p>
                         </form>
                     </div>
                     <div th:if="${not #lists.isEmpty(referenceList.references)}">
@@ -53,6 +54,26 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Rename reference list</div>
+                    <div class="panel-body">
+                        <form id="renameForm" th:action="@{/referencelists/{listId}/rename(listId=${referenceList.id})}" th:object="${referenceList}" method="post">
+                            <input type="hidden" th:id="id" th:name="id" th:value="${referenceList.id}"/>
+                            <input id="name" name="name" class="form-control" type="text" th:value="${referenceList.name}"/><br/>
+                            <input type="submit" class="btn btn-primary" value="Rename"/>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Delete reference list</div>
+                    <div class="panel-body">
+                        <form id="delete-reference-list" action="#" th:action="@{/referencelists/{id}/delete/(id=${referenceList.id})}" th:object="${referenceList}" method="post">
+                        </form>
+                        <button class="btn btn-danger" onclick="confirmListDeletion()">Delete</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <th:block th:replace="fragments/footer :: footer"></th:block>
         <script>
@@ -60,5 +81,6 @@
                 $("select").searchable();
             });
         </script>
+        <script src="/js/scripts.js"></script>
     </body>
 </html>

@@ -1,12 +1,13 @@
 package ohtuhatut.service;
 
+import java.util.HashMap;
 import ohtuhatut.domain.*;
 import ohtuhatut.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author sofiak
@@ -19,6 +20,21 @@ public class ReferenceService {
 
     @Autowired
     private ReferenceRepository referenceRepository;
+    
+    private Map<String, String> allTypes;
+    
+    public ReferenceService() {
+        allTypes = new HashMap<>();
+        populateTypes();
+    }
+    
+    private void populateTypes() {
+        allTypes.put("manual", "manual");
+        allTypes.put("inproceedings", "inproceedings");
+        allTypes.put("booklet", "booklet");
+        allTypes.put("book", "book");
+        allTypes.put("article", "article");
+    }
 
     public Reference getReference(Long id) {
         return referenceRepository.findOne(id);
@@ -116,108 +132,113 @@ public class ReferenceService {
     }
 
     /**
-     * Get mandatory fields for viewing reference_new.html.
+     * Get mandatory fields for viewing reference_new.html. The method gets
+     * the mandatory fields through creating a new reference and binding that
+     * to the type given as the parameter.
+     * 
      * @param type type of the reference
      * @return fields
      */
-    public static List<String> getMandatoryFields(String type) {
+    public List<String> getMandatoryFields(String type) {
+        
+        Reference reference = new Reference();
+        reference.setType(type);
+        
+        reference = bindReference(reference);
+        return reference.getMandatoryFields();
 
-        List<String> mandatoryFields = new ArrayList<>();
-
-        switch (type) {
-            case "article":
-                mandatoryFields.add("author");
-                mandatoryFields.add("title");
-                mandatoryFields.add("journal");
-                mandatoryFields.add("year");
-                mandatoryFields.add("volume");
-                break;
-
-            case "book":
-                mandatoryFields.add("author");
-                mandatoryFields.add("title");
-                mandatoryFields.add("publisher");
-                mandatoryFields.add("year");
-                break;
-
-            case "booklet":
-                mandatoryFields.add("title");
-                break;
-
-            case "inproceedings":
-                mandatoryFields.add("author");
-                mandatoryFields.add("title");
-                mandatoryFields.add("booktitle");
-                mandatoryFields.add("year");
-                break;
-
-            case "manual":
-                mandatoryFields.add("title");
-                break;
-        }
-
-        return mandatoryFields;
     }
 
     /**
-     * Get optional fields for viewing reference_new.html.
+     * Get optional fields for viewing reference_new.html. The method gets
+     * the optional fields through creating a new reference and binding that
+     * to the type given as the parameter.
+     * 
      * @param type type of the reference
      * @return fields
      */
-    public static List<String> getOptionalFields(String type) {
-
-        List<String> optionalFields = new ArrayList<>();
-
-        switch (type) {
-            case "article":
-                optionalFields.add("number");
-                optionalFields.add("pages");
-                optionalFields.add("month");
-                optionalFields.add("note");
-                break;
-
-            case "book":
-                optionalFields.add("note");
-                optionalFields.add("month");
-                optionalFields.add("edition");
-                optionalFields.add("address");
-                optionalFields.add("series");
-                optionalFields.add("volume");
-                optionalFields.add("number");
-                break;
-
-            case "booklet":
-                optionalFields.add("author");
-                optionalFields.add("howpublished");
-                optionalFields.add("address");
-                optionalFields.add("month");
-                optionalFields.add("year");
-                optionalFields.add("note");
-                break;
-
-            case "inproceedings":
-                optionalFields.add("editor");
-                optionalFields.add("volume");
-                optionalFields.add("series");
-                optionalFields.add("pages");
-                optionalFields.add("address");
-                optionalFields.add("month");
-                optionalFields.add("organization");
-                optionalFields.add("publisher");
-                optionalFields.add("note");
-                break;
-
-            case "manual":
-                optionalFields.add("author");
-                optionalFields.add("organization");
-                optionalFields.add("address");
-                optionalFields.add("edition");
-                optionalFields.add("month");
-                optionalFields.add("year");
-                optionalFields.add("note");
-                break;
-        }
-
-        return optionalFields;
+    public List<String> getOptionalFields(String type) {
+        
+        Reference reference = new Reference();
+        reference.setType(type);
+        
+        reference = bindReference(reference);
+        return reference.getOptionalFields();       
     }
+    
+    public boolean typeIsNotKnown(String type) {
+        return allTypes.get(type) == null;
+    }
+    
+    public boolean referenceKeyAlreadyUsed(String key) {
+        return !referenceRepository.findByKey(key).isEmpty();
+    }
+    
+    /**
+     * Returns an error message if key has already been used. If the key hasn't
+     * been used, then null is returned.
+     * 
+     * @param key A reference's Bibtex key
+     * @return error message if key has been used, or null if it has not been
+     * used
+     */
+    public String keyNotUniqueErrorMessage(String key) {
+        if (referenceKeyAlreadyUsed(key)) {
+            return "That key has already been used, please use another key";
+        }
+        return null;
+    }
+    
+    /**
+     * Returns an error message if a given reference's key is in use on some
+     * other reference. If it is not, then null is returned
+     * 
+     * @param reference a reference to be compared to
+     * @return error message if key has been used on some other reference, or 
+     * null if it has not been used
+     */
+    public String keyIsInUseOnSomeOtherReferenceErrorMessage(Reference reference) {
+        if (referenceKeyAlreadyUsedOnSomeOtherReference(reference)) {
+            return "That key is in use on another reference, please use another key";
+        }
+        return null;
+    }
+    
+    /**
+     * Checks if a key has already been used, and if it has, checks if the
+     * reference having that key is the same reference as the one given as the
+     * parameter. This method can be used for editing references - if the 
+     * reference is the same one, then it must be able to be resaved with the
+     * key it already has, and the check must be applied only to other
+     * references.
+     * 
+     * @param reference Reference to be compared to the ones in the database
+     * @return true if reference's key has been used on some other reference
+     * than the one received as the parameter. Otherwise false is returned.
+     */
+    public boolean referenceKeyAlreadyUsedOnSomeOtherReference(Reference reference) {
+        List<Reference> references = referenceRepository.findByKey(reference.getKey());       
+        
+        for (Reference ref : references) {
+            if (referencesAreTheSame(ref, reference)) {
+                continue;
+            }
+            
+            if (keysAreTheSame(ref.getKey(), reference.getKey())) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    private boolean referencesAreTheSame(Reference ref1, Reference ref2) {
+        return ref1.getId().equals(ref2.getId());
+    }
+    
+    private boolean keysAreTheSame(String key1, String key2) {
+        return key1.equals(key2);
+    }
+    
+    
 }

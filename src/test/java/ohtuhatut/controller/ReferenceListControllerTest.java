@@ -127,7 +127,7 @@ public class ReferenceListControllerTest {
         MvcResult res = mockMvc.perform(get(API_URI))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("referenceLists"))
-                .andExpect(view().name("referencelists"))
+                .andExpect(view().name("referencelists/referencelists"))
                 .andReturn();
         
         List<ReferenceList> referenceLists = (List<ReferenceList>) res.getModelAndView().getModel()
@@ -135,6 +135,20 @@ public class ReferenceListControllerTest {
 
         assertTrue(referenceLists.size() == 1);
         assertTrue(referenceLists.get(0).getReferences().size() == 1);
+    }
+    
+    @Test
+    public void postRequestToDeleteReferenceListDeletesReferenceListButNotReferences() throws Exception {
+        saveListWithAReference();
+        
+        ReferenceList referenceList = referenceListRepository.findAll().get(0);
+        
+        mockMvc.perform(post(API_URI + "/" + referenceList.getId() + "/delete"))
+                .andExpect(status().isFound())
+                .andReturn();
+        
+        assertTrue(referenceListRepository.findAll().isEmpty());
+        assertTrue(referenceRepository.findAll().size() == 1);
     }
     
     private void saveListWithAReference() {
