@@ -66,10 +66,10 @@ public class ReferenceController {
      * Handles the POST request for editing a reference. The method takes the
      * reference as an instance of the superclass from which it is then bound to
      * the correct subclass type. The method checks if the given reference has
-     * any mandatory values left empty, and if so, returns the editing view
-     * along with the appropriate error message. Otherwise the edited reference
-     * gets saved to the database and user gets redirected to the page of the
-     * reference.
+     * any mandatory values left empty and if the given key is in use on any
+     * other references, and if so, returns the editing view along with the 
+     * appropriate error message. Otherwise the edited reference gets saved to 
+     * the database and user gets redirected to the page of the reference.
      */
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     public String updateReference(@ModelAttribute Reference reference,
@@ -77,13 +77,14 @@ public class ReferenceController {
 
         reference = referenceService.bindReference(reference);
 
-        if (!reference.getEmptyMandatoryFields().isEmpty()) {
+        if (!reference.getEmptyMandatoryFields().isEmpty() || referenceService.referenceKeyAlreadyUsedOnSomeOtherReference(reference)) {
             model.addAttribute("emptyFieldMessage", referenceService.getErrorMessages(reference.getEmptyMandatoryFields()));
+            model.addAttribute("keyUsed", referenceService.keyIsInUseOnSomeOtherReferenceErrorMessage(reference));
+            
             model.addAttribute("emptyFields", reference.getEmptyMandatoryFields());
             model.addAttribute("reference", referenceService.getReference(reference.getId()));
             return "references/reference_edit";
-        }
-
+        }        
         referenceService.saveReference(reference);
 
         attr.addAttribute("id", reference.getId());
@@ -133,26 +134,32 @@ public class ReferenceController {
 
     /**
      * Handles the POST request for creating a new reference. If the user left
-     * any mandatory fields empty, the method returns the view to create a new
-     * reference along with an error message informing the user what fields were
-     * left empty. Otherwise the reference is saved to the database and the user
-     * is redirected to the newly created reference's page.
+     * any mandatory fields empty, or if the key given is already in use, 
+     * the method returns the view to create a new reference along with an error 
+     * message informing the user what fields were left empty or that key is in
+     * use. Otherwise the reference is saved to the database and the user is 
+     * redirected to the newly created reference's page.
      */
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String newReferenceCreate(@ModelAttribute Reference reference,
             RedirectAttributes attr,
             Model model) {
 
-        reference = referenceService.bindReference(reference);
+        reference = referenceService.bindReference(reference);     
 
-        if (!reference.getEmptyMandatoryFields().isEmpty()) {
+        String key = reference.getKey();
+        
+        if (!reference.getEmptyMandatoryFields().isEmpty() || referenceService.referenceKeyAlreadyUsed(key)) {
+            
             model.addAttribute("emptyFieldMessage", referenceService.getErrorMessages(reference.getEmptyMandatoryFields()));
+            model.addAttribute("keyUsed", referenceService.keyNotUniqueErrorMessage(key));
             model.addAttribute("emptyFields", reference.getEmptyMandatoryFields());
             model.addAttribute("reference", reference);
             
             model.addAttribute("mandatoryFields", reference.getMandatoryFields());
             model.addAttribute("optionalFields", reference.getOptionalFields());
             model.addAttribute("fields", reference.getFields());
+            
             return "references/reference_new";
         }
         referenceService.saveReference(reference);

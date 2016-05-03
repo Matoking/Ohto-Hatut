@@ -199,5 +199,98 @@ public class ReferenceServiceTest {
     public void theMethodTypeIsNotKnownReturnsFalseWhenGivingTheTypeOfAnArticleReference() {
         assertFalse(referenceService.typeIsNotKnown("article"));
     }
+    
+    @Test
+    public void tryingToFindAReferenceByKeyThatIsAlreadyUsedReturnsTrue() {
+        Reference ref = new Reference();
+        ref.setKey("key1");
+        
+        referenceService.saveReference(ref);
+        
+        assertTrue(referenceService.referenceKeyAlreadyUsed(ref.getKey()));   
+    }
+    
+    @Test
+    public void tryingToFindByReferenceByKeyThatHasNotBeenUsedReturnsFalse() {    
+        assertFalse(referenceService.referenceKeyAlreadyUsed("keyNotUsed"));   
+    }
+    
+    @Test
+    public void errorMessageIsReturnedCorrectlyWhenKeyHasBeenUsed() {
+        Reference ref = new Reference();
+        ref.setKey("key2");
+        
+        referenceService.saveReference(ref);
+        
+        assertEquals("That key has already been used, please use another key", 
+                referenceService.keyNotUniqueErrorMessage(ref.getKey()));
+    }
+    
+    @Test
+    public void errorMessageIsReturnedCorrectlyWhenKeyHasNotBeenUsed() {
+        assertNull(referenceService.keyNotUniqueErrorMessage("keyNotUsed"));
+    }
+    
+    @Test
+    public void tryingToFindByReferenceKeyUsedOnSomeOtherReferenceReturnsTrue() {
+        Reference ref1 = new Reference();
+        ref1.setKey("key3");
+        Reference ref2 = new Reference();
+        ref2.setKey("key4");
+        
+        referenceService.saveReference(ref1);
+        referenceService.saveReference(ref2);
+        
+        ref2.setKey("key3");
+        
+        assertTrue(referenceService.referenceKeyAlreadyUsedOnSomeOtherReference(ref2));
+    }
+    
+    @Test
+    public void tryingToFindByReferenceKeyThatIsNotUsedOnAnyOtherReferenceReturnsFalse() {
+        Reference ref1 = new Reference();
+        ref1.setKey("key5");
+        Reference ref2 = new Reference();
+        ref2.setKey("key6");
+        
+        referenceService.saveReference(ref1);
+        referenceService.saveReference(ref2);
+        
+        assertFalse(referenceService.referenceKeyAlreadyUsedOnSomeOtherReference(ref2));
+    }
+    
+    @Test
+    public void seeingIfAnyOtherReferenceHasTheSameKeyReturnsFalseWhenThereAreNoOtherReferences() {
+        Reference ref = new Reference();
+        ref.setKey("key7");
+
+        referenceService.saveReference(ref);
+        
+        assertFalse(referenceService.referenceKeyAlreadyUsedOnSomeOtherReference(ref));
+    }
+    
+    @Test
+    public void whenKeyIsInUseBySomeOtherReferenceTheErrorMessageIsReturned() {
+        Reference ref = new Reference();
+        ref.setKey("key8");
+        
+        referenceService.saveReference(ref);
+        
+        Reference ref2 = new Reference();
+        ref2.setKey("key8");
+        
+        assertEquals("That key is in use on another reference, please use another key", 
+                referenceService.keyIsInUseOnSomeOtherReferenceErrorMessage(ref2));
+    }
+    
+    @Test
+    public void whenKeyIsNotInUseByAnyOtherReferenceNullIsReturned() {
+        Reference ref = new Reference();
+        ref.setKey("key9");
+        
+        referenceService.saveReference(ref);
+        
+        assertNull(referenceService.keyIsInUseOnSomeOtherReferenceErrorMessage(ref));
+    }
 
 }
