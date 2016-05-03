@@ -11,3 +11,7 @@ function confirmListDeletion() {
         $("#delete-reference-list").submit();
     }
 }
+
+$(document).ready(function () {
+    $("select").searchable();
+});

@@ -33,4 +33,20 @@ public class ReferenceListTest {
         assertTrue(list.getReferences().size() == 1);
 
     }
+
+    @Test
+    public void removeReferenceMethodWorks() {
+
+        ReferenceList list = new ReferenceList();
+        List<Reference> references = new ArrayList<>();
+
+        BookletReference br = new BookletReference();
+        br.setTitle("test");
+        references.add(br);
+        list.setReferences(references);
+        assertTrue(list.getReferences().size() == 1);
+
+        list.removeReference(br);
+        assertTrue(list.getReferences().size() == 0);
+    }
 }
