@@ -15,7 +15,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -282,15 +285,35 @@ public class ReferenceServiceTest {
         assertEquals("That key is in use on another reference, please use another key", 
                 referenceService.keyIsInUseOnSomeOtherReferenceErrorMessage(ref2));
     }
-    
+
     @Test
     public void whenKeyIsNotInUseByAnyOtherReferenceNullIsReturned() {
         Reference ref = new Reference();
         ref.setKey("key9");
-        
+
         referenceService.saveReference(ref);
-        
+
         assertNull(referenceService.keyIsInUseOnSomeOtherReferenceErrorMessage(ref));
+    }
+
+
+    @Test
+    public void bindReferenceReturnsNullWhenTypeIsNotKnown() {
+        Reference ref = new Reference();
+        ref.setType("test");
+
+        Reference reference = referenceService.bindReference(ref);
+        assertNull(reference);
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Test
+    public void bindReferenceCausesNullPointerExceptionIfThereIsNoType() {
+        Reference ref = new Reference();
+        thrown.expect(NullPointerException.class);
+        Reference reference = referenceService.bindReference(ref);
     }
 
 }
