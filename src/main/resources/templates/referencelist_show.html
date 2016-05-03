@@ -55,5 +55,10 @@
             </div>
         </div>
         <th:block th:replace="fragments/footer :: footer"></th:block>
+        <script>
+            $(document).ready(function() {
+                $("select").searchable();
+            });
+        </script>
     </body>
 </html>
