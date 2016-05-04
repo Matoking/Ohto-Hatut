@@ -6,26 +6,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <th:block th:replace="fragments/imports :: imports"></th:block>
     </head>
-    <body>
+    <body ng-app="Ohtu-Hatut">      
+
         <div th:replace="fragments/navbar :: navbar">Navbar</div>
-        <div class="container">
+        <div ng-controller="ReferenceController">
+            <div class="container">
 
-            <h1>References</h1>
+                <h1>References</h1>
 
-            <span th:if="${#lists.isEmpty(references)}">No references in the database at the moment</span>
-            <ul>
-                <li th:each="reference : ${references}">
-                    <a th:href="@{/references/{referenceId}(referenceId=${reference.id})}"><span th:text="${reference.title}"></span></a> 
-                    <a class="btn btn-xs btn-primary" th:href="@{/references/{id}/edit(id=${reference.id})}">Edit</a>
-                    <button class="btn btn-xs btn-danger" th:onclick="'confirmDeletion(' + ${reference.id} + ')'">Delete</button>
-                    <form th:id="'delete-reference-' + ${reference.id}" action="#" th:action="@{/references/{id}/delete/(id=${reference.id})}" th:object="${reference}" method="post">
-                    </form>
-                </li>
-            </ul>
+                <span ng-hide="references.length">No references in the database at the moment</span>
+                <div ng-show="references.length">
+
+                    Search: <input ng-model="query"></input>
+                    <ul class="list-group">
+                        
+                        <li ng-repeat="ref in references| filter:query" class="list-group-item">
+                            <a ng-href="/references/{{ref.id}}">{{ref.title}}</a>
+                            <a class="btn btn-xs btn-primary pull-right" ng-href="/references/{{ref.id}}/edit">Edit</a>
+                            <button class="btn btn-xs btn-danger pull-right" ng-click="confirmDeletion(ref.id)">Delete</button>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <th:block th:replace="fragments/footer :: footer"></th:block>
         </div>
-        
-        <th:block th:replace="fragments/footer :: footer"></th:block>
-
         <script src="/js/scripts.js"></script>
+        <script src="/js/reference_controller.js"></script>
     </body>
 </html>

@@ -191,4 +191,9 @@ public class ReferenceController {
 
         return "redirect:/references/";
     }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/json")
+    public @ResponseBody List<Reference> getReferences() {
+        return referenceService.getAllReferences();
+    }
 }
