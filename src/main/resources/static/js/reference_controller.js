@@ -7,16 +7,15 @@ App.controller('ReferenceController', function ($scope, $http) {
     $scope.confirmDeletion = function (referenceId) {
         console.log("got into deleteion");
         if (confirm("Confirm deletion of reference") === true) {          
-                $scope.references.splice(getReference(referenceId), 1);
+                $scope.references.splice(getReferenceIndex(referenceId), 1);
                 $http.post('/references/' + referenceId + '/delete');
             
         }
     };
     
-    function getReference(id) {
+    function getReferenceIndex(id) {
         for (var i = 0; i < $scope.references.length; i++) {
             if ($scope.references[i].id === id) {
-                console.log("löydettiin")
                 return i;
             }
         }
